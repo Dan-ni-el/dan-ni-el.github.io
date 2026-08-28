@@ -16,15 +16,15 @@ a{color:inherit;text-decoration:none}
 button{background:none;border:none;color:inherit;font:inherit;cursor:pointer}
 
 :root{
-  --bg: #f2ede3;              /* warm cream ground */
-  --bg-2: #ebe6dc;            /* softer cream for hover states */
-  --bg-3: #e2ddd2;            /* subtly deeper */
-  --ink: #1a1815;             /* near-black deep charcoal */
-  --ink-dim: #4a463f;         /* mid tone for secondary text */
-  --ink-mute: #8a857b;        /* faded metadata */
-  --line: rgba(26,24,21,.10);
-  --line-strong: rgba(26,24,21,.22);
-  --accent: #8a5a1e;           /* deeper amber, high contrast on cream */
+  --bg: #0e0d0b;              /* near-black warm charcoal */
+  --bg-2: #16140f;            /* slightly lifted for hover states */
+  --bg-3: #1c1a15;            /* deeper section variant */
+  --ink: #ebe6dc;             /* warm off-white */
+  --ink-dim: #a29c8f;         /* mid tone for secondary text */
+  --ink-mute: #6a655c;        /* faded metadata */
+  --line: rgba(235,230,220,.10);
+  --line-strong: rgba(235,230,220,.22);
+  --accent: #c9a961;           /* warm brass, high contrast on dark */
   --display: 'Fraunces', 'Times New Roman', serif;
   --italic: 'Fraunces', 'Times New Roman', serif;
   --sans: 'Inter', -apple-system, system-ui, sans-serif;
@@ -69,18 +69,13 @@ body{
 }
 .loader__row .k{color: var(--ink-mute)}
 .loader__row .v{color: var(--ink)}
-.loader__num{
-  font-family: var(--display);
-  font-size: clamp(90px, 20vw, 220px);
-  line-height: 0.9;
-  color: var(--ink);
-  letter-spacing: -0.04em;
-  font-weight: 500;
-  font-feature-settings: "tnum" 1;
-  text-align: right;
-  transition: color 0.3s;
-  font-variation-settings: "opsz" 144, "SOFT" 20;
+.loader__canvas{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
+.loader__inner{position: relative; z-index: 1}
 .loader__num .pct{color: var(--ink-mute); font-size: 0.35em; vertical-align: super; margin-left: 8px}
 .loader__bar{
   height: 1px;
@@ -119,34 +114,6 @@ body:not(.ready) .site{opacity: 0}
   .site{opacity: 1; transition: none}
   body:not(.ready) .site{opacity: 1}
 }
-
-/* ============================================================
-   CUSTOM CURSOR — magnetic dot
-   ============================================================ */
-.cursor{
-  position: fixed; top: 0; left: 0;
-  width: 10px; height: 10px;
-  background: var(--ink);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 150;
-  transform: translate(-50%, -50%);
-  transition: width 0.25s cubic-bezier(.2,.9,.3,1), height 0.25s cubic-bezier(.2,.9,.3,1), background-color 0.2s, opacity 0.2s;
-  will-change: transform;
-  opacity: 0.9;
-}
-.cursor.hover{width: 44px; height: 44px; background: var(--accent); opacity: 1}
-.cursor.click{transform: translate(-50%, -50%) scale(0.6)}
-
-@media (hover: none), (pointer: coarse){
-  .cursor{display: none}
-}
-@media (prefers-reduced-motion: reduce){
-  .cursor{transition: none}
-}
-
-/* keep cursor visible on interactive elements (don't force cursor:none, let default coexist for accessibility) */
-a, button, [role="button"]{cursor: pointer}
 
 /* ============================================================
    LAYOUT PRIMITIVES
@@ -232,7 +199,7 @@ strong{font-weight: 400; color: var(--ink)}
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   padding: 24px 32px;
   display: flex; justify-content: space-between; align-items: center;
-  background: linear-gradient(to bottom, rgba(242,237,227,0.94), rgba(242,237,227,0.5) 80%, transparent);
+  background: linear-gradient(to bottom, rgba(14,13,11,0.94), rgba(14,13,11,0.5) 80%, transparent);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -404,7 +371,7 @@ strong{font-weight: 400; color: var(--ink)}
   transition: background 0.3s;
 }
 .trow:last-child{border-bottom: 1px solid var(--line)}
-.trow:hover{background: linear-gradient(to right, transparent, rgba(138,90,30,0.05), transparent)}
+.trow:hover{background: linear-gradient(to right, transparent, rgba(201,169,97,0.05), transparent)}
 @media (max-width: 780px){
   .trow{grid-template-columns: 1fr; gap: 20px; padding: 40px 0}
 }
@@ -578,7 +545,7 @@ strong{font-weight: 400; color: var(--ink)}
    ============================================================ */
 .modal{
   position: fixed; inset: 0;
-  background: rgba(242,237,227,0.94);
+  background: rgba(14,13,11,0.94);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   z-index: 100;
@@ -690,7 +657,7 @@ body.modal-open{overflow: hidden}
   align-items: baseline;
   transition: padding 0.3s, background 0.3s;
 }
-.comm-row:hover{background: linear-gradient(to right, transparent, rgba(138,90,30,0.04), transparent); padding-left: 12px}
+.comm-row:hover{background: linear-gradient(to right, transparent, rgba(201,169,97,0.04), transparent); padding-left: 12px}
 @media (max-width: 720px){
   .comm-row{grid-template-columns: 1fr; gap: 12px}
   .comm-row .tag{justify-self: start}
@@ -808,7 +775,7 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
 }
 .card:hover{
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px -20px rgba(26,24,21,0.15);
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6);
 }
 
 /* ============================================================
@@ -846,13 +813,13 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
   transform: scale(1);
 }
 .card__thumb--logo::after{
-  background: linear-gradient(to top, rgba(20,18,15,0.85) 0%, rgba(20,18,15,0.15) 60%, rgba(20,18,15,0.0) 100%);
+  background: linear-gradient(180deg, rgba(14,13,11,0.85) 0%, rgba(14,13,11,0.5) 50%, rgba(14,13,11,0.85) 100%);
 }
 /* dark scrim gradient over thumbnail for text legibility */
 .card__thumb::after{
   content:'';
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(20,18,15,0.85) 0%, rgba(20,18,15,0.35) 55%, rgba(20,18,15,0.0) 100%);
+  background: linear-gradient(180deg, rgba(14,13,11,0.85) 0%, rgba(14,13,11,0.65) 40%, rgba(14,13,11,0.85) 100%);
   opacity: 0;
   transition: opacity 0.5s ease;
 }
@@ -881,9 +848,9 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
 .card:hover .card__mark .num,
 .card:hover h3,
 .card:hover .card__role{
-  color: #ebe6dc !important;
+  color: var(--ink) !important;
 }
-.card:hover .card__mark span:not(.num){color: #a29c8f !important}
+.card:hover .card__mark span:not(.num){color: var(--ink-dim) !important}
 
 /* Arrow indicator stays consistent */
 .card::after{
@@ -922,30 +889,208 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
   }
 }
 
+
+/* ============================================================
+   V8: FULL-SITE DRIFTING BACKGROUND
+   ============================================================ */
+#bgCanvas{
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity 0.4s ease;
+}
+body.bg-off #bgCanvas{opacity: 0; visibility: hidden}
+/* Ensure all site content sits above the canvas */
+.site, .nav, .nav__prog, .modal{position: relative; z-index: 1}
+.nav{z-index: 50}
+.modal{z-index: 100}
+.nav__prog{z-index: 60}
+/* Toggle button in top-right corner */
+#bgToggle{
+  position: fixed;
+  top: 24px; right: 24px;
+  z-index: 55;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-mute);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+#bgToggle:hover{color: var(--ink); border-color: var(--ink)}
+body.bg-off #bgToggle{color: var(--ink-mute)}
+body.bg-off #bgToggle::before{content: "○"}
+body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
+#bgToggle{font-size: 0}
+#bgToggle::before{font-size: 12px}
+/* Hide on mobile — effect turned off there anyway */
+@media (max-width: 720px){
+  #bgToggle{display: none}
+  #bgCanvas{display: none}
+}
+@media (prefers-reduced-motion: reduce){
+  #bgCanvas{display: none}
+  #bgToggle{display: none}
+}
+
+/* ============================================================
+   V9: INTRO OVERLAY — particle text (shown after loader dismisses)
+   ============================================================ */
+.intro{
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 180;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.9s ease, visibility 0s linear 0.9s;
+  cursor: pointer;
+}
+.intro.show{
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.9s ease;
+}
+.intro.dismiss{
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.9s ease, visibility 0s linear 0.9s;
+}
+.intro__canvas{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+}
+.intro__hint{
+  position: absolute;
+  bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  animation: introPulse 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes introPulse{
+  0%, 100%{opacity: 0.4}
+  50%{opacity: 1}
+}
+@media (prefers-reduced-motion: reduce){
+  .intro{display: none}
+}
+
+/* ============================================================
+   V10: HERO SPLIT LAYOUT with portrait
+   ============================================================ */
+.hero__wrap--split{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 60px;
+  align-items: end;
+}
+.hero__col{min-width: 0}
+.hero__portrait{
+  align-self: end;
+  max-width: 400px;
+  overflow: hidden;
+  transform: translateY(0);
+}
+.hero__portrait img{
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: grayscale(0) contrast(1.05);
+}
+@media (max-width: 900px){
+  .hero__wrap--split{grid-template-columns: 1fr; gap: 40px}
+  .hero__portrait{max-width: 240px; margin-left: auto}
+}
+
+/* ============================================================
+   V10: Bigger section eyebrow numbers
+   ============================================================ */
+.eyebrow{
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  font-weight: 400;
+}
+.eyebrow .num{
+  color: var(--accent);
+  margin-right: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   V10: Ensure modal panel isn't cut off
+   ============================================================ */
+.modal{
+  padding: 40px 20px 60px;
+}
+.modal__panel{
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--bg-2);
+  border: 1px solid var(--line-strong);
+  padding: 48px;
+  transform: translateY(20px);
+  transition: transform 0.5s cubic-bezier(.2,.9,.3,1);
+  max-height: none;
+}
+.modal__close{
+  position: sticky;
+  top: 0;
+  margin: 0 0 24px auto;
+  display: block;
+  z-index: 5;
+}
 </style>
 </head>
 <body>
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
+<button id="bgToggle" title="Toggle background effect" aria-label="Toggle background effect">✕</button>
+
 
 <!-- ============================================================
-     LOADER
+     LOADER (v8): canvas network + progress bar, no numeric counter
      ============================================================ -->
 <div class="loader" id="loader" aria-hidden="true">
+  <canvas id="loaderCanvas" class="loader__canvas"></canvas>
   <div class="loader__inner">
     <div class="loader__row">
       <span class="k">Daniel Chan</span>
       <span class="v">Portfolio v3</span>
     </div>
-    <div class="loader__num" id="loaderNum">0<span class="pct">%</span></div>
     <div class="loader__bar" id="loaderBar"></div>
     <div class="loader__row">
       <span class="k" id="loaderMsg">Initialising</span>
-      <span class="v">NUS · Singapore</span>
+      <span class="v">Loading</span>
     </div>
   </div>
 </div>
 
-<!-- Custom cursor -->
-<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<!-- ============================================================
+     INTRO OVERLAY (v9): particle-text push/pull effect
+     ============================================================ -->
+<div class="intro" id="intro" aria-hidden="true">
+  <canvas id="introCanvas" class="intro__canvas"></canvas>
+  <div class="intro__hint">Move cursor · Click to enter</div>
+</div>
 
 <!-- Scroll progress -->
 <div class="nav__prog" id="progBar" aria-hidden="true"></div>
@@ -967,19 +1112,24 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
      HERO
      ============================================================ -->
 <section class="hero" id="top">
-  <div class="hero__wrap">
-    <div class="hero__meta enter d1">
-      <span>Portfolio, v3</span>
-      <span>NUS 2026, ISE (Hons)</span>
-      <span>Singapore</span>
+  <div class="hero__wrap hero__wrap--split">
+    <div class="hero__col">
+      <div class="hero__meta enter d1">
+        <span>Portfolio, v3</span>
+        <span>NUS 2026, ISE (Hons)</span>
+        <span>Singapore</span>
+      </div>
+      <h1 class="hero__title enter d2">
+        <span class="word w1">I</span> <span class="word w2">model systems.</span><br>
+        <span class="italic"><span class="word w3">I chase</span> <span class="word w4">design.</span></span>
+      </h1>
+      <p class="hero__sub enter d3">
+        Four years of Industrial &amp; Systems Engineering at NUS, focused on modelling, optimisation and simulation. Now pointing that same structure at project management, product, and how things land with people.
+      </p>
     </div>
-    <h1 class="hero__title enter d2">
-      <span class="word w1">I</span> <span class="word w2">model systems.</span><br>
-      <span class="italic"><span class="word w3">I chase</span> <span class="word w4">design.</span></span>
-    </h1>
-    <p class="hero__sub enter d3">
-      Four years of Industrial &amp; Systems Engineering at NUS, focused on modelling, optimisation and simulation. Now pointing that same structure at brand, product, and how things land with people.
-    </p>
+    <div class="hero__portrait enter d3" aria-hidden="true">
+      <img src="./daniel-portrait.png" alt="Daniel Chan" loading="eager">
+    </div>
   </div>
   <div class="hero__scroll enter d4">Scroll</div>
 </section>
@@ -997,10 +1147,10 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
     <div class="intro__grid">
       <div>
         <p class="lead rv" style="margin-bottom: 24px">
-          I'm an <strong>Industrial &amp; Systems Engineering</strong> graduate from NUS, specialising in Supply Chain Management with a minor in Management of Technology. Four years of training in modelling systems, cutting waste, managing timelines and budgets, and keeping cross-functional work aligned.
+          I'm an <strong>Industrial &amp; Systems Engineering</strong> graduate from NUS, specialising in Supply Chain Management with a minor in Management of Technology. Four years of training in scoping, modelling, and running work end to end, keeping timelines, budgets and stakeholders aligned across teams.
         </p>
         <p class="lead rv" style="margin-bottom: 24px">
-          The analytical side was never the whole picture. I'm deliberately building toward the other half, <strong>creative, product, brand and campaign work</strong>, where the same structured thinking gets pointed at how something looks, feels, and lands with people.
+          I'm looking to build a career at the intersection of <strong>project management, product management and product development</strong>, where the same structured thinking gets pointed at how a product gets scoped, shipped, and how it lands with the people using it.
         </p>
         <p class="lead rv" style="font-style: italic; color: var(--ink-dim)">
           Give me a messy problem with real constraints and a human on the other end of it, and I'll scope it, structure it, and make it land.
@@ -1011,7 +1161,7 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
         <div class="fact"><div class="fact__k">Degree</div><div class="fact__v">B.Eng (Hons)<small>Industrial &amp; Systems Eng., NUS</small></div></div>
         <div class="fact"><div class="fact__k">Focus</div><div class="fact__v">Supply Chain<small>+ Management of Technology (minor)</small></div></div>
         <div class="fact"><div class="fact__k">GPA</div><div class="fact__v">4.11 / 5.0<small>Second Class Upper equivalent, 2022, 2026</small></div></div>
-        <div class="fact"><div class="fact__k">Targeting</div><div class="fact__v">Project Management<small>Creative ops · Product · Brand</small></div></div>
+        <div class="fact"><div class="fact__k">Targeting</div><div class="fact__v">Project Management<small>Product mgmt · Product dev</small></div></div>
         <div class="fact"><div class="fact__k">Award</div><div class="fact__v">STEER<small>Chongqing &amp; Chengdu, renewable energy, 2024</small></div></div>
       </div>
     </div>
@@ -1100,7 +1250,7 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
         <h3>Measuring Supply-Chain Disruption on Shipping Lead Times</h3>
         <div class="feature__role">Solo · AIS data analysis of Singapore ports · AY 2025/26</div>
         <p class="body-copy" style="max-width:none">Using 2024 AIS vessel-tracking data, I measured how the Red Sea Crisis drove congestion and vessel delays across Singapore's ports. Built a multi-metric congestion framework (berth utilisation, anchorage and turnaround time, arrival frequency, congested-vessel counts), evaluated Keppel Terminal's emergency reactivation, quantified spillover to Port Klang and PTP, then ran a service-failure analysis against pre-disruption baselines.</p>
-        <p class="body-copy" style="max-width:none; margin-top: 16px">The finding: March, May congestion was demand-driven, not operational failure. Keppel's reactivation gave meaningful but partial relief, and no large-scale permanent diversion materialised, leaving an asymmetric resilience gap where Malaysian ports (especially PTP) stayed more exposed. Closed with four policy recommendations, including a data-calibrated 10, 15% strategic buffer for Tuas Mega Port.</p>
+        <p class="body-copy" style="max-width:none; margin-top: 16px">The finding: March to May congestion was demand-driven, not operational failure. Keppel's reactivation gave meaningful but partial relief, and no large-scale permanent diversion materialised, leaving an asymmetric resilience gap where Malaysian ports (especially PTP) stayed more exposed. Closed with four policy recommendations, including a data-calibrated 10-15% strategic buffer for Tuas Mega Port.</p>
         <div class="card__chips" style="margin-top: 24px">
           <span class="chip">Python</span><span class="chip">AIS data</span><span class="chip">Congestion modelling</span><span class="chip">Pearson correlation</span>
         </div>
@@ -1109,7 +1259,7 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
         <div class="stat"><div class="stat__n">41.12M</div><div class="stat__l">TEUs, SG throughput, 2024</div></div>
         <div class="stat"><div class="stat__n">~12%</div><div class="stat__l">Keppel share of throughput</div></div>
         <div class="stat"><div class="stat__n">~27%</div><div class="stat__l">excess demand Keppel absorbed</div></div>
-        <div class="stat"><div class="stat__n">10, 15%</div><div class="stat__l">recommended Tuas buffer</div></div>
+        <div class="stat"><div class="stat__n">10-15%</div><div class="stat__l">recommended Tuas buffer</div></div>
       </div>
     </div>
 
@@ -1213,7 +1363,7 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
 
     <div class="grid">
       <article class="card rv" data-cursor="hover" data-project="mindef-redesign">
-        <div class="card__thumb" aria-hidden="true" style="background-image: url(./mindef-redesign.png);"></div>
+        <div class="card__thumb card__thumb--logo" aria-hidden="true" style="background-image: url(./mindef-redesign.png);"></div>
         <div class="card__mark"><span class="num">W.01</span><span>Workplace Design</span></div>
         <h3>Lift &amp; Office-Level Redesign</h3>
         <div class="card__role">MINDEF · sourcing to installation</div>
@@ -1335,7 +1485,7 @@ h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
       <div>
         <h2 class="rv"><em>Let's</em><br>talk shop.</h2>
         <p class="body-copy rv" style="max-width: 32em">
-          Open to project management, creative operations, and product or brand roles where structure and creativity have to coexist. Currently based in Singapore, happy to travel.
+          Open to project management, product management, and product development roles where structure and thoughtful execution have to coexist. Currently based in Singapore, happy to travel.
         </p>
       </div>
       <div class="foot__contact rv">
@@ -1517,12 +1667,12 @@ var PROJECTS = {
 };
 
 // ============================================================
-// LOADER — cinematic entrance
+// LOADER (v8): canvas network effect + progress bar (no counter)
 // ============================================================
 (function(){
   var loader = document.getElementById('loader');
-  var num = document.getElementById('loaderNum');
   var msg = document.getElementById('loaderMsg');
+  var canvas = document.getElementById('loaderCanvas');
   if (!loader) return;
 
   // skip loader on reduced motion
@@ -1532,28 +1682,107 @@ var PROJECTS = {
     return;
   }
 
+  // ---- Canvas network animation ----
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  function resize(){
+    canvas.width = canvas.offsetWidth * dpr;
+    canvas.height = canvas.offsetHeight * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  addEventListener('resize', resize, { passive: true });
+
+  var w = canvas.offsetWidth, h = canvas.offsetHeight;
+  var cx = w/2, cy = h/2;
+  var radius = Math.min(w, h) * 0.28;
+  var N = 80;
+  var nodes = [];
+  for (var i = 0; i < N; i++){
+    var a = Math.random() * Math.PI * 2;
+    var r = radius * Math.pow(Math.random(), 0.5);
+    nodes.push({
+      x: cx + Math.cos(a) * r,
+      y: cy + Math.sin(a) * r,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      red: Math.random() < 0.1,
+    });
+  }
+  var startNet = performance.now();
+  var netRunning = true;
+
+  function drawNet(){
+    if (!netRunning) return;
+    w = canvas.offsetWidth; h = canvas.offsetHeight;
+    cx = w/2; cy = h/2;
+    ctx.clearRect(0, 0, w, h);
+
+    // update nodes with slight orbital pull toward center
+    for (var i = 0; i < N; i++){
+      var n = nodes[i];
+      n.x += n.vx;
+      n.y += n.vy;
+      // gentle pull toward center to keep cluster form
+      var dx = n.x - cx, dy = n.y - cy;
+      var dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist > radius){
+        var pull = (dist - radius) * 0.002;
+        n.vx -= (dx/dist) * pull;
+        n.vy -= (dy/dist) * pull;
+      }
+      // damping
+      n.vx *= 0.985; n.vy *= 0.985;
+    }
+
+    // draw connections
+    ctx.strokeStyle = 'rgba(235, 230, 220, 0.42)';
+    ctx.lineWidth = 0.5;
+    for (var i = 0; i < N; i++){
+      for (var j = i+1; j < N; j++){
+        var a = nodes[i], b = nodes[j];
+        var dd = Math.sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y));
+        if (dd < 60){
+          ctx.globalAlpha = 1 - (dd / 60);
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // draw nodes
+    for (var i = 0; i < N; i++){
+      var n = nodes[i];
+      ctx.fillStyle = n.red ? '#c9302c' : 'rgba(235, 230, 220, 0.7)';
+      ctx.fillRect(n.x - 1.5, n.y - 1.5, 3, 3);
+    }
+
+    requestAnimationFrame(drawNet);
+  }
+  requestAnimationFrame(drawNet);
+
+  // ---- Progress bar + message rotation, decoupled from network ----
   var messages = [
     { at: 0,   text: 'Initialising' },
-    { at: 12,  text: 'Loading typography' },
-    { at: 28,  text: 'Scoping content' },
-    { at: 45,  text: 'Composing layout' },
-    { at: 62,  text: 'Preparing case studies' },
-    { at: 78,  text: 'Aligning grid' },
+    { at: 15,  text: 'Loading typography' },
+    { at: 32,  text: 'Composing layout' },
+    { at: 50,  text: 'Preparing case studies' },
+    { at: 72,  text: 'Aligning grid' },
     { at: 92,  text: 'Finalising' },
     { at: 100, text: 'Ready' }
   ];
   var stops = [10, 25, 45, 65, 85, 100];
-  var i = 0;
   var start = performance.now();
-  var duration = 1600; // ms
+  var duration = 2200;
 
   function step(now){
     var t = Math.min((now - start) / duration, 1);
-    var eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // easeInOutQuad
+    var eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
     var pct = Math.floor(eased * 100);
-    num.firstChild.data = pct;
 
-    // update bar to nearest stop
     for (var k = stops.length - 1; k >= 0; k--){
       if (pct >= stops[k]){
         loader.classList.remove('p10','p25','p45','p65','p85','p100');
@@ -1561,7 +1790,6 @@ var PROJECTS = {
         break;
       }
     }
-    // update message
     for (var m = messages.length - 1; m >= 0; m--){
       if (pct >= messages[m].at){ msg.textContent = messages[m].text; break; }
     }
@@ -1569,42 +1797,15 @@ var PROJECTS = {
     if (t < 1){
       requestAnimationFrame(step);
     } else {
-      // small hold then dismiss
       setTimeout(function(){
         document.body.classList.add('ready');
         loader.classList.add('done');
-      }, 250);
+        // stop the network raf loop to free CPU
+        netRunning = false;
+      }, 300);
     }
   }
   requestAnimationFrame(step);
-})();
-
-// ============================================================
-// CUSTOM CURSOR
-// ============================================================
-(function(){
-  if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
-  var cursor = document.getElementById('cursor');
-  if (!cursor) return;
-
-  var x = window.innerWidth / 2, y = window.innerHeight / 2;
-  addEventListener('mousemove', function(e){
-    x = e.clientX; y = e.clientY;
-    cursor.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) translate(-50%,-50%)';
-  }, { passive: true });
-
-  addEventListener('mousedown', function(){ cursor.classList.add('click'); }, { passive: true });
-  addEventListener('mouseup', function(){ cursor.classList.remove('click'); }, { passive: true });
-
-  // Delegated hover: any link, button, or [data-cursor="hover"]
-  document.addEventListener('mouseover', function(e){
-    var t = e.target.closest('a, button, [data-cursor="hover"], .card');
-    if (t) cursor.classList.add('hover');
-  });
-  document.addEventListener('mouseout', function(e){
-    var t = e.target.closest('a, button, [data-cursor="hover"], .card');
-    if (t && !e.relatedTarget?.closest('a, button, [data-cursor="hover"], .card')) cursor.classList.remove('hover');
-  });
 })();
 
 // ============================================================
@@ -1881,6 +2082,344 @@ var PROJECTS = {
   // by dragging the scrollbar, using shift+wheel, or trackpad two-finger swipe.
 })();
 
+
+// ============================================================
+// V8: FULL-SITE BACKGROUND — drifting terminal commands + cursor connect
+// ============================================================
+(function(){
+  // Skip on mobile / reduced-motion
+  if (window.matchMedia('(max-width: 720px)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var canvas = document.getElementById('bgCanvas');
+  var toggle = document.getElementById('bgToggle');
+  if (!canvas || !toggle) return;
+
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  var w, h;
+  function resize(){
+    w = canvas.width  = window.innerWidth  * dpr;
+    h = canvas.height = window.innerHeight * dpr;
+    canvas.style.width  = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  addEventListener('resize', resize, { passive: true });
+
+  var VW = function(){ return window.innerWidth; };
+  var VH = function(){ return window.innerHeight; };
+
+  // Terminal-flavoured commands (kept generic + programmer-adjacent)
+  var COMMANDS = [
+    'docker-compose up', 'ssh user@host', 'terraform apply',
+    'kubectl get pods', 'git push origin main', 'npm run build',
+    'python analyse.py', 'grep -r "TODO"', 'curl -X POST /api',
+    'ls -la ~/projects', 'ffmpeg -i input.mp4', 'make deploy',
+    'brew install', 'sudo systemctl restart', 'tail -f error.log',
+    'ping 8.8.8.8', 'cd ~/portfolio', 'awk \'{print $1}\'',
+    'sed s/foo/bar/g', 'ps aux | head', 'chmod +x run.sh',
+    'jq . data.json', 'find . -name "*.md"',
+  ];
+
+  // Create drifting label objects
+  var labels = [];
+  var N = 14; // keep low — legibility over density
+  for (var i = 0; i < N; i++){
+    labels.push({
+      text: COMMANDS[i % COMMANDS.length],
+      x: Math.random() * VW(),
+      y: Math.random() * VH(),
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+    });
+  }
+
+  var mouseX = -9999, mouseY = -9999;
+  addEventListener('mousemove', function(e){
+    mouseX = e.clientX; mouseY = e.clientY;
+  }, { passive: true });
+  addEventListener('mouseleave', function(){
+    mouseX = -9999; mouseY = -9999;
+  });
+
+  var CONNECT_RADIUS = 220;   // px — cursor proximity to activate connections
+  var running = true;
+  var toggleOff = false;
+  function loop(){
+    if (!running || toggleOff){ requestAnimationFrame(loop); return; }
+    ctx.clearRect(0, 0, VW(), VH());
+
+    // Update positions
+    var vw = VW(), vh = VH();
+    for (var i = 0; i < labels.length; i++){
+      var L = labels[i];
+      L.x += L.vx;
+      L.y += L.vy;
+      // wrap-around edges instead of bouncing (gentler)
+      if (L.x < -100) L.x = vw + 50;
+      if (L.x > vw + 100) L.x = -50;
+      if (L.y < -30) L.y = vh + 20;
+      if (L.y > vh + 30) L.y = -20;
+    }
+
+    // Compute which labels are near the cursor
+    var near = [];
+    for (var i = 0; i < labels.length; i++){
+      var L = labels[i];
+      var dx = L.x - mouseX, dy = L.y - mouseY;
+      var d = Math.sqrt(dx*dx + dy*dy);
+      if (d < CONNECT_RADIUS) near.push({ L: L, d: d });
+    }
+
+    // Draw red connection lines from cursor to each nearby label,
+    // and between nearby labels themselves
+    if (near.length){
+      ctx.lineWidth = 1.4;
+      // cursor -> label
+      for (var i = 0; i < near.length; i++){
+        var alpha = 1 - (near[i].d / CONNECT_RADIUS);
+        ctx.strokeStyle = 'rgba(220, 60, 50, ' + (alpha * 0.95) + ')';
+        ctx.beginPath();
+        ctx.moveTo(mouseX, mouseY);
+        ctx.lineTo(near[i].L.x, near[i].L.y);
+        ctx.stroke();
+      }
+      // label -> label (all near-pairs)
+      for (var i = 0; i < near.length; i++){
+        for (var j = i+1; j < near.length; j++){
+          var a = near[i].L, b = near[j].L;
+          var pd = Math.sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y));
+          if (pd < CONNECT_RADIUS){
+            var alpha2 = 1 - (pd / CONNECT_RADIUS);
+            ctx.strokeStyle = 'rgba(220, 60, 50, ' + (alpha2 * 0.75) + ')';
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    // Draw labels — subdued, so page content dominates
+    ctx.font = '13px "JetBrains Mono", "SF Mono", monospace';
+    for (var i = 0; i < labels.length; i++){
+      var L = labels[i];
+      // check if near cursor for slight color lift
+      var lifted = false;
+      for (var k = 0; k < near.length; k++){ if (near[k].L === L) { lifted = true; break; } }
+      ctx.fillStyle = lifted ? 'rgba(235, 230, 220, 0.85)' : 'rgba(162, 156, 143, 0.4)';
+      ctx.fillText(L.text, L.x, L.y);
+    }
+
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // Toggle handler — respect saved preference
+  try{
+    var saved = localStorage.getItem('bg-off');
+    if (saved === '1'){ document.body.classList.add('bg-off'); toggleOff = true; }
+  } catch(e){}
+
+  toggle.addEventListener('click', function(){
+    toggleOff = !toggleOff;
+    document.body.classList.toggle('bg-off', toggleOff);
+    try{ localStorage.setItem('bg-off', toggleOff ? '1' : '0'); } catch(e){}
+    if (!toggleOff){
+      ctx.clearRect(0, 0, VW(), VH());
+    }
+  });
+})();
+
+// ============================================================
+// V9: INTRO OVERLAY — particle text with cursor push/pull
+// Sequence: loader dismisses -> intro shows -> click/scroll -> intro dismisses
+// ============================================================
+(function(){
+  var intro = document.getElementById('intro');
+  var canvas = document.getElementById('introCanvas');
+  if (!intro || !canvas) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    // Skip intro entirely — reduced motion users go straight to site
+    return;
+  }
+
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var w, h;
+  var particles = [];
+  var mouseX = -9999, mouseY = -9999;
+  var running = false;
+  var rafId = null;
+
+  function resize(){
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  // Sample text pixels using offscreen canvas
+  function buildParticles(){
+    var off = document.createElement('canvas');
+    off.width = w; off.height = h;
+    var octx = off.getContext('2d');
+    octx.fillStyle = '#fff';
+    octx.textAlign = 'center';
+    octx.textBaseline = 'middle';
+    // Responsive font size
+    // Fit text within 88% of viewport width — measure first, then size
+    var maxTextW = w * 0.88;
+    var fs = Math.min(w * 0.09, 120);
+    octx.font = '500 ' + fs + 'px "Fraunces", Georgia, serif';
+    while (octx.measureText("Daniel's Portfolio").width > maxTextW && fs > 24){
+      fs -= 2;
+      octx.font = '500 ' + fs + 'px "Fraunces", Georgia, serif';
+    }
+    octx.fillText("Daniel's Portfolio", w/2, h/2);
+    var data = octx.getImageData(0, 0, w, h).data;
+
+    particles = [];
+    // Sample every 4th pixel for particle density
+    var step = w < 900 ? 6 : 4;
+    for (var y = 0; y < h; y += step){
+      for (var x = 0; x < w; x += step){
+        var idx = (y * w + x) * 4;
+        if (data[idx + 3] > 128){
+          particles.push({
+            x: x + (Math.random() - 0.5) * 20,   // slight random start offset
+            y: y + (Math.random() - 0.5) * 20,
+            ox: x,  // origin (where the particle wants to return to)
+            oy: y,
+            vx: 0, vy: 0,
+          });
+        }
+      }
+    }
+  }
+
+  var PUSH_RADIUS = 90;
+  var PUSH_FORCE = 0.35;
+  var SPRING = 0.06;
+  var DAMPING = 0.86;
+
+  function tick(){
+    if (!running){ rafId = null; return; }
+    ctx.clearRect(0, 0, w, h);
+
+    var muted = 'rgba(235, 230, 220, 0.6)';
+    var lifted = 'rgba(235, 230, 220, 0.95)';
+
+    for (var i = 0; i < particles.length; i++){
+      var p = particles[i];
+
+      // Cursor push force
+      var dx = p.x - mouseX;
+      var dy = p.y - mouseY;
+      var d = Math.sqrt(dx*dx + dy*dy);
+      if (d < PUSH_RADIUS && d > 0){
+        var f = (PUSH_RADIUS - d) / PUSH_RADIUS;
+        p.vx += (dx / d) * f * PUSH_FORCE;
+        p.vy += (dy / d) * f * PUSH_FORCE;
+      }
+
+      // Spring back to origin
+      p.vx += (p.ox - p.x) * SPRING;
+      p.vy += (p.oy - p.y) * SPRING;
+
+      p.vx *= DAMPING;
+      p.vy *= DAMPING;
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // color: lifted if being pushed hard
+      var pushed = Math.abs(p.x - p.ox) + Math.abs(p.y - p.oy) > 6;
+      ctx.fillStyle = pushed ? lifted : muted;
+      ctx.fillRect(p.x, p.y, 1.6, 1.6);
+    }
+
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function start(){
+    resize();
+    buildParticles();
+    running = true;
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  }
+  function stop(){
+    running = false;
+    if (rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    ctx.clearRect(0, 0, w, h);
+    particles = [];
+  }
+
+  // ---- Wire to loader lifecycle ----
+  // Watch for body.ready (set by loader when it dismisses)
+  function whenReady(fn){
+    if (document.body.classList.contains('ready')) return fn();
+    var obs = new MutationObserver(function(){
+      if (document.body.classList.contains('ready')){ obs.disconnect(); fn(); }
+    });
+    obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  whenReady(function(){
+    // Small delay after loader clears so it feels sequential
+    setTimeout(function(){
+      intro.classList.add('show');
+      // Ensure canvas has correct size at reveal moment
+      requestAnimationFrame(function(){
+        start();
+        // Lock the site content behind intro until dismissed
+        document.body.classList.add('intro-active');
+      });
+    }, 200);
+  });
+
+  addEventListener('mousemove', function(e){
+    mouseX = e.clientX; mouseY = e.clientY;
+  }, { passive: true });
+
+  // Dismiss on click or first scroll
+  function dismiss(){
+    if (!intro.classList.contains('show')) return;
+    intro.classList.remove('show');
+    intro.classList.add('dismiss');
+    document.body.classList.remove('intro-active');
+    setTimeout(function(){
+      stop();
+      intro.style.pointerEvents = 'none';
+    }, 900);
+  }
+  intro.addEventListener('click', dismiss);
+  intro.addEventListener('touchend', dismiss);
+  addEventListener('wheel', function(){ dismiss(); }, { passive: true, once: true });
+  addEventListener('keydown', function(e){
+    if (['Enter','Escape',' ','ArrowDown'].indexOf(e.key) !== -1) dismiss();
+  });
+
+  addEventListener('resize', function(){
+    if (running){
+      resize(); buildParticles();
+    }
+  }, { passive: true });
+})();
+
+// Prevent body scroll while intro is up
+(function(){
+  var style = document.createElement('style');
+  style.textContent = 'body.intro-active{overflow:hidden}';
+  document.head.appendChild(style);
+})();
 </script>
 </body>
 </html>
