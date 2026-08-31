@@ -1077,6 +1077,114 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
 /* V10.2: When hero holds a split layout, center vertically instead of bottom-justifying */
 .hero:has(.hero__wrap--split){justify-content: center; padding: 120px 0 100px}
 /* Fallback for browsers without :has() — add class via JS or accept bottom alignment */
+
+/* ============================================================
+   V11: MERGED INTRO SECTION
+   ============================================================ */
+/* Intro block gets extra top padding since it's now the first section */
+.blk--intro{padding-top: 180px}
+@media (max-width: 720px){ .blk--intro{padding-top: 120px} }
+
+/* Big headline with mono contrast */
+.intro__title{
+  font-size: clamp(48px, 7vw, 100px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  max-width: none;
+}
+
+/* Portrait + body side by side */
+.intro__grid2{
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 56px;
+  align-items: stretch;
+  margin-bottom: 80px;
+}
+@media (max-width: 900px){
+  .intro__grid2{grid-template-columns: 1fr; gap: 40px; align-items: start}
+}
+.intro__portrait{overflow: hidden; height: 100%}
+.intro__portrait img{
+  width: 100%; height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 30%;
+}
+@media (max-width: 900px){
+  .intro__portrait{max-width: 240px; height: auto}
+  .intro__portrait img{height: auto}
+}
+
+/* Body paragraphs — smaller than the old lead */
+.intro__lead{
+  font-family: var(--display);
+  font-size: clamp(15px, 1.35vw, 17px);
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--ink);
+  max-width: 36em;
+  font-variation-settings: "opsz" 24, "SOFT" 20;
+  letter-spacing: -0.005em;
+}
+.intro__lead strong{font-weight: 500; color: var(--ink)}
+
+/* Horizontal facts strip below */
+.facts-strip{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 28px 0;
+}
+@media (max-width: 900px){
+  .facts-strip{grid-template-columns: repeat(2, 1fr); gap: 24px 0}
+}
+@media (max-width: 560px){
+  .facts-strip{grid-template-columns: 1fr}
+}
+.fact-h{
+  padding: 0 24px;
+  border-right: 1px solid var(--line);
+}
+.fact-h:last-child{border-right: none}
+@media (max-width: 900px){
+  .fact-h{border-right: none; padding: 0 20px}
+}
+.fact-h .fact__k{
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--ink-mute); margin-bottom: 8px;
+}
+.fact-h .fact__v{
+  font-family: var(--display); font-size: 18px; line-height: 1.25;
+  color: var(--ink); font-weight: 500; letter-spacing: -0.01em;
+}
+.fact-h .fact__v small{
+  display: block; font-family: var(--sans); font-size: 11px;
+  color: var(--ink-dim); margin-top: 4px; font-style: normal; font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* V11.1: BACK TO TOP */
+#backToTop{
+  position: fixed; bottom: 32px; right: 32px; z-index: 55;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--line-strong); color: var(--ink-dim);
+  font-family: var(--display); font-size: 22px; line-height: 1;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s,
+              color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+}
+#backToTop.show{
+  opacity: 1; visibility: visible;
+  transition: opacity 0.3s ease, color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+}
+#backToTop:hover{color: var(--accent); border-color: var(--accent); transform: translateY(-3px)}
+@media (max-width: 720px){
+  #backToTop{bottom: 20px; right: 20px; width: 40px; height: 40px}
+}
 </style>
 </head>
 <body>
@@ -1117,7 +1225,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
 <div class="site">
 
 <nav class="nav">
-  <a href="#top" class="nav__brand" data-cursor="hover">Daniel Chan</a>
+  <a href="#intro" class="nav__brand" data-cursor="hover">Daniel Chan</a>
   <div class="nav__links">
     <a href="#intro" data-cursor="hover">About</a>
     <a href="#work" data-cursor="hover">Work</a>
@@ -1127,65 +1235,47 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
   </div>
 </nav>
 
-<!-- ============================================================
-     HERO
-     ============================================================ -->
-<section class="hero" id="top">
-  <div class="hero__wrap hero__wrap--split">
-    <div class="hero__col">
-      <div class="hero__meta enter d1">
-        <span>Portfolio, v3</span>
-        <span>NUS 2026, ISE (Hons)</span>
-        <span>Singapore</span>
-      </div>
-      <h1 class="hero__title enter d2">
-        <span class="word w1">I</span> <span class="word w2">model systems.</span><br>
-        <span class="italic"><span class="word w3">I chase</span> <span class="word w4">design.</span></span>
-      </h1>
-      <p class="hero__sub enter d3">
-        Four years of Industrial &amp; Systems Engineering at NUS, focused on modelling, optimisation and simulation. Now pointing that same structure at project management, product, and how things land with people.
-      </p>
-    </div>
-    <div class="hero__portrait enter d3" aria-hidden="true">
-      <img src="./daniel-portrait.png" alt="Daniel Chan" loading="eager">
-    </div>
-  </div>
-  <div class="hero__scroll enter d4">Scroll</div>
-</section>
 
 <!-- ============================================================
      01 INTRO
      ============================================================ -->
-<section class="blk" id="intro">
+<section class="blk blk--intro" id="intro">
   <div class="wrap">
     <div class="blk__head">
       <span class="eyebrow rv"><span class="num">01</span>Introduction</span>
-      <h2 class="rv"><em>Analytical</em> by nature.<br><em>Creative</em> by pursuit.</h2>
+      <h2 class="intro__title rv">
+        <em>Analytical</em> by nature.<br>
+        <em>Creative</em> by pursuit.
+      </h2>
     </div>
 
-    <div class="intro__grid">
-      <div>
-        <p class="lead rv" style="margin-bottom: 24px">
+    <div class="intro__grid2">
+      <div class="intro__portrait rv">
+        <img src="./daniel-portrait.png" alt="Daniel Chan" loading="eager">
+      </div>
+      <div class="intro__body">
+        <p class="intro__lead rv" style="margin-bottom: 20px">
           I'm an <strong>Industrial &amp; Systems Engineering</strong> graduate from NUS, specialising in Supply Chain Management with a minor in Management of Technology.
         </p>
-        <p class="lead rv" style="margin-bottom: 24px">
+        <p class="intro__lead rv" style="margin-bottom: 20px">
           My background is analytical: 4 years spent learning to scope problems, model systems, manage constraints and bring complex work from idea to execution. But I'm interested in what happens beyond the numbers: the products we create, the experiences we shape, and the people they ultimately reach.
         </p>
-        <p class="lead rv" style="margin-bottom: 24px">
+        <p class="intro__lead rv" style="margin-bottom: 20px">
           I'm looking to build a career across <strong>project management, product management, and product development</strong>, where structure and creativity can work together to turn an idea into something real.
         </p>
-        <p class="lead rv" style="font-style: italic; color: var(--ink-dim)">
+        <p class="intro__lead rv" style="font-style: italic; color: var(--ink-dim)">
           Give me a messy problem with real constraints and a human on the other end of it: I'll scope it, structure it, and make it land.
         </p>
       </div>
+    </div>
 
-      <div class="facts rv">
-        <div class="fact"><div class="fact__k">Degree</div><div class="fact__v">B.Eng (Hons)<small>Industrial &amp; Systems Eng., NUS</small></div></div>
-        <div class="fact"><div class="fact__k">Focus</div><div class="fact__v">Supply Chain<small>+ Management of Technology (minor)</small></div></div>
-        <div class="fact"><div class="fact__k">GPA</div><div class="fact__v">4.11 / 5.0<small>Second Class Upper equivalent, 2022, 2026</small></div></div>
-        <div class="fact"><div class="fact__k">Targeting</div><div class="fact__v">Project Management<small>Product mgmt · Product dev</small></div></div>
-        <div class="fact"><div class="fact__k">Award</div><div class="fact__v">STEER<small>Chongqing &amp; Chengdu, renewable energy, 2024</small></div></div>
-      </div>
+    <!-- Horizontal facts strip below picture + body -->
+    <div class="facts-strip rv">
+      <div class="fact-h"><div class="fact__k">Degree</div><div class="fact__v">B.Eng (Hons)<small>Industrial &amp; Systems Eng., NUS</small></div></div>
+      <div class="fact-h"><div class="fact__k">Focus</div><div class="fact__v">Supply Chain<small>+ Management of Technology (minor)</small></div></div>
+      <div class="fact-h"><div class="fact__k">GPA</div><div class="fact__v">4.11 / 5.0<small>Second Class Upper equivalent</small></div></div>
+      <div class="fact-h"><div class="fact__k">Targeting</div><div class="fact__v">Project Management<small>Product mgmt · Product dev</small></div></div>
+      <div class="fact-h"><div class="fact__k">Award</div><div class="fact__v">STEER<small>Chongqing &amp; Chengdu, 2024</small></div></div>
     </div>
   </div>
 </section>
@@ -1303,7 +1393,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
         <div class="card__mark"><span class="num">P.02</span><span>Systems Design Project</span></div>
         <h3>NDCS Surgery, Discrete-Event Simulation</h3>
         <div class="card__role">Team of 5 · National Dental Centre Singapore · AY 2025/26</div>
-        <p class="card__short">Built and validated a FlexSim simulation of the Oral &amp; Maxillofacial Surgery patient journey against real NDCS clinic data, then ran a 15-scenario sensitivity analysis.</p>
+        <p class="card__short">Built and validated a FlexSim simulation of the Oral &amp; Maxillofacial Surgery (OMS) patient journey against real NDCS clinic data, then ran a 15-scenario sensitivity analysis.</p>
         <div class="card__chips">
           <span class="chip">FlexSim</span><span class="chip">DES</span><span class="chip">Healthcare ops</span>
         </div>
@@ -1516,7 +1606,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
   <div class="wrap">
     <div class="foot__grid">
       <div>
-        <h2 class="rv"><em>Let's</em><br>talk shop.</h2>
+        <h2 class="rv"><em>Let's</em><br>connect.</h2>
         <p class="body-copy rv" style="max-width: 32em">
           Open to project management, product management, and product development roles where structure and thoughtful execution have to coexist. Currently based in Singapore, happy to travel.
         </p>
@@ -1570,7 +1660,7 @@ var PROJECTS = {
     body: `<p>SONDER is a personal project, born out of my interest in fragrance and my chance to express the creative side of how I think.</p>
 <p>It started with a feeling I'd noticed while travelling alone: the quiet awareness that everyone around me is carrying a whole life I'll never see. A stranger passing by, a conversation overheard, a face that disappears into a crowd. That's the word sonder, and it felt like a fragrance idea long before it felt like a brand.</p>
 <h4>The concept</h4>
-<p>Liminality: three moments of transition, and one that lies past them. <em>Wander</em>, <em>Alter</em>, and <em>Emergence</em> are three 15ml compositions of the same idea, each pointing at what was, the in-between, and what comes next. Genderless, priced to be worn rather than shelved.</p>
+<p>Liminality: three moments of transition, and one that lies past them. <strong>Wander</strong>, <strong>Alter</strong>, and <strong>Emergence</strong> are three 15ml compositions of the same idea, each pointing at what was, the in-between, and what comes next. Genderless, priced to be worn rather than shelved.</p>
 <h4>What I built</h4>
 <ul>
 <li>Full brand: name, positioning, narrative, tone of voice</li>
@@ -1579,7 +1669,7 @@ var PROJECTS = {
 <li>Everything from concept to live artefact, self-directed, with no brief and no client</li>
 </ul>
 <h4>Why it's here</h4>
-<p>The site itself is the deliverable. Anyone can write about a fragrance concept; almost no one on a resume can point to a running one. It's the closest thing I have to end-to-end evidence that brand thinking, product design, and execution can live in one person.</p>`,
+<p>The live site is the deliverable. I wanted something I could point at rather than describe, and building it end to end was the most useful way I could find to practise brand thinking, product design, and execution in one place.</p>`,
     link: { href: "./Sonder.html", label: "Open the live product page →" }
   },
   ndcs: {
@@ -1610,8 +1700,8 @@ var PROJECTS = {
 <li>Proposed accessibility-focused design interventions for elderly residents</li>
 <li>Designed all the final visual deliverables: systems map, stakeholder analysis, concept boards</li>
 </ul>
-<h4>Why it appears here</h4>
-<p>This is the clearest evidence of me running a team of six through an ambiguous, open brief and producing something coherent at the end. Same muscle a project manager uses every week.</p>`
+<h4>Why it's here</h4>
+<p>Running a team of six through an open brief and producing something coherent at the end is close to what a project manager does week to week, and this was where I got to practise the whole arc.</p>`
   },
   ssdc: {
     title: "Safety Driving Centre, Layout Optimisation",
@@ -1623,8 +1713,8 @@ var PROJECTS = {
 <li>Ran activity relationship analysis to identify high-friction adjacencies</li>
 <li>Proposed an optimised layout and staffing plan aimed at increasing throughput without adding footprint</li>
 </ul>
-<h4>Why it's on the site</h4>
-<p>It's a small piece, but it shows I know the classical industrial engineering toolkit and can point it at a normal business, not just an academic case.</p>`
+<h4>Why it's here</h4>
+<p>A small piece, but it's where I got to apply the classical industrial engineering toolkit to a real service business rather than a textbook example.</p>`
   },
   on: {
     title: "On Running, Brand Audit &amp; Market Entry",
@@ -1652,7 +1742,7 @@ var PROJECTS = {
 <li>Site-selection rationale for the Clementi location</li>
 </ul>
 <h4>Why it's here</h4>
-<p>Practice at moving from consumer insight to a shippable product concept, with brand and experience decisions made together.</p>`
+<p>Practice at moving from consumer insight to a product concept, with brand and experience decisions worked through together.</p>`
   },
   gopro: {
     title: "GoPro, Technology Strategy &amp; Disruption",
@@ -1667,7 +1757,7 @@ var PROJECTS = {
 <li>Brand-led play defending the high-end market rather than chasing volume down-market</li>
 </ul>
 <h4>Why it's here</h4>
-<p>This is the project that trained me in strategic frameworks: S-curves, competitive positioning, and disruption analysis. Direct preparation for the strategy side of product management.</p>`
+<p>Where I got to work through strategic frameworks in depth: S-curves, competitive positioning, and disruption analysis, all directly applicable to the strategy side of product management.</p>`
   },
     hover: {
     title: "RC Hovercraft, Horizontal Thrust Team Lead",
@@ -1680,8 +1770,8 @@ var PROJECTS = {
 <li>Set internal milestones aligned to the other teams' dependencies</li>
 <li>Flagged trade-offs early and kept communication open with the other team leads to prevent downstream blockers</li>
 </ul>
-<h4>What it proves</h4>
-<p>Hands-on hardware. The only project on this site where I was on the tools directly, and it's genuinely the one where I learned the most about how a build actually holds together when four teams share a bill of materials.</p>`
+<h4>Why it's here</h4>
+<p>The only project where I was on the tools directly, and the one that taught me the most about how a build holds together when four teams share a bill of materials.</p>`
   },
   "mindef-redesign": {
     title: "Lift &amp; Office-Level Redesign",
@@ -1696,8 +1786,8 @@ var PROJECTS = {
 </ul>
 <h4>Scale</h4>
 <p><strong>11 acrylic posters and 2 lift-door stickers</strong>, delivered under a <strong>$1,000 budget within 2 months</strong>, across 4 offices.</p>
-<h4>Why it matters</h4>
-<p>This is the closest thing I've done to agency creative-production coordination: brief, vendor, print, install, sign-off. The same job in a different uniform.</p>`
+<h4>Why it's here</h4>
+<p>The closest thing I've done to agency creative-production coordination: brief, vendor, print, install, sign-off.</p>`
   },
   "philips-rfq": {
     title: "Multi-Country RFQ &amp; Contract Delivery",
@@ -1711,8 +1801,8 @@ var PROJECTS = {
 </ul>
 <h4>The result</h4>
 <p>Negotiated a warehousing rate <strong>~40% below competing offers</strong> on the Vietnam-China tender by benchmarking and evaluating supplier proposals through Excel-based cost simulations. Kept all three projects audit-ready and on schedule through the end of the internship.</p>
-<h4>What it proves</h4>
-<p>The commercial and coordination side of project work: real money on the table, real stakeholders, real audit trail. Numbers I can defend in an interview.</p>`
+<h4>Why it's here</h4>
+<p>The commercial and coordination side of project work: real money on the table, real stakeholders, real audit trail.</p>`
   }
 };
 
@@ -2475,6 +2565,25 @@ var PROJECTS = {
   style.textContent = 'body.intro-active{overflow:hidden}';
   document.head.appendChild(style);
 })();
+
+// V11.1: Back to top button
+(function(){
+  var btn = document.getElementById('backToTop');
+  if (!btn) return;
+  var ticking = false;
+  addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      btn.classList.toggle('show', window.scrollY > window.innerHeight * 0.7);
+      ticking = false;
+    });
+  }, { passive: true });
+  btn.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
 </script>
+<button id="backToTop" aria-label="Back to top">↑</button>
 </body>
 </html>
