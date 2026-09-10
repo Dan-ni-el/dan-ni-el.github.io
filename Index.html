@@ -1,0 +1,2608 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Daniel Chan, Industrial &amp; Systems Engineering</title>
+<meta name="description" content="Portfolio of Daniel Chan, NUS Industrial &amp; Systems Engineering graduate. Analytical, brand and creative work.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scrollbar-gutter:stable}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{background:none;border:none;color:inherit;font:inherit;cursor:pointer}
+
+:root{
+  --bg: #0e0d0b;              /* near-black warm charcoal */
+  --bg-2: #16140f;            /* slightly lifted for hover states */
+  --bg-3: #1c1a15;            /* deeper section variant */
+  --ink: #ebe6dc;             /* warm off-white */
+  --ink-dim: #a29c8f;         /* mid tone for secondary text */
+  --ink-mute: #6a655c;        /* faded metadata */
+  --line: rgba(235,230,220,.10);
+  --line-strong: rgba(235,230,220,.22);
+  --accent: #c9a961;           /* warm brass, high contrast on dark */
+  --display: 'Fraunces', 'Times New Roman', serif;
+  --italic: 'Fraunces', 'Times New Roman', serif;
+  --sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --serif: 'Fraunces', Georgia, serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --max: 1220px;
+}
+
+body{
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   LOADER — cinematic entrance
+   ============================================================ */
+.loader{
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.9s ease 0.3s, visibility 0s linear 1.2s;
+}
+.loader.done{opacity: 0; visibility: hidden; pointer-events: none}
+
+.loader__inner{
+  width: 90%; max-width: 720px;
+  padding: 0 32px;
+  display: flex; flex-direction: column; gap: 40px;
+}
+.loader__row{
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.loader__row .k{color: var(--ink-mute)}
+.loader__row .v{color: var(--ink)}
+.loader__canvas{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.loader__inner{position: relative; z-index: 1}
+.loader__num .pct{color: var(--ink-mute); font-size: 0.35em; vertical-align: super; margin-left: 8px}
+.loader__bar{
+  height: 1px;
+  background: var(--line);
+  position: relative; overflow: hidden;
+}
+.loader__bar::after{
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--accent);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.15s linear;
+}
+.loader.p10 .loader__bar::after{transform: scaleX(0.1)}
+.loader.p25 .loader__bar::after{transform: scaleX(0.25)}
+.loader.p45 .loader__bar::after{transform: scaleX(0.45)}
+.loader.p65 .loader__bar::after{transform: scaleX(0.65)}
+.loader.p85 .loader__bar::after{transform: scaleX(0.85)}
+.loader.p100 .loader__bar::after{transform: scaleX(1); background: var(--ink)}
+
+.loader__msg{
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--ink-mute);
+  min-height: 14px;
+  transition: color 0.2s;
+}
+
+/* hide content initially, revealed after loader */
+body:not(.ready) .site{opacity: 0}
+.site{opacity: 1; transition: opacity 0.6s ease 0.4s}
+
+@media (prefers-reduced-motion: reduce){
+  .loader{display: none}
+  .site{opacity: 1; transition: none}
+  body:not(.ready) .site{opacity: 1}
+}
+
+/* ============================================================
+   LAYOUT PRIMITIVES
+   ============================================================ */
+.wrap{max-width: var(--max); margin: 0 auto; padding: 0 32px}
+@media (max-width: 720px){ .wrap{padding: 0 24px} }
+section{position:relative}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.eyebrow{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  font-weight: 400;
+}
+.eyebrow .num{color: var(--accent); margin-right: 12px}
+
+h1, h2, h3, h4{font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; color: var(--ink)}
+h1{
+  font-family: var(--display);
+  font-size: clamp(70px, 13vw, 180px);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 0;
+}
+h2{
+  font-family: var(--display);
+  font-size: clamp(44px, 6.5vw, 92px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  font-weight: 400;
+  font-variation-settings: "opsz" 96, "SOFT" 20;
+}
+h3{
+  font-family: var(--display);
+  font-size: clamp(24px, 2.6vw, 32px);
+  line-height: 1.15;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 48, "SOFT" 30;
+}
+h4{font-size: 18px; line-height: 1.3}
+
+.italic, em{
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  font-variation-settings: "opsz" 96, "SOFT" 50, "WONK" 1;
+}
+strong{font-weight: 400; color: var(--ink)}
+
+.lead{
+  font-family: var(--display);
+  font-size: clamp(20px, 2.1vw, 26px);
+  line-height: 1.45;
+  font-weight: 400;
+  color: var(--ink);
+  max-width: 32em;
+  font-variation-settings: "opsz" 24, "SOFT" 20;
+  letter-spacing: -0.015em;
+}
+
+.body-copy{
+  color: var(--ink-dim);
+  max-width: 34em;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.body-copy strong{color: var(--ink); font-weight: 400}
+.body-copy p + p{margin-top: 1em}
+
+/* ============================================================
+   NAV — minimal top bar with progress indicator
+   ============================================================ */
+.nav{
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  padding: 24px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: linear-gradient(to bottom, rgba(14,13,11,0.94), rgba(14,13,11,0.5) 80%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.nav__brand{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.nav__brand::before{content:'✦ '; color: var(--accent); font-size: 10px}
+.nav__links{display: flex; gap: 28px}
+.nav__links a{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  transition: color 0.2s;
+  position: relative;
+}
+.nav__links a::after{
+  content:''; position: absolute; left: 0; bottom: -6px;
+  height: 1px; width: 0; background: var(--accent);
+  transition: width 0.3s;
+}
+.nav__links a:hover{color: var(--ink)}
+.nav__links a:hover::after, .nav__links a.active::after{width: 100%}
+@media (max-width: 720px){
+  .nav__links{display: none}
+  .nav{padding: 20px 24px}
+}
+
+/* section scroll progress bar */
+.nav__prog{
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 2px; z-index: 60;
+  background: transparent;
+}
+.nav__prog::after{
+  content:''; display: block;
+  height: 100%; width: 0%;
+  background: var(--accent);
+  transition: width 0.1s linear;
+  transform-origin: left;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 140px 0 100px;
+  position: relative;
+}
+.hero__wrap{max-width: var(--max); margin: 0 auto; padding: 0 32px; width: 100%}
+.hero__meta{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+  margin-bottom: 60px;
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.hero__meta span::before{content:'· '; color: var(--accent); margin-right: 6px}
+.hero__title{margin-bottom: 40px}
+.hero__title .italic{color: var(--ink-dim)}
+
+/* staggered reveal on load */
+.enter{opacity: 0; transform: translateY(30px)}
+.ready .enter{opacity: 1; transform: none; transition: opacity 1.1s cubic-bezier(.2,.7,.3,1), transform 1.1s cubic-bezier(.2,.7,.3,1)}
+.ready .enter.d1{transition-delay: 0.5s}
+.ready .enter.d2{transition-delay: 0.75s}
+.ready .enter.d3{transition-delay: 1.0s}
+.ready .enter.d4{transition-delay: 1.25s}
+
+.hero__sub{
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(20px, 2.2vw, 26px);
+  color: var(--ink-dim);
+  max-width: 32em;
+  line-height: 1.4;
+  margin-top: 40px;
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 48, "SOFT" 50, "WONK" 1;
+}
+.hero__scroll{
+  position: absolute;
+  bottom: 32px; left: 32px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--ink-mute);
+  text-transform: uppercase;
+}
+.hero__scroll::after{
+  content:'';
+  display: block;
+  width: 1px; height: 28px;
+  background: var(--ink-mute);
+  margin-top: 12px;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%, 100%{opacity: 0.3; transform: scaleY(0.5); transform-origin: top}
+  50%{opacity: 1; transform: scaleY(1)}
+}
+
+/* ============================================================
+   SECTION BLOCK
+   ============================================================ */
+.blk{padding: 140px 0}
+@media (max-width: 720px){ .blk{padding: 90px 0} }
+
+/* sticky section header */
+.blk__head{
+  margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+}
+@media (max-width: 900px){
+  .blk__head{gap: 20px; margin-bottom: 60px}
+}
+.blk__head .eyebrow{display: block}
+.blk__head h2{max-width: 22ch}
+
+/* ============================================================
+   INTRO
+   ============================================================ */
+.intro__grid{
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 100px;
+  align-items: start;
+}
+@media (max-width: 900px){
+  .intro__grid{grid-template-columns: 1fr; gap: 60px}
+}
+
+.facts{display: flex; flex-direction: column; gap: 32px}
+.fact{
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.fact:last-child{border-bottom: none}
+.fact__k{font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 8px}
+.fact__v{font-family: var(--display); font-size: 22px; line-height: 1.25; color: var(--ink); font-weight: 500; letter-spacing: -0.01em}
+.fact__v small{display: block; font-family: var(--sans); font-size: 12px; color: var(--ink-dim); margin-top: 4px; font-style: normal}
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.tline{display: flex; flex-direction: column}
+.trow{
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 48px;
+  padding: 48px 0;
+  border-top: 1px solid var(--line);
+  transition: background 0.3s;
+}
+.trow:last-child{border-bottom: 1px solid var(--line)}
+.trow:hover{background: linear-gradient(to right, transparent, rgba(201,169,97,0.05), transparent)}
+@media (max-width: 780px){
+  .trow{grid-template-columns: 1fr; gap: 20px; padding: 40px 0}
+}
+.trow__meta .co{
+  display: block;
+  font-family: var(--display);
+  font-size: 20px;
+  color: var(--ink);
+  margin-bottom: 4px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+.trow__meta .dates{
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.trow__meta .tag{
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+}
+.trow__body h3{margin-bottom: 20px; font-size: 24px}
+.trow__body ul{list-style: none; padding: 0}
+.trow__body li{
+  color: var(--ink-dim);
+  font-size: 15px;
+  line-height: 1.7;
+  padding-left: 24px;
+  position: relative;
+  margin-bottom: 12px;
+}
+.trow__body li::before{
+  content:'';
+  position: absolute;
+  left: 0; top: 12px;
+  width: 12px; height: 1px;
+  background: var(--accent);
+}
+.trow__body li strong{color: var(--ink); font-weight: 400}
+.trow__body li:last-child{margin-bottom: 0}
+
+/* ============================================================
+   FEATURED PIECE
+   ============================================================ */
+.feature{
+  padding: 60px 0 40px;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 80px;
+  align-items: start;
+  margin-bottom: 100px;
+}
+@media (max-width: 900px){
+  .feature{grid-template-columns: 1fr; gap: 40px}
+}
+.feature__mark{
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.feature h3{
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.05;
+  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+  font-variation-settings: "opsz" 96, "SOFT" 20;
+}
+.feature__role{
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.1em;
+  margin-bottom: 32px;
+}
+.feature__stats{display: flex; flex-direction: column; gap: 28px; position: sticky; top: 100px}
+.stat{border-left: 1px solid var(--line-strong); padding-left: 20px; transition: border-color 0.3s}
+.stat:hover{border-color: var(--accent)}
+.stat__n{
+  font-family: var(--display);
+  font-size: 48px;
+  line-height: 0.95;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  font-variation-settings: "opsz" 96, "SOFT" 40;
+}
+.stat__l{font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--ink-mute); text-transform: uppercase}
+
+/* ============================================================
+   PROJECT CARDS — click to expand
+   ============================================================ */
+.grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+@media (max-width: 720px){ .grid{grid-template-columns: 1fr} }
+
+.card{
+  background: var(--bg);
+  padding: 40px;
+  transition: background 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+.card:hover{background: var(--bg-2)}
+.card::after{
+  content: '→';
+  position: absolute;
+  top: 40px; right: 40px;
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--ink-mute);
+  transition: color 0.3s, transform 0.3s;
+}
+.card:hover::after{color: var(--accent); transform: translate(4px, -4px)}
+
+.card__mark{
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-bottom: 24px;
+  display: flex;
+  gap: 16px;
+}
+.card__mark .num{color: var(--accent)}
+.card h3{margin-bottom: 8px; font-size: 22px; padding-right: 32px}
+.card__role{
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+}
+.card__short{color: var(--ink-dim); font-size: 14px; line-height: 1.7; margin-bottom: 20px}
+.card__chips{display: flex; flex-wrap: wrap; gap: 8px}
+.chip{
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+}
+
+/* ============================================================
+   MODAL — expanded project view
+   ============================================================ */
+.modal{
+  position: fixed; inset: 0;
+  background: rgba(14,13,11,0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 100;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+  overflow-y: auto;
+  padding: 60px 20px;
+}
+.modal.open{opacity: 1; visibility: visible; transition: opacity 0.4s ease}
+.modal__panel{
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--bg-2);
+  border: 1px solid var(--line-strong);
+  padding: 60px;
+  transform: translateY(20px);
+  transition: transform 0.5s cubic-bezier(.2,.9,.3,1);
+}
+@media (max-width: 720px){ .modal__panel{padding: 40px 28px} }
+.modal.open .modal__panel{transform: translateY(0)}
+.modal__close{
+  position: sticky;
+  top: -60px; margin-top: -60px; margin-left: auto;
+  display: block; margin-bottom: 20px;
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-dim);
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  transition: color 0.2s, border-color 0.2s;
+}
+.modal__close:hover{color: var(--accent); border-color: var(--accent); background: var(--bg-3)}
+.modal h3{font-size: clamp(28px, 4vw, 44px); line-height: 1.1; margin-bottom: 12px}
+.modal__role{font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; color: var(--ink-mute); text-transform: uppercase; margin-bottom: 32px}
+.modal__body{color: var(--ink-dim); font-size: 15px; line-height: 1.75}
+.modal__body p{margin-bottom: 16px}
+.modal__body strong{color: var(--ink); font-weight: 400}
+.modal__body h4{
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent); margin-top: 32px; margin-bottom: 12px;
+}
+.modal__body ul{list-style: none; padding: 0; margin: 16px 0}
+.modal__body li{padding-left: 24px; position: relative; margin-bottom: 10px}
+.modal__body li::before{content:''; position: absolute; left: 0; top: 12px; width: 12px; height: 1px; background: var(--accent)}
+.modal__link{
+  display: inline-block;
+  margin-top: 32px;
+  padding: 12px 20px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  transition: background 0.2s, color 0.2s;
+}
+.modal__link:hover{background: var(--accent); color: var(--bg)}
+
+body.modal-open{overflow: hidden}
+
+/* ============================================================
+   SKILLS
+   ============================================================ */
+.skills{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+}
+@media (max-width: 780px){ .skills{grid-template-columns: 1fr; gap: 40px} }
+
+.skcol h4{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line-strong);
+}
+.skcol ul{list-style: none}
+.skcol li{
+  display: flex;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-dim);
+  font-size: 14px;
+  transition: color 0.2s, padding 0.2s;
+}
+.skcol li:hover{color: var(--ink); padding-left: 8px}
+.skcol li:last-child{border-bottom: none}
+.skcol li .m{
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-mute);
+  min-width: 24px;
+  padding-top: 2px;
+}
+
+/* ============================================================
+   COMMUNITY
+   ============================================================ */
+.comm-row{
+  display: grid;
+  grid-template-columns: 120px 1fr 140px;
+  gap: 40px;
+  padding: 32px 0;
+  border-top: 1px solid var(--line);
+  align-items: baseline;
+  transition: padding 0.3s, background 0.3s;
+}
+.comm-row:hover{background: linear-gradient(to right, transparent, rgba(201,169,97,0.04), transparent); padding-left: 12px}
+@media (max-width: 720px){
+  .comm-row{grid-template-columns: 1fr; gap: 12px}
+  .comm-row .tag{justify-self: start}
+}
+.comm-row:last-child{border-bottom: 1px solid var(--line)}
+.comm-row .yr{font-family: var(--mono); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.1em}
+.comm-row h4{font-size: 22px; font-family: var(--display); font-weight: 500; margin-bottom: 8px; letter-spacing: -0.01em}
+.comm-row p{color: var(--ink-dim); font-size: 14px; line-height: 1.7}
+.comm-row .tag{
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em;
+  color: var(--ink-mute); text-transform: uppercase; text-align: right;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.foot{
+  padding: 120px 0 60px;
+  border-top: 1px solid var(--line);
+}
+.foot__grid{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 60px;
+  margin-bottom: 80px;
+}
+@media (max-width: 780px){ .foot__grid{grid-template-columns: 1fr; gap: 40px} }
+
+.foot h2{font-size: clamp(56px, 9vw, 120px); line-height: 0.9; margin-bottom: 32px; letter-spacing: -0.04em; font-weight: 500}
+.foot__contact{display: flex; flex-direction: column; gap: 4px}
+.foot__contact a{
+  font-family: var(--display); font-size: 24px; font-weight: 400; color: var(--ink); letter-spacing: -0.015em;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+  transition: color 0.2s, border-color 0.2s, padding 0.2s;
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.foot__contact a:hover{color: var(--accent); border-color: var(--accent); padding-left: 8px}
+.foot__contact a .l{font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-mute)}
+.foot__contact a:hover .l{color: var(--accent)}
+
+.foot__meta{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.rv{opacity: 0; transform: translateY(24px); transition: opacity 1s ease, transform 1s ease}
+.rv.in{opacity: 1; transform: none}
+@media (prefers-reduced-motion: reduce){
+  .rv{opacity: 1; transform: none; transition: none}
+}
+
+/* ============================================================
+   V6 INTERACTIVE ADDITIONS
+   ============================================================ */
+
+/* Hero title split animation — letters/words assemble */
+.hero__title{overflow: hidden}
+.hero__title .word{
+  display: inline-block;
+  opacity: 0; transform: translateY(80%);
+  transition: opacity 1.1s cubic-bezier(.2,.7,.3,1), transform 1.1s cubic-bezier(.2,.7,.3,1);
+}
+.ready .hero__title .word{opacity: 1; transform: none}
+.ready .hero__title .word.w1{transition-delay: 0.55s}
+.ready .hero__title .word.w2{transition-delay: 0.65s}
+.ready .hero__title .word.w3{transition-delay: 0.9s}
+.ready .hero__title .word.w4{transition-delay: 1.0s}
+@media (prefers-reduced-motion: reduce){
+  .hero__title .word{opacity: 1; transform: none; transition: none}
+}
+
+/* Signature reveal: staggered word-by-word on section headings */
+h2 .rev-word{
+  display: inline-block;
+  opacity: 0; transform: translateY(50%);
+  transition: opacity 0.9s cubic-bezier(.2,.7,.3,1), transform 0.9s cubic-bezier(.2,.7,.3,1);
+}
+h2.in .rev-word{opacity: 1; transform: none}
+h2.in .rev-word:nth-child(1){transition-delay: 0.05s}
+h2.in .rev-word:nth-child(2){transition-delay: 0.13s}
+h2.in .rev-word:nth-child(3){transition-delay: 0.21s}
+h2.in .rev-word:nth-child(4){transition-delay: 0.29s}
+h2.in .rev-word:nth-child(5){transition-delay: 0.37s}
+h2.in .rev-word:nth-child(6){transition-delay: 0.45s}
+h2.in .rev-word:nth-child(7){transition-delay: 0.53s}
+h2.in .rev-word:nth-child(8){transition-delay: 0.61s}
+@media (prefers-reduced-motion: reduce){
+  h2 .rev-word{opacity: 1; transform: none; transition: none}
+}
+
+/* Counting numbers — stat values become "loaded" once in view */
+.stat__n{transition: opacity 0.5s ease}
+.stat__n.counting{opacity: 0.4}
+
+/* Magnetic link/button base — small skew toward cursor */
+.mag{
+  transition: transform 0.5s cubic-bezier(.15,.85,.35,1);
+  will-change: transform;
+}
+
+/* Card hover: subtle scale + border highlight for tactile feel */
+.card{
+  transition: background 0.3s, transform 0.4s cubic-bezier(.2,.9,.3,1), box-shadow 0.4s;
+}
+.card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6);
+}
+
+/* ============================================================
+   V7 IMAGE CARDS — thumbnail reveals on hover, text-light default
+   ============================================================ */
+.card{
+  position: relative;
+  min-height: 320px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+/* thumbnail image as absolute-positioned bg, hidden by default */
+.card__thumb{
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--bg-2);
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 0.6s cubic-bezier(.2,.7,.3,1), transform 1.2s cubic-bezier(.2,.7,.3,1);
+  z-index: 0;
+  pointer-events: none;
+}
+/* logo variant: logo centered on white, filling most of the card */
+.card__thumb--logo{
+  background-size: 70% auto;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+  transform: scale(1);
+}
+.card__thumb--logo::after{
+  background: linear-gradient(180deg, rgba(14,13,11,0.85) 0%, rgba(14,13,11,0.5) 50%, rgba(14,13,11,0.85) 100%);
+}
+/* dark scrim gradient over thumbnail for text legibility */
+.card__thumb::after{
+  content:'';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(14,13,11,0.85) 0%, rgba(14,13,11,0.65) 40%, rgba(14,13,11,0.85) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.card:hover .card__thumb, .card:focus-visible .card__thumb{
+  opacity: 1;
+  transform: scale(1);
+}
+.card:hover .card__thumb::after, .card:focus-visible .card__thumb::after{opacity: 1}
+
+/* all card content above the thumb */
+.card__mark, .card h3, .card__role, .card__short, .card__chips{
+  position: relative;
+  z-index: 1;
+  transition: color 0.4s ease;
+}
+/* hide short + chips on hover — cards get quieter, title stays */
+.card__short, .card__chips{
+  transition: opacity 0.35s ease, color 0.4s ease;
+}
+.card:hover .card__short, .card:hover .card__chips{
+  opacity: 0;
+  pointer-events: none;
+}
+/* On hover: mark + title become white for legibility over image */
+.card:hover .card__mark,
+.card:hover .card__mark .num,
+.card:hover h3,
+.card:hover .card__role{
+  color: var(--ink) !important;
+}
+.card:hover .card__mark span:not(.num){color: var(--ink-dim) !important}
+
+/* Arrow indicator stays consistent */
+.card::after{
+  content: '→';
+  position: absolute;
+  top: 32px; right: 32px;
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--ink-mute);
+  transition: color 0.3s, transform 0.3s;
+  z-index: 2;
+}
+.card:hover::after{color: var(--accent); transform: translate(4px, -4px)}
+
+/* Featured dissertation card keeps its own thumb treatment */
+.card--feature .card__thumb{display: none}
+
+/* Skill list items: reveal top-down with stagger */
+.skcol li{
+  opacity: 0; transform: translateX(-12px);
+  transition: opacity 0.6s ease, transform 0.6s ease, color 0.2s, padding 0.2s;
+}
+.skcol.in li{opacity: 1; transform: translateX(0)}
+.skcol.in li:nth-child(1){transition-delay: 0.05s}
+.skcol.in li:nth-child(2){transition-delay: 0.10s}
+.skcol.in li:nth-child(3){transition-delay: 0.15s}
+.skcol.in li:nth-child(4){transition-delay: 0.20s}
+.skcol.in li:nth-child(5){transition-delay: 0.25s}
+.skcol.in li:nth-child(6){transition-delay: 0.30s}
+.skcol.in li:nth-child(7){transition-delay: 0.35s}
+.skcol.in li:nth-child(8){transition-delay: 0.40s}
+
+@media (prefers-reduced-motion: reduce){
+  .skcol li, .hs-track .card, .card:hover{
+    opacity: 1; transform: none; transition: none;
+  }
+}
+
+
+/* ============================================================
+   V8: FULL-SITE DRIFTING BACKGROUND
+   ============================================================ */
+#bgCanvas{
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity 0.4s ease;
+}
+body.bg-off #bgCanvas{opacity: 0; visibility: hidden}
+/* Ensure all site content sits above the canvas */
+.site, .nav, .nav__prog{position: relative; z-index: 1}
+.nav{z-index: 50}
+.modal{z-index: 100}
+.nav__prog{z-index: 60}
+/* Toggle button in top-right corner */
+#bgToggle{
+  position: fixed;
+  top: 24px; right: 24px;
+  z-index: 55;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-mute);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+#bgToggle:hover{color: var(--ink); border-color: var(--ink)}
+body.bg-off #bgToggle{color: var(--ink-mute)}
+body.bg-off #bgToggle::before{content: "○"}
+body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
+#bgToggle{font-size: 0}
+#bgToggle::before{font-size: 12px}
+/* Hide on mobile — effect turned off there anyway */
+@media (max-width: 720px){
+  #bgToggle{display: none}
+  #bgCanvas{display: none}
+}
+@media (prefers-reduced-motion: reduce){
+  #bgCanvas{display: none}
+  #bgToggle{display: none}
+}
+
+/* ============================================================
+   V9: INTRO OVERLAY — particle text (shown after loader dismisses)
+   ============================================================ */
+.intro{
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 180;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.9s ease, visibility 0s linear 0.9s;
+  cursor: pointer;
+}
+.intro.show{
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.9s ease;
+}
+.intro.dismiss{
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.9s ease, visibility 0s linear 0.9s;
+}
+.intro__canvas{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+}
+.intro__hint{
+  position: absolute;
+  bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  animation: introPulse 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes introPulse{
+  0%, 100%{opacity: 0.4}
+  50%{opacity: 1}
+}
+@media (prefers-reduced-motion: reduce){
+  .intro{display: none}
+}
+
+/* ============================================================
+   V10: HERO SPLIT LAYOUT with portrait
+   ============================================================ */
+.hero__wrap--split{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.hero__col{min-width: 0}
+.hero__portrait{
+  align-self: center;
+  max-width: 400px;
+  overflow: hidden;
+  transform: translateY(0);
+}
+.hero__portrait img{
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: grayscale(0) contrast(1.05);
+}
+@media (max-width: 900px){
+  .hero__wrap--split{grid-template-columns: 1fr; gap: 40px}
+  .hero__portrait{max-width: 240px; margin-left: auto}
+}
+
+/* ============================================================
+   V10: Bigger section eyebrow numbers
+   ============================================================ */
+.eyebrow{
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  font-weight: 400;
+}
+.eyebrow .num{
+  color: var(--accent);
+  margin-right: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   V10: Ensure modal panel isn't cut off
+   ============================================================ */
+.modal{
+  padding: 40px 20px 60px;
+}
+.modal__panel{
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--bg-2);
+  border: 1px solid var(--line-strong);
+  padding: 48px;
+  transform: translateY(20px);
+  transition: transform 0.5s cubic-bezier(.2,.9,.3,1);
+  max-height: none;
+}
+.modal__close{
+  position: sticky;
+  top: 0;
+  margin: 0 0 24px auto;
+  display: block;
+  z-index: 5;
+}
+
+/* V10.1: Hero title fits within the split column */
+.hero__wrap--split .hero__title{
+  font-size: clamp(48px, 6.5vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+.hero__wrap--split .hero__sub{
+  font-size: clamp(16px, 1.6vw, 20px);
+  margin-top: 24px;
+}
+.hero__wrap--split .hero__meta{margin-bottom: 40px}
+/* Give the portrait a bit more breathing room and cap taller */
+.hero__portrait{max-width: 340px; max-height: 460px}
+.hero__portrait img{max-height: 460px; object-fit: cover; object-position: center 30%}
+
+/* V10.2: When hero holds a split layout, center vertically instead of bottom-justifying */
+.hero:has(.hero__wrap--split){justify-content: center; padding: 120px 0 100px}
+/* Fallback for browsers without :has() — add class via JS or accept bottom alignment */
+
+/* ============================================================
+   V11: MERGED INTRO SECTION
+   ============================================================ */
+/* Intro block gets extra top padding since it's now the first section */
+.blk--intro{padding-top: 180px}
+@media (max-width: 720px){ .blk--intro{padding-top: 120px} }
+
+/* Big headline with mono contrast */
+.intro__title{
+  font-size: clamp(48px, 7vw, 100px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  max-width: none;
+}
+
+/* Portrait + body side by side */
+.intro__grid2{
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 56px;
+  align-items: stretch;
+  margin-bottom: 80px;
+}
+@media (max-width: 900px){
+  .intro__grid2{grid-template-columns: 1fr; gap: 40px; align-items: start}
+}
+.intro__portrait{overflow: hidden; height: 100%}
+.intro__portrait img{
+  width: 100%; height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center 30%;
+}
+@media (max-width: 900px){
+  .intro__portrait{max-width: 240px; height: auto}
+  .intro__portrait img{height: auto}
+}
+
+/* Body paragraphs — smaller than the old lead */
+.intro__lead{
+  font-family: var(--display);
+  font-size: clamp(15px, 1.35vw, 17px);
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--ink);
+  max-width: 36em;
+  font-variation-settings: "opsz" 24, "SOFT" 20;
+  letter-spacing: -0.005em;
+}
+.intro__lead strong{font-weight: 500; color: var(--ink)}
+
+/* Horizontal facts strip below */
+.facts-strip{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 28px 0;
+}
+@media (max-width: 1200px){
+  .facts-strip{grid-template-columns: repeat(3, 1fr); gap: 32px 0; border-right: 0}
+  .fact-h:nth-child(3n){border-right: none}
+}
+@media (max-width: 900px){
+  .facts-strip{grid-template-columns: repeat(2, 1fr)}
+  .fact-h:nth-child(2n){border-right: none}
+}
+@media (max-width: 560px){
+  .facts-strip{grid-template-columns: 1fr}
+}
+@media (max-width: 560px){
+  .facts-strip{grid-template-columns: 1fr}
+}
+.fact-h{
+  padding: 0 18px;
+  border-right: 1px solid var(--line);
+}
+.fact-h:last-child{border-right: none}
+@media (max-width: 900px){
+  .fact-h{border-right: none; padding: 0 20px}
+}
+.fact-h .fact__k{
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--ink-mute); margin-bottom: 8px;
+}
+.fact-h .fact__v{
+  font-family: var(--display); font-size: 18px; line-height: 1.25;
+  color: var(--ink); font-weight: 500; letter-spacing: -0.01em;
+}
+.fact-h .fact__v small{
+  display: block; font-family: var(--sans); font-size: 11px;
+  color: var(--ink-dim); margin-top: 4px; font-style: normal; font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* V11.1: BACK TO TOP */
+#backToTop{
+  position: fixed; bottom: 32px; right: 32px; z-index: 55;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--bg); border: 1px solid var(--line-strong); color: var(--ink-dim);
+  font-family: var(--display); font-size: 22px; line-height: 1;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s,
+              color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+}
+#backToTop.show{
+  opacity: 1; visibility: visible;
+  transition: opacity 0.3s ease, color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+}
+#backToTop:hover{color: var(--accent); border-color: var(--accent); transform: translateY(-3px)}
+@media (max-width: 720px){
+  #backToTop{bottom: 20px; right: 20px; width: 40px; height: 40px}
+}
+
+/* V11.3: Certification link in facts strip */
+.fact__link{
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.fact__link:hover{
+  color: var(--accent);
+  border-color: var(--ink);
+}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
+<button id="bgToggle" title="Toggle background effect" aria-label="Toggle background effect">✕</button>
+
+
+<!-- ============================================================
+     LOADER (v8): canvas network + progress bar, no numeric counter
+     ============================================================ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <canvas id="loaderCanvas" class="loader__canvas"></canvas>
+  <div class="loader__inner">
+    <div class="loader__row">
+      <span class="k">Daniel Chan</span>
+      <span class="v">Portfolio v3</span>
+    </div>
+    <div class="loader__bar" id="loaderBar"></div>
+    <div class="loader__row">
+      <span class="k" id="loaderMsg">Initialising</span>
+      <span class="v">Loading</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     INTRO OVERLAY (v9): particle-text push/pull effect
+     ============================================================ -->
+<div class="intro" id="intro" aria-hidden="true">
+  <canvas id="introCanvas" class="intro__canvas"></canvas>
+  <div class="intro__hint">Move cursor · Click to enter</div>
+</div>
+
+<!-- Scroll progress -->
+<div class="nav__prog" id="progBar" aria-hidden="true"></div>
+
+<div class="site">
+
+<nav class="nav">
+  <a href="#intro" class="nav__brand" data-cursor="hover">Daniel Chan</a>
+  <div class="nav__links">
+    <a href="#intro" data-cursor="hover">About</a>
+    <a href="#work" data-cursor="hover">Work</a>
+    <a href="#school" data-cursor="hover">Projects</a>
+    <a href="#skills" data-cursor="hover">Skills</a>
+    <a href="#contact" data-cursor="hover">Contact</a>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     01 INTRO
+     ============================================================ -->
+<section class="blk blk--intro" id="intro">
+  <div class="wrap">
+    <div class="blk__head">
+      <span class="eyebrow rv"><span class="num">01</span>Introduction</span>
+      <h2 class="intro__title rv">
+        <em>Analytical</em> by nature.<br>
+        <em>Creative</em> by pursuit.
+      </h2>
+    </div>
+
+    <div class="intro__grid2">
+      <div class="intro__portrait rv">
+        <img src="./daniel-portrait.png" alt="Daniel Chan" loading="eager">
+      </div>
+      <div class="intro__body">
+        <p class="intro__lead rv" style="margin-bottom: 20px">
+          I'm an <strong>Industrial &amp; Systems Engineering</strong> graduate from NUS, specialising in Supply Chain Management with a minor in Management of Technology.
+        </p>
+        <p class="intro__lead rv" style="margin-bottom: 20px">
+          My background is analytical: 4 years spent learning to scope problems, model systems, manage constraints and bring complex work from idea to execution. But I'm interested in what happens beyond the numbers: the products we create, the experiences we shape, and the people they ultimately reach.
+        </p>
+        <p class="intro__lead rv" style="margin-bottom: 20px">
+          I'm looking to build a career across <strong>project management, product management, and product development</strong>, where structure and creativity can work together to turn an idea into something real.
+        </p>
+      </div>
+    </div>
+
+    <!-- Horizontal facts strip below picture + body -->
+    <div class="facts-strip rv">
+      <div class="fact-h"><div class="fact__k">Degree</div><div class="fact__v">B.Eng (Hons)<small>Industrial &amp; Systems Eng., NUS</small></div></div>
+      <div class="fact-h"><div class="fact__k">Focus</div><div class="fact__v">Supply Chain<small>+ Management of Technology (minor)</small></div></div>
+      <div class="fact-h"><div class="fact__k">GPA</div><div class="fact__v">4.11 / 5.0<small>Second Class Upper equivalent</small></div></div>
+      <div class="fact-h"><div class="fact__k">Certification</div><div class="fact__v"><a class="fact__link" href="https://certification.scrumalliance.org/accounts/1846298/certifications/2213629" target="_blank" rel="noopener">CSPO</a><small>Scrum Alliance, Sept 2026</small></div></div>
+      <div class="fact-h"><div class="fact__k">Targeting</div><div class="fact__v">Project Management<small>Product mgmt · Product dev</small></div></div>
+      <div class="fact-h"><div class="fact__k">Award</div><div class="fact__v">STEER<small>Chongqing &amp; Chengdu, 2024</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     02 WORK EXPERIENCE
+     ============================================================ -->
+<section class="blk" id="work">
+  <div class="wrap">
+    <div class="blk__head">
+      <span class="eyebrow rv"><span class="num">02</span>Work Experience</span>
+      <div>
+        <h2 class="rv">Where I've been the<br><em>coordination point.</em></h2>
+        <p class="rv" style="margin-top: 32px; max-width: 40em; font-family: var(--serif); font-size: 20px; color: var(--ink-dim); font-style: italic; line-height: 1.5">
+          Roles across procurement, operations and resource management. The common thread is being the person who keeps competing priorities and moving parts aligned.
+        </p>
+      </div>
+    </div>
+
+    <div class="tline">
+      <div class="trow rv">
+        <div class="trow__meta">
+          <span class="co">Philips Pte Ltd</span>
+          <span class="dates">Jan 2025, Jun 2025</span>
+          <span class="tag">Logistics Procurement</span>
+        </div>
+        <div class="trow__body">
+          <h3>Cross-functional procurement &amp; supplier coordination</h3>
+          <ul>
+            <li>Negotiated a warehousing rate <strong>~40% below competing offers</strong> by benchmarking and evaluating supplier proposals through Excel-based cost simulations.</li>
+            <li>Ran structured RFQ processes across <strong>3 separate tenders</strong> spanning Vietnam-China, Indonesia and New Zealand, evaluating <strong>5 pricing configurations</strong> per tender for shortlisted suppliers in each market.</li>
+            <li>Coordinated cross-functionally with Quality, Legal, Business and Procurement teams to keep <strong>three concurrent procurement projects</strong> audit-ready and compliant, owning contract administration and milestone tracking throughout.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="trow rv">
+        <div class="trow__meta">
+          <span class="co">Spearing Collectibles LLC</span>
+          <span class="dates">Jun 2023, Aug 2023</span>
+          <span class="tag">Operations Management</span>
+        </div>
+        <div class="trow__body">
+          <h3>Vendor coordination &amp; process improvement</h3>
+          <ul>
+            <li>Improved stock visibility and order fulfillment accuracy by reorganizing warehouse layout and re-sorting inventory alongside a <strong>4-person team</strong>.</li>
+            <li>Coordinated vendor relationships and ran market research to support a defined growth initiative, translating findings into concrete process improvements.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="trow rv">
+        <div class="trow__meta">
+          <span class="co">MINDEF, Medical Corps</span>
+          <span class="dates">Mar 2020, Dec 2021</span>
+          <span class="tag">Resource Management</span>
+        </div>
+        <div class="trow__body">
+          <h3>Onboarding, logistics &amp; stakeholder coordination</h3>
+          <ul>
+            <li>Delivered a full office visual redesign, <strong>11 acrylic posters and 2 lift-door stickers</strong>, under a <strong>$1,000 budget</strong> within <strong>2 months</strong>, sourcing and managing vendor production from brief through installation alongside regular duties.</li>
+            <li>Onboarded <strong>~8 personnel per cycle</strong> plus 1, 2 ad hoc onboardings monthly, managing onboarding logistics, stakeholder communications and budgets across recurring operations.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     03 PROJECTS
+     ============================================================ -->
+<section class="blk" id="school">
+  <div class="wrap">
+    <div class="blk__head">
+      <span class="eyebrow rv"><span class="num">03</span>Projects</span>
+      <h2 class="rv">Academic &amp; self-directed work,<br><em>simulation to strategy.</em></h2>
+    </div>
+
+    <!-- Featured -->
+    <div class="feature rv">
+      <div>
+        <div class="feature__mark">★ Featured · BEng Dissertation, IE4100R</div>
+        <h3>Measuring Supply-Chain Disruption on Shipping Lead Times</h3>
+        <div class="feature__role">Solo · AIS data analysis of Singapore ports · AY 2025/26</div>
+        <p class="body-copy" style="max-width:none">Using 2024 AIS vessel-tracking data, I measured how the Red Sea Crisis drove congestion and vessel delays across Singapore's ports. Built a multi-metric congestion framework (berth utilisation, anchorage and turnaround time, arrival frequency, congested-vessel counts), evaluated Keppel Terminal's emergency reactivation, quantified spillover to Port Klang and Port of Tanjung Pelapas, then ran a service-failure analysis against pre-disruption baselines.</p>
+        <p class="body-copy" style="max-width:none; margin-top: 16px">The finding: March to May congestion was demand-driven, not operational failure. Keppel's reactivation gave meaningful but partial relief, and no large-scale permanent diversion materialised, leaving an asymmetric resilience gap where Malaysian ports (especially Port of Tanjung Pelapas) stayed more exposed. Closed with four policy recommendations, including a data-calibrated 10-15% strategic buffer for Tuas Mega Port.</p>
+        <div class="card__chips" style="margin-top: 24px">
+          <span class="chip">Python</span><span class="chip">AIS data</span><span class="chip">Congestion modelling</span><span class="chip">Pearson correlation</span>
+        </div>
+      </div>
+      <div class="feature__stats">
+        <div class="stat"><div class="stat__n">41.12M</div><div class="stat__l">TEUs, SG throughput, 2024</div></div>
+        <div class="stat"><div class="stat__n">~12%</div><div class="stat__l">Keppel share of throughput</div></div>
+        <div class="stat"><div class="stat__n">~27%</div><div class="stat__l">excess demand Keppel absorbed</div></div>
+        <div class="stat"><div class="stat__n">10-15%</div><div class="stat__l">recommended Tuas buffer</div></div>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <article class="card rv" data-cursor="hover" data-project="sonder">
+        <div class="card__thumb" aria-hidden="true" style="background-image: url(./sonder.jpeg);"></div>
+        <div class="card__mark"><span class="num">P.01</span><span>Product Concept · Live</span></div>
+        <h3>SONDER, Eau de Parfum</h3>
+        <div class="card__role">Solo · Self-directed fragrance concept · 2026</div>
+        <p class="card__short">A self-directed fragrance concept built as a live editorial site. Naming, brand voice, product architecture across four fragrances, and a scroll-driven story with an interactive quiz.</p>
+        <div class="card__chips">
+          <span class="chip">Product concept</span><span class="chip">Art direction</span><span class="chip">Live</span>
+        </div>
+      </article>
+
+      <article class="card rv" data-cursor="hover" data-project="ndcs">
+        <div class="card__thumb" aria-hidden="true" style="background-image: url(./dissertation.jpeg);"></div>
+        <div class="card__mark"><span class="num">P.02</span><span>Systems Design Project</span></div>
+        <h3>NDCS Surgery, Discrete-Event Simulation</h3>
+        <div class="card__role">Team of 5 · National Dental Centre Singapore · AY 2025/26</div>
+        <p class="card__short">Built and validated a FlexSim simulation of the Oral &amp; Maxillofacial Surgery (OMS) patient journey against real NDCS clinic data, then ran a 15-scenario sensitivity analysis.</p>
+        <div class="card__chips">
+          <span class="chip">FlexSim</span><span class="chip">DES</span><span class="chip">Healthcare ops</span>
+        </div>
+      </article>
+
+      <article class="card rv" data-cursor="hover" data-project="queenstown">
+        <div class="card__thumb" aria-hidden="true" style="background-image: url(./ndcs.jpeg);"></div>
+        <div class="card__mark"><span class="num">P.03</span><span>Urban Design · Team Lead</span></div>
+        <h3>Queenstown Liveability Study</h3>
+        <div class="card__role">Team of 6, led · AY 2024/25</div>
+        <p class="card__short">An open-ended studio brief on one of Singapore's oldest satellite towns. Our team was asked to identify a major issue and propose interventions. I narrowed the scope: elderly accessibility and walkability across institutional and residential nodes.</p>
+        <div class="card__chips">
+          <span class="chip">Systems mapping</span><span class="chip">Team lead</span>
+        </div>
+      </article>
+
+      <article class="card rv" data-cursor="hover" data-project="ssdc">
+        <div class="card__thumb" aria-hidden="true" style="background-image: url(./queenstown.jpeg);"></div>
+        <div class="card__mark"><span class="num">P.04</span><span>Facility Layout</span></div>
+        <h3>Safety Driving Centre, Layout Optimisation</h3>
+        <div class="card__role">Coursework · 2025</div>
+        <p class="card__short">Applied From-To Charts, REL Charts and activity relationship analysis to diagnose service-flow inefficiencies and propose an optimised layout.</p>
+        <div class="card__chips">
+          <span class="chip">Facility layout</span><span class="chip">From-To Charts</span>
+        </div>
+      </article>
+
+      <article class="card rv" data-cursor="hover" data-project="on">
+        <div class="card__thumb" aria-hidden="true" style="background-image: url(./ssdc.jpeg);"></div>
+        <div class="card__mark"><span class="num">P.05</span><span>Brand &amp; Market Entry</span></div>
+        <h3>On Running, Brand Audit &amp; Market Entry</h3>
+        <div class="card__role">Principles of Marketing · AY 2025/26</div>
+        <p class="card__short">Identified that On's premium positioning risked being squeezed between Hoka and Adidas. Built a Singapore entry strategy around run-club community activations.</p>
+        <div class="card__chips">
+          <span class="chip">Brand audit</span><span class="chip">Segmentation</span>
+        </div>
+      </article>
+
+      <article class="card rv" data-cursor="hover" data-project="karaoke">
+        <div class="card__thumb" aria-hidden="true" style="background-image: url(./on.jpeg);"></div>
+        <div class="card__mark"><span class="num">P.06</span><span>Product &amp; Brand Concept</span></div>
+        <h3>HaveFun Karaoke, Product &amp; Brand</h3>
+        <div class="card__role">Marketing Analysis &amp; Business Proposal · AY 2025/26</div>
+        <p class="card__short">Led product concept for a mid-market karaoke franchise in Clementi. Defined positioning, service tiers, and the guest-facing tech experience.</p>
+        <div class="card__chips">
+          <span class="chip">Product concept</span><span class="chip">Positioning</span>
+        </div>
+      </article>
+
+      <article class="card rv" data-cursor="hover" data-project="gopro">
+        <div class="card__thumb" aria-hidden="true" style="background-image: url(./karaoke.jpeg);"></div>
+        <div class="card__mark"><span class="num">P.07</span><span>Technology Strategy · Individual</span></div>
+        <h3>GoPro, Technology Strategy &amp; Disruption</h3>
+        <div class="card__role">Management of Technology · AY 2024/25</div>
+        <p class="card__short">Assessed GoPro's position against DJI, Insta360, and smartphones. Mapped the action-camera S-curve, stress-tested with disruptive-innovation theory, recommended an ecosystem play (UGC identity, services, B2B) to defend the high end.</p>
+        <div class="card__chips">
+          <span class="chip">Tech S-curves</span><span class="chip">Disruptive innovation</span>
+        </div>
+      </article>
+
+      <article class="card rv" data-cursor="hover" data-project="hover">
+        <div class="card__thumb" aria-hidden="true" style="background-image: url(./hover.png);"></div>
+        <div class="card__mark"><span class="num">P.08</span><span>Hardware · Team Lead</span></div>
+        <h3>RC Hovercraft, Horizontal Thrust Lead</h3>
+        <div class="card__role">Multi-team engineering build · 2024</div>
+        <p class="card__short">Led design, component selection, procurement and testing of the horizontal thrust subsystem, keeping the build within shared budget, weight, and power constraints.</p>
+        <div class="card__chips">
+          <span class="chip">Mechanical</span><span class="chip">Multi-team</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     04 WORK PROJECTS
+     ============================================================ -->
+<section class="blk" id="wproj">
+  <div class="wrap">
+    <div class="blk__head">
+      <span class="eyebrow rv"><span class="num">04</span>Work Projects</span>
+      <div>
+        <h2 class="rv">Owned end to end,<br><em>on the job.</em></h2>
+        <p class="rv" style="margin-top: 32px; max-width: 40em; font-family: var(--serif); font-size: 20px; color: var(--ink-dim); font-style: italic; line-height: 1.5">
+          Two projects where I ran the full arc, brief, sourcing, execution and handover, rather than a slice of it.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <article class="card rv" data-cursor="hover" data-project="mindef-redesign">
+        <div class="card__thumb card__thumb--logo" aria-hidden="true" style="background-image: url(./mindef-redesign.png);"></div>
+        <div class="card__mark"><span class="num">W.01</span><span>Workplace Design</span></div>
+        <h3>Lift &amp; Office-Level Redesign</h3>
+        <div class="card__role">MINDEF · sourcing to installation</div>
+        <p class="card__short">Took a signage refresh from brief to installed reality: noticeboard, infographic frames and lift-door designs. Sourced suppliers, approved production, oversaw install, signed off within budget and timeline.</p>
+        <div class="card__chips">
+          <span class="chip">Scoping</span><span class="chip">Sourcing</span><span class="chip">Install &amp; QA</span>
+        </div>
+      </article>
+
+      <article class="card rv" data-cursor="hover" data-project="philips-rfq">
+        <div class="card__thumb card__thumb--logo" aria-hidden="true" style="background-image: url(./philips-rfq.png);"></div>
+        <div class="card__mark"><span class="num">W.02</span><span>Procurement Programme</span></div>
+        <h3>Multi-Country RFQ &amp; Contract Delivery</h3>
+        <div class="card__role">Philips · 3 concurrent tenders</div>
+        <p class="card__short">Ran three concurrent RFQ processes across Vietnam-China, Indonesia and New Zealand end to end. Cost simulations, negotiations, contract administration, milestone tracking.</p>
+        <div class="card__chips">
+          <span class="chip">RFQ</span><span class="chip">Cost modelling</span><span class="chip">Multi-country</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     05 SKILLS
+     ============================================================ -->
+<section class="blk" id="skills">
+  <div class="wrap">
+    <div class="blk__head">
+      <span class="eyebrow rv"><span class="num">05</span>Skills &amp; Tools</span>
+      <h2 class="rv">The toolkit,<br><em>both sides of it.</em></h2>
+    </div>
+
+    <div class="skills">
+      <div class="skcol rv">
+        <h4>Analytical / Technical</h4>
+        <ul>
+          <li><span class="m">01</span>Excel &amp; data analysis</li>
+          <li><span class="m">02</span>Python, data cleaning</li>
+          <li><span class="m">03</span>FlexSim modelling</li>
+          <li><span class="m">04</span>Process improvement</li>
+          <li><span class="m">05</span>Cost analysis</li>
+          <li><span class="m">06</span>Facility layout (From-To, REL)</li>
+          <li><span class="m">07</span>AI-assisted development</li>
+        </ul>
+      </div>
+      <div class="skcol rv">
+        <h4>Creative / Brand</h4>
+        <ul>
+          <li><span class="m">01</span>Brand &amp; market analysis</li>
+          <li><span class="m">02</span>Consumer insights</li>
+          <li><span class="m">03</span>Positioning &amp; go-to-market</li>
+          <li><span class="m">04</span>Product &amp; concept development</li>
+          <li><span class="m">05</span>Visual design coordination</li>
+        </ul>
+      </div>
+      <div class="skcol rv">
+        <h4>Operations / People</h4>
+        <ul>
+          <li><span class="m">01</span>Project coordination</li>
+          <li><span class="m">02</span>Stakeholder management</li>
+          <li><span class="m">03</span>Vendor management</li>
+          <li><span class="m">04</span>Cross-functional collaboration</li>
+          <li><span class="m">05</span>Procurement &amp; supplier coordination</li>
+          <li><span class="m">06</span>Report writing</li>
+          <li><span class="m">07</span>Asana (self-taught)</li>
+          <li><span class="m">08</span>Certified Scrum Product Owner (in progress, Sept 2026)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     06 COMMUNITY
+     ============================================================ -->
+<section class="blk" id="community">
+  <div class="wrap">
+    <div class="blk__head">
+      <span class="eyebrow rv"><span class="num">06</span>Community</span>
+      <h2 class="rv">Time given to people,<br><em>not just work.</em></h2>
+    </div>
+
+    <div>
+      <div class="comm-row rv">
+        <span class="yr">2024</span>
+        <div>
+          <h4>TeachSG, NUS</h4>
+          <p>Mentored primary students at Yishun Primary School. Designed and ran lessons to lift learning engagement.</p>
+        </div>
+        <span class="tag">Mentoring</span>
+      </div>
+      <div class="comm-row rv">
+        <span class="yr">2024</span>
+        <div>
+          <h4>STEER Award</h4>
+          <p>Study Trips for Engagement and EnRichment. Two-week overseas programme in Chongqing &amp; Chengdu on renewable energy transition, with classroom sessions on solar, hydro and wind, plus an industry visit to HG Group (photovoltaic cell manufacturer) covering PV production and panel recycling through urban mining.</p>
+        </div>
+        <span class="tag">Award</span>
+      </div>
+      <div class="comm-row rv">
+        <span class="yr">2018</span>
+        <div>
+          <h4>Service-Learning, Catholic Junior College</h4>
+          <p>Partnered with the Singapore Association of Mental Health and a welfare organisation to run a programme for beneficiaries.</p>
+        </div>
+        <span class="tag">Volunteer</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="foot" id="contact">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div>
+        <h2 class="rv"><em>Let's</em><br>connect.</h2>
+        <p class="body-copy rv" style="max-width: 32em">
+          Open to project management, product management, and product development roles where structure and thoughtful execution have to coexist. Currently based in Singapore, happy to travel.
+        </p>
+      </div>
+      <div class="foot__contact rv">
+        <a href="mailto:danielchan0425@gmail.com" data-cursor="hover">
+          <span>danielchan0425@gmail.com</span><span class="l">Email</span>
+        </a>
+        <a href="https://www.linkedin.com/in/daniel-chan-8937b8211" target="_blank" rel="noopener" data-cursor="hover">
+          <span>LinkedIn</span><span class="l">Connect</span>
+        </a>
+        <a href="./Portfolio.pdf" target="_blank" rel="noopener" data-cursor="hover">
+          <span>Portfolio PDF</span><span class="l">Download</span>
+        </a>
+        <a href="./Sonder.html" target="_blank" rel="noopener" data-cursor="hover">
+          <span>SONDER, live concept</span><span class="l">View</span>
+        </a>
+        <a href="mailto:danielchan0425@gmail.com?subject=Request%3A%20NUS%20academic%20record" data-cursor="hover">
+          <span>NUS academic record</span><span class="l">On request</span>
+        </a>
+      </div>
+    </div>
+    <div class="foot__meta">
+      <span>© 2026 Daniel Chan</span>
+      <span>Portfolio v3</span>
+      <span>Singapore</span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /site -->
+
+<!-- ============================================================
+     MODAL (project detail overlay)
+     ============================================================ -->
+<div class="modal" id="modal" aria-hidden="true" role="dialog">
+  <div class="modal__panel" id="modalPanel">
+    <button class="modal__close" id="modalClose" data-cursor="hover">Close ×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// PROJECT DETAIL DATA — full case content for expanded views
+// ============================================================
+var PROJECTS = {
+  sonder: {
+    title: "SONDER, Eau de Parfum",
+    role: "Solo · Self-directed fragrance concept · 2026",
+    body: `<p>SONDER is a personal project, born out of my interest in fragrance and my chance to express the creative side of how I think.</p>
+<p>It started with a feeling I had noticed while travelling alone: the quiet awareness that everyone around me is carrying a whole life I will never see. A stranger passing by, a conversation overheard, a face disappearing into a crowd. Small fragments of lives that continue long after the moment ends. And through these moments of reflection, I learned to appreciate the small ones that pass by everyday.</p>
+<h4>The concept</h4>
+<p><strong>Liminality</strong>: three moments of transition, and one that lies beyond them. <strong>Wander</strong>, <strong>Alter</strong>, and <strong>Emergence</strong> are three compositions of the same idea, pointing at what was, the in-between, and what comes next. A fourth fragrance sits past the threshold, released separately.</p>
+<h4>What I built</h4>
+<ul>
+<li>Full brand: name, positioning, narrative, tone of voice</li>
+<li>Product architecture across three fragrances plus one that lies beyond them</li>
+<li>A live site built around scroll-driven storytelling. Visitors move through Wander, Alter, Emergence, then across the threshold, with an interactive quiz to help them find which passage they are in</li>
+<li>Every step from concept to live artefact, self-directed, no brief and no client</li>
+</ul>
+<h4>Takeaway</h4>
+<p>The live site is the deliverable. I wanted something I could point at rather than describe, and building it end to end was the most useful way I could find to practise brand thinking, product design, and execution in one place.</p>`,
+    link: { href: "./Sonder.html", label: "Open the live product page →" }
+  },
+  ndcs: {
+    title: "NDCS Surgery, Discrete-Event Simulation",
+    role: "Team of 5 · National Dental Centre Singapore · AY 2025/26",
+    body: `<p>Systems Design capstone with a real client, the Oral &amp; Maxillofacial Surgery department at National Dental Centre Singapore.</p>
+<h4>The problem</h4>
+<p>OMS runs a complex patient journey with re-entrant follow-up visits, cancellations and no-shows, and NDCS wanted to know whether its existing staffing and chair configuration was actually optimal or just historical.</p>
+<h4>What I did</h4>
+<ul>
+<li>Mapped the real scheduling process, distinct from the documented one, through weeks of on-site observation</li>
+<li>Built the FlexSim discrete-event model to mirror doctor and chair assignment logic, patient re-entry, and cancellation behaviour</li>
+<li>Validated the model against actual clinic data before running any experiments</li>
+<li>Ran a 15-scenario sensitivity analysis across ±20% staffing and capacity, identified the resource mix that minimised weighted appointment wait time</li>
+<li>Presented the recommendations to NDCS supervisors</li>
+</ul>
+<h4>Takeaway</h4>
+<p>The value of taking time to properly map, build and validate the model, but also staying ready when reality does not match the plan. Documented flows only get you so far. The real project sat in the gap between the process on paper and the process in practice, and in the willingness to rebuild parts of the model when something did not behave the way we expected.</p>`
+  },
+  queenstown: {
+    title: "Queenstown Liveability Study",
+    role: "Team of 6, led · AY 2024/25",
+    body: `<p>An open-ended studio brief on one of Singapore's oldest satellite towns. Our team was asked to identify a major issue and design a response. I narrowed the scope: elderly accessibility and walkability across institutional and residential nodes, and led the team through the arc from research to concept.</p>
+<h4>What I owned</h4>
+<ul>
+<li>Delegated workstreams and timelines across a 6-person team</li>
+<li>Shaped the "Healthy Healthcare Hub" problem statement and vision from group research</li>
+<li>Proposed accessibility-focused design interventions for elderly residents</li>
+<li>Designed all the final visual deliverables: systems map, stakeholder analysis, concept boards</li>
+</ul>
+<h4>Takeaway</h4>
+<p>Running a team of six through an ambiguous, open-ended brief taught me more about leading a project than any framework did. The hardest part was not the analysis. It was choosing what not to work on, keeping the team focused, and making sure each workstream still lined up with the same story at the end.</p>`
+  },
+  ssdc: {
+    title: "Safety Driving Centre, Layout Optimisation",
+    role: "Coursework · 2025",
+    body: `<p>Coursework project applying facility layout methods to a real service business, the Singapore Safety Driving Centre.</p>
+<h4>What I did</h4>
+<ul>
+<li>Applied From-To Charts and REL (relationship) Charts to diagnose service-flow and space-utilization inefficiencies</li>
+<li>Ran activity relationship analysis to identify high-friction adjacencies</li>
+<li>Proposed an optimised layout and staffing plan aimed at increasing throughput without adding footprint</li>
+</ul>
+<h4>Takeaway</h4>
+<p>A useful reminder that the classical industrial engineering toolkit, From-To Charts, REL charts, activity relationship analysis, still holds up when applied to a real service business rather than a textbook example. Small piece, but the discipline of measuring before proposing changes stays with me.</p>`
+  },
+  on: {
+    title: "On Running, Brand Audit &amp; Market Entry",
+    role: "Principles of Marketing, Individual · AY 2025/26",
+    body: `<p>Independent brand audit and Singapore market-entry strategy for On (Cloud), the Swiss running brand.</p>
+<h4>The read</h4>
+<p>On's premium positioning risked being squeezed between Hoka's comfort niche and Adidas's price reach in Singapore. Rather than fighting either flank, I defined an underserved "urban professional" segment that valued design and lifestyle over hardcore performance.</p>
+<h4>The bet</h4>
+<p>Built the entry strategy around <strong>run-club community activations</strong> rather than paid media, betting that community would hold customers longer than advertising could. Community over acquisition, retention over reach.</p>
+<h4>Deliverables</h4>
+<ul>
+<li>SWOT and marketing mix audit against Hoka and Adidas</li>
+<li>Defined and justified the "urban professional" target segment</li>
+<li>Full go-to-market strategy: lifestyle storytelling, sustainability messaging, community activations</li>
+</ul>`
+  },
+  karaoke: {
+    title: "HaveFun Karaoke, Product &amp; Brand",
+    role: "Marketing Analysis &amp; Business Proposal · AY 2025/26",
+    body: `<p>Team business proposal for a proposed mid-market karaoke franchise in Clementi. I led the product concept.</p>
+<h4>What I defined</h4>
+<ul>
+<li>Brand positioning: <em>"Sing West, Sing Best"</em>, mid-market between the KTV giants and no-frills booths</li>
+<li>Service tiers and the guest-facing tech experience: AI-assisted pitch correction, QR self-service booking, cashless payment</li>
+<li>Site-selection rationale for the Clementi location</li>
+</ul>
+<h4>Takeaway</h4>
+<p>The exercise of moving from consumer insight to a defensible product concept, where brand voice, service tiers and the technology stack all had to make sense together. Working with a group also meant negotiating over what the concept was actually about before we could design any of it.</p>`
+  },
+  gopro: {
+    title: "GoPro, Technology Strategy &amp; Disruption",
+    role: "Team · Management of Technology · AY 2024/25",
+    body: `<p>A strategic analysis of GoPro's position in a market being squeezed from three sides: DJI on the aerial and gimbal front, Insta360 on the 360-degree and consumer-immersive front, and smartphones on the "good enough" convenience front.</p>
+<h4>The framework</h4>
+<p>Mapped the action-camera product category along the classic S-curve: introduction, growth, maturity. Stress-tested GoPro's incumbency against Christensen's disruptive-innovation theory to identify where the company was genuinely exposed (low-end substitution) versus where it still had defensible ground (professional and extreme-sports niches).</p>
+<h4>What I recommended</h4>
+<ul>
+<li>An ecosystem play, not another camera cycle: content-creator identity (UGC and community), services (editing, cloud, subscription), and B2B (sports leagues, media production)</li>
+<li>Software-led differentiation over hardware specs, since specs no longer separate GoPro from a modern smartphone</li>
+<li>Brand-led play defending the high-end market rather than chasing volume down-market</li>
+</ul>
+<h4>Takeaway</h4>
+<p>Working through strategic frameworks like S-curves, competitive positioning and disruptive innovation on a real, active company rather than a case study. Sharpened how I read a market, and gave me a language for talking about where a product actually sits and where it could go next.</p>`
+  },
+    hover: {
+    title: "RC Hovercraft, Horizontal Thrust Team Lead",
+    role: "Multi-team engineering build · 2024",
+    body: `<p>Design-build coursework: a remote-controlled hovercraft carrying a 300g payload at 1m/s while manoeuvring around obstacles. Four subsystems, four teams. I led Horizontal Thrust.</p>
+<h4>What I owned</h4>
+<ul>
+<li>Designed and tested the horizontal thrust components against speed and obstacle-avoidance targets</li>
+<li>Selected and sourced components to build the thrusters within shared budget, weight and power constraints</li>
+<li>Set internal milestones aligned to the other teams' dependencies</li>
+<li>Flagged trade-offs early and kept communication open with the other team leads to prevent downstream blockers</li>
+</ul>
+<h4>Takeaway</h4>
+<p>The value of testing early and planning around the trade-offs that emerged between our subsystem and the others. Each team, platform, electrical, vertical lift, horizontal thrust, had its own constraints, and I spent a lot of the project figuring out which of our targets to push and which to concede so the main goal, keeping the craft carrying its payload and manoeuvrable, still held.</p>`
+  },
+  "mindef-redesign": {
+    title: "Lift &amp; Office-Level Redesign",
+    role: "MINDEF, Medical Corps · sourcing to installation",
+    body: `<p>A signage and workplace design brief I took from scoping to installed reality alongside my regular duties.</p>
+<h4>The arc</h4>
+<ul>
+<li><strong>Scoping</strong> the work with different department heads: a noticeboard, infographic and poster frames, and lift-door designs</li>
+<li><strong>Supplier sourcing</strong>: identifying vendors, briefing them, managing quotes and specifications within procurement constraints</li>
+<li><strong>Production coordination</strong>: reviewing and approving design and layout drafts across multiple suppliers</li>
+<li><strong>Installation and handover</strong>: coordinating on-site install, verifying quality and placement, signing off within budget and timeline</li>
+</ul>
+<h4>Scale</h4>
+<p><strong>11 acrylic posters and 2 lift-door stickers</strong>, delivered under a <strong>$1,000 budget within 2 months</strong>, across 4 offices.</p>
+<h4>Takeaway</h4>
+<p>The closest thing I've done to agency creative-production coordination: brief, vendor, print, install, sign-off.</p>`
+  },
+  "philips-rfq": {
+    title: "Multi-Country RFQ &amp; Contract Delivery",
+    role: "Philips Pte Ltd · 3 concurrent tenders",
+    body: `<p>Six months of my Philips internship spent running three concurrent procurement tenders end to end.</p>
+<h4>The programme</h4>
+<ul>
+<li><strong>3 separate tenders</strong> across Vietnam-China, Indonesia and New Zealand</li>
+<li><strong>5 pricing configurations</strong> evaluated per tender for shortlisted suppliers</li>
+<li>Cross-functional coordination with Quality, Legal, Business and Procurement teams</li>
+</ul>
+<h4>The result</h4>
+<p>Negotiated a warehousing rate <strong>~40% below competing offers</strong> on the Vietnam-China tender by benchmarking and evaluating supplier proposals through Excel-based cost simulations. Kept all three projects audit-ready and on schedule through the end of the internship.</p>
+<h4>Takeaway</h4>
+<p>The commercial and coordination side of project work: real money on the table, real stakeholders, real audit trail.</p>`
+  }
+};
+
+// ============================================================
+// LOADER (v8): canvas network effect + progress bar (no counter)
+// ============================================================
+(function(){
+  var loader = document.getElementById('loader');
+  var msg = document.getElementById('loaderMsg');
+  var canvas = document.getElementById('loaderCanvas');
+  if (!loader) return;
+
+  // skip loader on reduced motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    document.body.classList.add('ready');
+    loader.classList.add('done');
+    return;
+  }
+
+  // ---- Canvas network animation ----
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  function resize(){
+    canvas.width = canvas.offsetWidth * dpr;
+    canvas.height = canvas.offsetHeight * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  addEventListener('resize', resize, { passive: true });
+
+  var w = canvas.offsetWidth, h = canvas.offsetHeight;
+  var cx = w/2, cy = h/2;
+  var radius = Math.min(w, h) * 0.28;
+  var N = 80;
+  var nodes = [];
+  for (var i = 0; i < N; i++){
+    var a = Math.random() * Math.PI * 2;
+    var r = radius * Math.pow(Math.random(), 0.5);
+    nodes.push({
+      x: cx + Math.cos(a) * r,
+      y: cy + Math.sin(a) * r,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      red: Math.random() < 0.1,
+    });
+  }
+  var startNet = performance.now();
+  var netRunning = true;
+
+  function drawNet(){
+    if (!netRunning) return;
+    w = canvas.offsetWidth; h = canvas.offsetHeight;
+    cx = w/2; cy = h/2;
+    ctx.clearRect(0, 0, w, h);
+
+    // update nodes with slight orbital pull toward center
+    for (var i = 0; i < N; i++){
+      var n = nodes[i];
+      n.x += n.vx;
+      n.y += n.vy;
+      // gentle pull toward center to keep cluster form
+      var dx = n.x - cx, dy = n.y - cy;
+      var dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist > radius){
+        var pull = (dist - radius) * 0.002;
+        n.vx -= (dx/dist) * pull;
+        n.vy -= (dy/dist) * pull;
+      }
+      // damping
+      n.vx *= 0.985; n.vy *= 0.985;
+    }
+
+    // draw connections
+    ctx.strokeStyle = 'rgba(235, 230, 220, 0.42)';
+    ctx.lineWidth = 0.5;
+    for (var i = 0; i < N; i++){
+      for (var j = i+1; j < N; j++){
+        var a = nodes[i], b = nodes[j];
+        var dd = Math.sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y));
+        if (dd < 60){
+          ctx.globalAlpha = 1 - (dd / 60);
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+    ctx.globalAlpha = 1;
+
+    // draw nodes
+    for (var i = 0; i < N; i++){
+      var n = nodes[i];
+      ctx.fillStyle = n.red ? '#c9302c' : 'rgba(235, 230, 220, 0.7)';
+      ctx.fillRect(n.x - 1.5, n.y - 1.5, 3, 3);
+    }
+
+    requestAnimationFrame(drawNet);
+  }
+  requestAnimationFrame(drawNet);
+
+  // ---- Progress bar + message rotation, decoupled from network ----
+  var messages = [
+    { at: 0,   text: 'Initialising' },
+    { at: 15,  text: 'Loading typography' },
+    { at: 32,  text: 'Composing layout' },
+    { at: 50,  text: 'Preparing case studies' },
+    { at: 72,  text: 'Aligning grid' },
+    { at: 92,  text: 'Finalising' },
+    { at: 100, text: 'Ready' }
+  ];
+  var stops = [10, 25, 45, 65, 85, 100];
+  var start = performance.now();
+  var duration = 2200;
+
+  function step(now){
+    var t = Math.min((now - start) / duration, 1);
+    var eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    var pct = Math.floor(eased * 100);
+
+    for (var k = stops.length - 1; k >= 0; k--){
+      if (pct >= stops[k]){
+        loader.classList.remove('p10','p25','p45','p65','p85','p100');
+        loader.classList.add('p' + stops[k]);
+        break;
+      }
+    }
+    for (var m = messages.length - 1; m >= 0; m--){
+      if (pct >= messages[m].at){ msg.textContent = messages[m].text; break; }
+    }
+
+    if (t < 1){
+      requestAnimationFrame(step);
+    } else {
+      setTimeout(function(){
+        document.body.classList.add('ready');
+        loader.classList.add('done');
+        // stop the network raf loop to free CPU
+        netRunning = false;
+      }, 300);
+    }
+  }
+  requestAnimationFrame(step);
+})();
+
+// ============================================================
+// SCROLL REVEAL — single IntersectionObserver
+// ============================================================
+(function(){
+  var els = document.querySelectorAll('.rv');
+  if (!('IntersectionObserver' in window)){
+    els.forEach(function(e){ e.classList.add('in'); }); return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+  els.forEach(function(e){ io.observe(e); });
+})();
+
+// ============================================================
+// SCROLL PROGRESS BAR + ACTIVE NAV
+// ============================================================
+(function(){
+  var bar = document.getElementById('progBar');
+  var links = document.querySelectorAll('.nav__links a');
+  var sections = ['top','intro','work','school','wproj','skills','community','contact']
+    .map(function(id){ return document.getElementById(id); }).filter(Boolean);
+
+  var ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      var h = document.documentElement;
+      var pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
+      if (bar) bar.style.setProperty('--w', (pct*100)+'%');
+      if (bar) bar.querySelector ? null : null; // noop
+      // update bar pseudo through inline style on ::after via CSS var
+      if (bar){
+        // fallback: set width via inline via ::after? Simpler: directly resize child.
+      }
+      // We manipulate the pseudo via inline style on a virtual child; simpler approach:
+      // Add a real inner span instead.
+      ticking = false;
+    });
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+})();
+
+// simpler approach for progress bar: real inner span
+(function(){
+  var bar = document.getElementById('progBar');
+  if (!bar) return;
+  var inner = document.createElement('span');
+  inner.style.cssText = 'display:block;height:100%;width:0%;background:var(--accent);will-change:width';
+  bar.appendChild(inner);
+  var ticking = false;
+  addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      var h = document.documentElement;
+      var pct = (h.scrollTop) / Math.max(1, (h.scrollHeight - h.clientHeight));
+      inner.style.width = (Math.max(0, Math.min(1, pct)) * 100) + '%';
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
+// active nav link
+(function(){
+  var links = Array.from(document.querySelectorAll('.nav__links a'));
+  var map = {};
+  links.forEach(function(a){
+    var id = a.getAttribute('href').replace('#','');
+    var s = document.getElementById(id);
+    if (s) map[id] = { link: a, section: s };
+  });
+  var ids = Object.keys(map);
+  addEventListener('scroll', function(){
+    var y = window.scrollY + window.innerHeight * 0.3;
+    var current = null;
+    ids.forEach(function(id){
+      var s = map[id].section;
+      if (s.offsetTop <= y) current = id;
+    });
+    ids.forEach(function(id){
+      map[id].link.classList.toggle('active', id === current);
+    });
+  }, { passive: true });
+})();
+
+// ============================================================
+// PROJECT MODAL — click card to expand
+// ============================================================
+(function(){
+  var modal = document.getElementById('modal');
+  var panel = document.getElementById('modalPanel');
+  var content = document.getElementById('modalContent');
+  var closeBtn = document.getElementById('modalClose');
+  if (!modal) return;
+
+  function open(key){
+    var p = PROJECTS[key];
+    if (!p) return;
+    var link = p.link ? '<a href="'+p.link.href+'" target="_blank" rel="noopener" class="modal__link">'+p.link.label+'</a>' : '';
+    content.innerHTML =
+      '<div class="feature__mark" style="margin-bottom:16px">Project detail</div>' +
+      '<h3>'+p.title+'</h3>' +
+      '<div class="modal__role">'+p.role+'</div>' +
+      '<div class="modal__body">'+p.body+link+'</div>';
+    modal.classList.add('open');
+    document.body.classList.add('modal-open');
+    // scroll modal panel back to top so the top of content is visible
+    modal.scrollTop = 0;
+    // Focus close without triggering browser scroll
+    closeBtn.focus({ preventScroll: true });
+  }
+  function close(){
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+  }
+
+  document.querySelectorAll('.card[data-project]').forEach(function(c){
+    c.addEventListener('click', function(e){
+      // don't intercept if a nested link was clicked (Sonder card removed its inline link, but future-proof)
+      if (e.target.closest('a')) return;
+      open(c.dataset.project);
+    });
+  });
+
+  closeBtn.addEventListener('click', close);
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) close();
+  });
+  addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('open')) close();
+  });
+})();
+
+// ============================================================
+// V6: WORD-WRAP SECTION HEADINGS for stagger reveal
+// ============================================================
+(function(){
+  var h2s = document.querySelectorAll('.blk h2, .foot h2');
+  h2s.forEach(function(h2){
+    // Preserve <br> and <em> structure — walk child nodes, wrap text words
+    var walker = document.createTreeWalker(h2, NodeFilter.SHOW_TEXT, null, false);
+    var nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function(node){
+      var text = node.nodeValue;
+      var frag = document.createDocumentFragment();
+      // split on whitespace, keep spaces as separate text nodes
+      var parts = text.split(/(\s+)/);
+      parts.forEach(function(part){
+        if (/^\s+$/.test(part)){
+          frag.appendChild(document.createTextNode(part));
+        } else if (part.length){
+          var span = document.createElement('span');
+          span.className = 'rev-word';
+          span.textContent = part;
+          frag.appendChild(span);
+        }
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+  });
+  // Trigger via existing IntersectionObserver: mark h2 with .in when visible
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
+  h2s.forEach(function(h){ io.observe(h); });
+})();
+
+// ============================================================
+// V6: MAGNETIC CURSOR — links and cards lean toward pointer
+// ============================================================
+(function(){
+  if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  // Apply magnetic effect to nav links, footer contact links, cards, section chips
+  var targets = document.querySelectorAll('.nav__links a, .foot__contact a, .card, .card__link, .stat, .comm-row');
+  targets.forEach(function(el){
+    el.classList.add('mag');
+    var strength = el.classList.contains('card') ? 0.08 : (el.classList.contains('stat') ? 0.06 : 0.25);
+    el.addEventListener('mousemove', function(e){
+      var r = el.getBoundingClientRect();
+      var x = e.clientX - (r.left + r.width/2);
+      var y = e.clientY - (r.top + r.height/2);
+      el.style.transform = 'translate3d(' + (x*strength) + 'px,' + (y*strength) + 'px,0)';
+    }, { passive: true });
+    el.addEventListener('mouseleave', function(){
+      el.style.transform = '';
+    }, { passive: true });
+  });
+})();
+
+// ============================================================
+// V6: STAT COUNTERS — animate numbers from 0 when in view
+// ============================================================
+(function(){
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var stats = document.querySelectorAll('.stat__n');
+  if (!stats.length) return;
+
+  function parseTarget(text){
+    // Extract the numeric part, keep prefix (~) and suffix (%, M, etc.)
+    var m = text.match(/^(~)?([\d.,]+)(.*)$/);
+    if (!m) return null;
+    return { prefix: m[1] || '', num: parseFloat(m[2].replace(/,/g, '')), suffix: m[3] || '', decimals: (m[2].split('.')[1]||'').length };
+  }
+
+  function animate(el){
+    var target = parseTarget(el.textContent.trim());
+    if (!target || isNaN(target.num)) return;
+
+    var duration = 1200;
+    var start = performance.now();
+    var startVal = 0;
+
+    el.classList.add('counting');
+    function step(now){
+      var t = Math.min((now - start) / duration, 1);
+      // easeOutCubic
+      var eased = 1 - Math.pow(1 - t, 3);
+      var val = startVal + (target.num - startVal) * eased;
+      var formatted = target.decimals > 0
+        ? val.toFixed(target.decimals)
+        : Math.round(val).toLocaleString();
+      el.textContent = target.prefix + formatted + target.suffix;
+      if (t < 1) requestAnimationFrame(step);
+      else{
+        el.textContent = target.prefix + (target.decimals > 0 ? target.num.toFixed(target.decimals) : target.num.toLocaleString()) + target.suffix;
+        el.classList.remove('counting');
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){
+        animate(en.target);
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  stats.forEach(function(s){
+    // Only animate if it looks numeric-ish; skip anything with commas/dashes in original
+    if (/[\d]/.test(s.textContent)) io.observe(s);
+  });
+})();
+
+// ============================================================
+// V6: HORIZONTAL-SCROLL TRACK — reveal cards + gentle wheel-to-x hint
+// ============================================================
+(function(){
+  var track = document.querySelector('.hs-track');
+  if (!track) return;
+
+  // Reveal on entry
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.15 });
+  io.observe(track);
+
+  // Optional: subtle wheel-to-horizontal hint on desktop — but only when user
+  // is scrolling horizontally OR when track is focused. We do NOT intercept
+  // vertical wheel scroll (that breaks navigation). Users scroll horizontally
+  // by dragging the scrollbar, using shift+wheel, or trackpad two-finger swipe.
+})();
+
+
+// ============================================================
+// V8: FULL-SITE BACKGROUND — drifting terminal commands + cursor connect
+// ============================================================
+(function(){
+  // Skip on mobile / reduced-motion
+  if (window.matchMedia('(max-width: 720px)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var canvas = document.getElementById('bgCanvas');
+  var toggle = document.getElementById('bgToggle');
+  if (!canvas || !toggle) return;
+
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  var w, h;
+  function resize(){
+    w = canvas.width  = window.innerWidth  * dpr;
+    h = canvas.height = window.innerHeight * dpr;
+    canvas.style.width  = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  addEventListener('resize', resize, { passive: true });
+
+  var VW = function(){ return window.innerWidth; };
+  var VH = function(){ return window.innerHeight; };
+
+  // Terminal-flavoured commands (kept generic + programmer-adjacent)
+  var COMMANDS = [
+    'docker-compose up', 'ssh user@host', 'terraform apply',
+    'kubectl get pods', 'git push origin main', 'npm run build',
+    'python analyse.py', 'grep -r "TODO"', 'curl -X POST /api',
+    'ls -la ~/projects', 'ffmpeg -i input.mp4', 'make deploy',
+    'brew install', 'sudo systemctl restart', 'tail -f error.log',
+    'ping 8.8.8.8', 'cd ~/portfolio', 'awk \'{print $1}\'',
+    'sed s/foo/bar/g', 'ps aux | head', 'chmod +x run.sh',
+    'jq . data.json', 'find . -name "*.md"',
+  ];
+
+  // Create drifting label objects
+  var labels = [];
+  var N = 14; // keep low — legibility over density
+  for (var i = 0; i < N; i++){
+    labels.push({
+      text: COMMANDS[i % COMMANDS.length],
+      x: Math.random() * VW(),
+      y: Math.random() * VH(),
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+    });
+  }
+
+  var mouseX = -9999, mouseY = -9999;
+  addEventListener('mousemove', function(e){
+    mouseX = e.clientX; mouseY = e.clientY;
+  }, { passive: true });
+  addEventListener('mouseleave', function(){
+    mouseX = -9999; mouseY = -9999;
+  });
+
+  var CONNECT_RADIUS = 220;   // px — cursor proximity to activate connections
+  var running = true;
+  var toggleOff = false;
+  function loop(){
+    if (!running || toggleOff){ requestAnimationFrame(loop); return; }
+    ctx.clearRect(0, 0, VW(), VH());
+
+    // Update positions
+    var vw = VW(), vh = VH();
+    for (var i = 0; i < labels.length; i++){
+      var L = labels[i];
+      L.x += L.vx;
+      L.y += L.vy;
+      // wrap-around edges instead of bouncing (gentler)
+      if (L.x < -100) L.x = vw + 50;
+      if (L.x > vw + 100) L.x = -50;
+      if (L.y < -30) L.y = vh + 20;
+      if (L.y > vh + 30) L.y = -20;
+    }
+
+    // Compute which labels are near the cursor
+    var near = [];
+    for (var i = 0; i < labels.length; i++){
+      var L = labels[i];
+      var dx = L.x - mouseX, dy = L.y - mouseY;
+      var d = Math.sqrt(dx*dx + dy*dy);
+      if (d < CONNECT_RADIUS) near.push({ L: L, d: d });
+    }
+
+    // Draw red connection lines from cursor to each nearby label,
+    // and between nearby labels themselves
+    if (near.length){
+      ctx.lineWidth = 1.4;
+      // cursor -> label
+      for (var i = 0; i < near.length; i++){
+        var alpha = 1 - (near[i].d / CONNECT_RADIUS);
+        ctx.strokeStyle = 'rgba(220, 60, 50, ' + (alpha * 0.95) + ')';
+        ctx.beginPath();
+        ctx.moveTo(mouseX, mouseY);
+        ctx.lineTo(near[i].L.x, near[i].L.y);
+        ctx.stroke();
+      }
+      // label -> label (all near-pairs)
+      for (var i = 0; i < near.length; i++){
+        for (var j = i+1; j < near.length; j++){
+          var a = near[i].L, b = near[j].L;
+          var pd = Math.sqrt((a.x-b.x)*(a.x-b.x) + (a.y-b.y)*(a.y-b.y));
+          if (pd < CONNECT_RADIUS){
+            var alpha2 = 1 - (pd / CONNECT_RADIUS);
+            ctx.strokeStyle = 'rgba(220, 60, 50, ' + (alpha2 * 0.75) + ')';
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    // Draw labels — subdued, so page content dominates
+    ctx.font = '13px "JetBrains Mono", "SF Mono", monospace';
+    for (var i = 0; i < labels.length; i++){
+      var L = labels[i];
+      // check if near cursor for slight color lift
+      var lifted = false;
+      for (var k = 0; k < near.length; k++){ if (near[k].L === L) { lifted = true; break; } }
+      ctx.fillStyle = lifted ? 'rgba(235, 230, 220, 0.85)' : 'rgba(162, 156, 143, 0.4)';
+      ctx.fillText(L.text, L.x, L.y);
+    }
+
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // Toggle handler — respect saved preference
+  try{
+    var saved = localStorage.getItem('bg-off');
+    if (saved === '1'){ document.body.classList.add('bg-off'); toggleOff = true; }
+  } catch(e){}
+
+  toggle.addEventListener('click', function(){
+    toggleOff = !toggleOff;
+    document.body.classList.toggle('bg-off', toggleOff);
+    try{ localStorage.setItem('bg-off', toggleOff ? '1' : '0'); } catch(e){}
+    if (!toggleOff){
+      ctx.clearRect(0, 0, VW(), VH());
+    }
+  });
+})();
+
+// ============================================================
+// V9: INTRO OVERLAY — particle text with cursor push/pull
+// Sequence: loader dismisses -> intro shows -> click/scroll -> intro dismisses
+// ============================================================
+(function(){
+  var intro = document.getElementById('intro');
+  var canvas = document.getElementById('introCanvas');
+  if (!intro || !canvas) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    // Skip intro entirely — reduced motion users go straight to site
+    return;
+  }
+
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var w, h;
+  var particles = [];
+  var mouseX = -9999, mouseY = -9999;
+  var running = false;
+  var rafId = null;
+
+  function resize(){
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  // Sample text pixels using offscreen canvas
+  function buildParticles(){
+    var off = document.createElement('canvas');
+    off.width = w; off.height = h;
+    var octx = off.getContext('2d');
+    octx.fillStyle = '#fff';
+    octx.textAlign = 'center';
+    // Use alphabetic baseline for accurate typographic positioning
+    octx.textBaseline = 'alphabetic';
+    // Fit text within 82% of viewport width — measure first, then size
+    var maxTextW = w * 0.82;
+    var fs = Math.min(w * 0.085, 110);
+    octx.font = '500 ' + fs + 'px "Fraunces", Georgia, serif';
+    while (octx.measureText("Daniel's Portfolio").width > maxTextW && fs > 24){
+      fs -= 2;
+      octx.font = '500 ' + fs + 'px "Fraunces", Georgia, serif';
+    }
+    // Position baseline below vertical center so ascenders (D, P) get full clearance above.
+    // Ascenders extend ~0.72 * fs upward from baseline; total glyph height ~1.1 * fs.
+    // Center the glyph body: baseline goes at h/2 + fs*0.32
+    var baselineY = h/2 + fs * 0.32;
+    octx.fillText("Daniel's Portfolio", w/2, baselineY);
+    var data = octx.getImageData(0, 0, w, h).data;
+
+    particles = [];
+    // Sample every 4th pixel for particle density
+    var step = w < 900 ? 6 : 4;
+    for (var y = 0; y < h; y += step){
+      for (var x = 0; x < w; x += step){
+        var idx = (y * w + x) * 4;
+        if (data[idx + 3] > 128){
+          particles.push({
+            x: x + (Math.random() - 0.5) * 20,
+            y: y + (Math.random() - 0.5) * 20,
+            ox: x,
+            oy: y,
+            vx: 0, vy: 0,
+          });
+        }
+      }
+    }
+  }
+
+  var PUSH_RADIUS = 90;
+  var PUSH_FORCE = 0.35;
+  var SPRING = 0.06;
+  var DAMPING = 0.86;
+
+  function tick(){
+    if (!running){ rafId = null; return; }
+    ctx.clearRect(0, 0, w, h);
+
+    var muted = 'rgba(235, 230, 220, 0.6)';
+    var lifted = 'rgba(235, 230, 220, 0.95)';
+
+    for (var i = 0; i < particles.length; i++){
+      var p = particles[i];
+
+      // Cursor push force
+      var dx = p.x - mouseX;
+      var dy = p.y - mouseY;
+      var d = Math.sqrt(dx*dx + dy*dy);
+      if (d < PUSH_RADIUS && d > 0){
+        var f = (PUSH_RADIUS - d) / PUSH_RADIUS;
+        p.vx += (dx / d) * f * PUSH_FORCE;
+        p.vy += (dy / d) * f * PUSH_FORCE;
+      }
+
+      // Spring back to origin
+      p.vx += (p.ox - p.x) * SPRING;
+      p.vy += (p.oy - p.y) * SPRING;
+
+      p.vx *= DAMPING;
+      p.vy *= DAMPING;
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // color: lifted if being pushed hard
+      var pushed = Math.abs(p.x - p.ox) + Math.abs(p.y - p.oy) > 6;
+      ctx.fillStyle = pushed ? lifted : muted;
+      ctx.fillRect(p.x, p.y, 1.6, 1.6);
+    }
+
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function start(){
+    resize();
+    buildParticles();
+    running = true;
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  }
+  function stop(){
+    running = false;
+    if (rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    ctx.clearRect(0, 0, w, h);
+    particles = [];
+  }
+
+  // ---- Wire to loader lifecycle ----
+  // Watch for body.ready (set by loader when it dismisses)
+  function whenReady(fn){
+    if (document.body.classList.contains('ready')) return fn();
+    var obs = new MutationObserver(function(){
+      if (document.body.classList.contains('ready')){ obs.disconnect(); fn(); }
+    });
+    obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  whenReady(function(){
+    // Small delay after loader clears so it feels sequential
+    setTimeout(function(){
+      intro.classList.add('show');
+      // Ensure canvas has correct size at reveal moment
+      requestAnimationFrame(function(){
+        start();
+        // Lock the site content behind intro until dismissed
+        document.body.classList.add('intro-active');
+      });
+    }, 200);
+  });
+
+  addEventListener('mousemove', function(e){
+    mouseX = e.clientX; mouseY = e.clientY;
+  }, { passive: true });
+
+  // Dismiss on click or first scroll
+  function dismiss(){
+    if (!intro.classList.contains('show')) return;
+    intro.classList.remove('show');
+    intro.classList.add('dismiss');
+    document.body.classList.remove('intro-active');
+    setTimeout(function(){
+      stop();
+      intro.style.pointerEvents = 'none';
+    }, 900);
+  }
+  intro.addEventListener('click', dismiss);
+  intro.addEventListener('touchend', dismiss);
+  addEventListener('wheel', function(){ dismiss(); }, { passive: true, once: true });
+  addEventListener('keydown', function(e){
+    if (['Enter','Escape',' ','ArrowDown'].indexOf(e.key) !== -1) dismiss();
+  });
+
+  addEventListener('resize', function(){
+    if (running){
+      resize(); buildParticles();
+    }
+  }, { passive: true });
+})();
+
+// Prevent body scroll while intro is up
+(function(){
+  var style = document.createElement('style');
+  style.textContent = 'body.intro-active{overflow:hidden}';
+  document.head.appendChild(style);
+})();
+
+// V11.1: Back to top button
+(function(){
+  var btn = document.getElementById('backToTop');
+  if (!btn) return;
+  var ticking = false;
+  addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      btn.classList.toggle('show', window.scrollY > window.innerHeight * 0.7);
+      ticking = false;
+    });
+  }, { passive: true });
+  btn.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+<button id="backToTop" aria-label="Back to top">↑</button>
+</body>
+</html>
