@@ -1132,20 +1132,28 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
 /* Horizontal facts strip below */
 .facts-strip{
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   padding: 28px 0;
 }
+@media (max-width: 1200px){
+  .facts-strip{grid-template-columns: repeat(3, 1fr); gap: 32px 0; border-right: 0}
+  .fact-h:nth-child(3n){border-right: none}
+}
 @media (max-width: 900px){
-  .facts-strip{grid-template-columns: repeat(2, 1fr); gap: 24px 0}
+  .facts-strip{grid-template-columns: repeat(2, 1fr)}
+  .fact-h:nth-child(2n){border-right: none}
+}
+@media (max-width: 560px){
+  .facts-strip{grid-template-columns: 1fr}
 }
 @media (max-width: 560px){
   .facts-strip{grid-template-columns: 1fr}
 }
 .fact-h{
-  padding: 0 24px;
+  padding: 0 18px;
   border-right: 1px solid var(--line);
 }
 .fact-h:last-child{border-right: none}
@@ -1184,6 +1192,19 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
 #backToTop:hover{color: var(--accent); border-color: var(--accent); transform: translateY(-3px)}
 @media (max-width: 720px){
   #backToTop{bottom: 20px; right: 20px; width: 40px; height: 40px}
+}
+
+/* V11.3: Certification link in facts strip */
+.fact__link{
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.fact__link:hover{
+  color: var(--accent);
+  border-color: var(--ink);
 }
 </style>
 </head>
@@ -1263,9 +1284,6 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
         <p class="intro__lead rv" style="margin-bottom: 20px">
           I'm looking to build a career across <strong>project management, product management, and product development</strong>, where structure and creativity can work together to turn an idea into something real.
         </p>
-        <p class="intro__lead rv" style="font-style: italic; color: var(--ink-dim)">
-          Give me a messy problem with real constraints and a human on the other end of it: I'll scope it, structure it, and make it land.
-        </p>
       </div>
     </div>
 
@@ -1274,6 +1292,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
       <div class="fact-h"><div class="fact__k">Degree</div><div class="fact__v">B.Eng (Hons)<small>Industrial &amp; Systems Eng., NUS</small></div></div>
       <div class="fact-h"><div class="fact__k">Focus</div><div class="fact__v">Supply Chain<small>+ Management of Technology (minor)</small></div></div>
       <div class="fact-h"><div class="fact__k">GPA</div><div class="fact__v">4.11 / 5.0<small>Second Class Upper equivalent</small></div></div>
+      <div class="fact-h"><div class="fact__k">Certification</div><div class="fact__v"><a class="fact__link" href="https://certification.scrumalliance.org/accounts/1846298/certifications/2213629" target="_blank" rel="noopener">CSPO</a><small>Scrum Alliance, Sept 2026</small></div></div>
       <div class="fact-h"><div class="fact__k">Targeting</div><div class="fact__v">Project Management<small>Product mgmt · Product dev</small></div></div>
       <div class="fact-h"><div class="fact__k">Award</div><div class="fact__v">STEER<small>Chongqing &amp; Chengdu, 2024</small></div></div>
     </div>
@@ -1382,7 +1401,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
         <div class="card__mark"><span class="num">P.01</span><span>Product Concept · Live</span></div>
         <h3>SONDER, Eau de Parfum</h3>
         <div class="card__role">Solo · Self-directed fragrance concept · 2026</div>
-        <p class="card__short">A complete product build for a fictional fragrance. Naming, composition narrative, editorial direction, and an interactive product page with a draggable 3D bottle.</p>
+        <p class="card__short">A self-directed fragrance concept built as a live editorial site. Naming, brand voice, product architecture across four fragrances, and a scroll-driven story with an interactive quiz.</p>
         <div class="card__chips">
           <span class="chip">Product concept</span><span class="chip">Art direction</span><span class="chip">Live</span>
         </div>
@@ -1404,7 +1423,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
         <div class="card__mark"><span class="num">P.03</span><span>Urban Design · Team Lead</span></div>
         <h3>Queenstown Liveability Study</h3>
         <div class="card__role">Team of 6, led · AY 2024/25</div>
-        <p class="card__short">Translated an open brief on one of Singapore's oldest satellite towns into a structured workplan, narrowed to elderly accessibility and walkability.</p>
+        <p class="card__short">An open-ended studio brief on one of Singapore's oldest satellite towns. Our team was asked to identify a major issue and propose interventions. I narrowed the scope: elderly accessibility and walkability across institutional and residential nodes.</p>
         <div class="card__chips">
           <span class="chip">Systems mapping</span><span class="chip">Team lead</span>
         </div>
@@ -1658,17 +1677,17 @@ var PROJECTS = {
     title: "SONDER, Eau de Parfum",
     role: "Solo · Self-directed fragrance concept · 2026",
     body: `<p>SONDER is a personal project, born out of my interest in fragrance and my chance to express the creative side of how I think.</p>
-<p>It started with a feeling I'd noticed while travelling alone: the quiet awareness that everyone around me is carrying a whole life I'll never see. A stranger passing by, a conversation overheard, a face that disappears into a crowd. That's the word sonder, and it felt like a fragrance idea long before it felt like a brand.</p>
+<p>It started with a feeling I had noticed while travelling alone: the quiet awareness that everyone around me is carrying a whole life I will never see. A stranger passing by, a conversation overheard, a face disappearing into a crowd. Small fragments of lives that continue long after the moment ends. And through these moments of reflection, I learned to appreciate the small ones that pass by everyday.</p>
 <h4>The concept</h4>
-<p>Liminality: three moments of transition, and one that lies past them. <strong>Wander</strong>, <strong>Alter</strong>, and <strong>Emergence</strong> are three 15ml compositions of the same idea, each pointing at what was, the in-between, and what comes next. Genderless, priced to be worn rather than shelved.</p>
+<p><strong>Liminality</strong>: three moments of transition, and one that lies beyond them. <strong>Wander</strong>, <strong>Alter</strong>, and <strong>Emergence</strong> are three compositions of the same idea, pointing at what was, the in-between, and what comes next. A fourth fragrance sits past the threshold, released separately.</p>
 <h4>What I built</h4>
 <ul>
 <li>Full brand: name, positioning, narrative, tone of voice</li>
-<li>Product architecture across three fragrances plus one for what lies beyond them</li>
-<li>A live site with a procedural 3D bottle rendered in-browser, interactive quiz, and editorial storytelling from origin through acquisition</li>
-<li>Everything from concept to live artefact, self-directed, with no brief and no client</li>
+<li>Product architecture across three fragrances plus one that lies beyond them</li>
+<li>A live site built around scroll-driven storytelling. Visitors move through Wander, Alter, Emergence, then across the threshold, with an interactive quiz to help them find which passage they are in</li>
+<li>Every step from concept to live artefact, self-directed, no brief and no client</li>
 </ul>
-<h4>Why it's here</h4>
+<h4>Takeaway</h4>
 <p>The live site is the deliverable. I wanted something I could point at rather than describe, and building it end to end was the most useful way I could find to practise brand thinking, product design, and execution in one place.</p>`,
     link: { href: "./Sonder.html", label: "Open the live product page →" }
   },
@@ -1686,13 +1705,13 @@ var PROJECTS = {
 <li>Ran a 15-scenario sensitivity analysis across ±20% staffing and capacity, identified the resource mix that minimised weighted appointment wait time</li>
 <li>Presented the recommendations to NDCS supervisors</li>
 </ul>
-<h4>What I took from it</h4>
-<p>The modelling was months of work. The observation and mapping was weeks. The gap between the process on paper and the process in practice taught me more than the simulation itself.</p>`
+<h4>Takeaway</h4>
+<p>The value of taking time to properly map, build and validate the model, but also staying ready when reality does not match the plan. Documented flows only get you so far. The real project sat in the gap between the process on paper and the process in practice, and in the willingness to rebuild parts of the model when something did not behave the way we expected.</p>`
   },
   queenstown: {
     title: "Queenstown Liveability Study",
     role: "Team of 6, led · AY 2024/25",
-    body: `<p>An open-ended studio brief on one of Singapore's oldest satellite towns. My call was to narrow it: elderly accessibility and walkability across institutional and residential nodes.</p>
+    body: `<p>An open-ended studio brief on one of Singapore's oldest satellite towns. Our team was asked to identify a major issue and design a response. I narrowed the scope: elderly accessibility and walkability across institutional and residential nodes, and led the team through the arc from research to concept.</p>
 <h4>What I owned</h4>
 <ul>
 <li>Delegated workstreams and timelines across a 6-person team</li>
@@ -1700,8 +1719,8 @@ var PROJECTS = {
 <li>Proposed accessibility-focused design interventions for elderly residents</li>
 <li>Designed all the final visual deliverables: systems map, stakeholder analysis, concept boards</li>
 </ul>
-<h4>Why it's here</h4>
-<p>Running a team of six through an open brief and producing something coherent at the end is close to what a project manager does week to week, and this was where I got to practise the whole arc.</p>`
+<h4>Takeaway</h4>
+<p>Running a team of six through an ambiguous, open-ended brief taught me more about leading a project than any framework did. The hardest part was not the analysis. It was choosing what not to work on, keeping the team focused, and making sure each workstream still lined up with the same story at the end.</p>`
   },
   ssdc: {
     title: "Safety Driving Centre, Layout Optimisation",
@@ -1713,8 +1732,8 @@ var PROJECTS = {
 <li>Ran activity relationship analysis to identify high-friction adjacencies</li>
 <li>Proposed an optimised layout and staffing plan aimed at increasing throughput without adding footprint</li>
 </ul>
-<h4>Why it's here</h4>
-<p>A small piece, but it's where I got to apply the classical industrial engineering toolkit to a real service business rather than a textbook example.</p>`
+<h4>Takeaway</h4>
+<p>A useful reminder that the classical industrial engineering toolkit, From-To Charts, REL charts, activity relationship analysis, still holds up when applied to a real service business rather than a textbook example. Small piece, but the discipline of measuring before proposing changes stays with me.</p>`
   },
   on: {
     title: "On Running, Brand Audit &amp; Market Entry",
@@ -1741,8 +1760,8 @@ var PROJECTS = {
 <li>Service tiers and the guest-facing tech experience: AI-assisted pitch correction, QR self-service booking, cashless payment</li>
 <li>Site-selection rationale for the Clementi location</li>
 </ul>
-<h4>Why it's here</h4>
-<p>Practice at moving from consumer insight to a product concept, with brand and experience decisions worked through together.</p>`
+<h4>Takeaway</h4>
+<p>The exercise of moving from consumer insight to a defensible product concept, where brand voice, service tiers and the technology stack all had to make sense together. Working with a group also meant negotiating over what the concept was actually about before we could design any of it.</p>`
   },
   gopro: {
     title: "GoPro, Technology Strategy &amp; Disruption",
@@ -1756,8 +1775,8 @@ var PROJECTS = {
 <li>Software-led differentiation over hardware specs, since specs no longer separate GoPro from a modern smartphone</li>
 <li>Brand-led play defending the high-end market rather than chasing volume down-market</li>
 </ul>
-<h4>Why it's here</h4>
-<p>Where I got to work through strategic frameworks in depth: S-curves, competitive positioning, and disruption analysis, all directly applicable to the strategy side of product management.</p>`
+<h4>Takeaway</h4>
+<p>Working through strategic frameworks like S-curves, competitive positioning and disruptive innovation on a real, active company rather than a case study. Sharpened how I read a market, and gave me a language for talking about where a product actually sits and where it could go next.</p>`
   },
     hover: {
     title: "RC Hovercraft, Horizontal Thrust Team Lead",
@@ -1770,8 +1789,8 @@ var PROJECTS = {
 <li>Set internal milestones aligned to the other teams' dependencies</li>
 <li>Flagged trade-offs early and kept communication open with the other team leads to prevent downstream blockers</li>
 </ul>
-<h4>Why it's here</h4>
-<p>The only project where I was on the tools directly, and the one that taught me the most about how a build holds together when four teams share a bill of materials.</p>`
+<h4>Takeaway</h4>
+<p>The value of testing early and planning around the trade-offs that emerged between our subsystem and the others. Each team, platform, electrical, vertical lift, horizontal thrust, had its own constraints, and I spent a lot of the project figuring out which of our targets to push and which to concede so the main goal, keeping the craft carrying its payload and manoeuvrable, still held.</p>`
   },
   "mindef-redesign": {
     title: "Lift &amp; Office-Level Redesign",
@@ -1786,7 +1805,7 @@ var PROJECTS = {
 </ul>
 <h4>Scale</h4>
 <p><strong>11 acrylic posters and 2 lift-door stickers</strong>, delivered under a <strong>$1,000 budget within 2 months</strong>, across 4 offices.</p>
-<h4>Why it's here</h4>
+<h4>Takeaway</h4>
 <p>The closest thing I've done to agency creative-production coordination: brief, vendor, print, install, sign-off.</p>`
   },
   "philips-rfq": {
@@ -1801,7 +1820,7 @@ var PROJECTS = {
 </ul>
 <h4>The result</h4>
 <p>Negotiated a warehousing rate <strong>~40% below competing offers</strong> on the Vietnam-China tender by benchmarking and evaluating supplier proposals through Excel-based cost simulations. Kept all three projects audit-ready and on schedule through the end of the internship.</p>
-<h4>Why it's here</h4>
+<h4>Takeaway</h4>
 <p>The commercial and coordination side of project work: real money on the table, real stakeholders, real audit trail.</p>`
   }
 };
