@@ -31,11 +31,11 @@
 <style>
 :root{
   --bg:#f1f1ef; --ink:#0c0c0d; --mute:#5b5b58; --rule:#cfcfca;
-  --accent:#e8492b; --accent-text:#b93a20;
+  --accent:#e8492b; --accent-text:#b93a20; --ocean:#e7e7e2; --land:#c5c5bf;
   --sans:'Archivo',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
   --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
-:root[data-theme="dark"]{ --bg:#0c0c0d; --ink:#ebe8df; --mute:#a5a39c; --rule:#2b2b2d; }
+:root[data-theme="dark"]{ --bg:#0c0c0d; --ink:#ebe8df; --mute:#a5a39c; --rule:#2b2b2d; --ocean:#131315; --land:#3d3d41; }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5}
@@ -86,6 +86,45 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 .claim{padding:12px 0;border-bottom:1px solid var(--rule)}
 .claim-tag{display:block;margin-top:4px;font:400 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
 
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ingredients + origin map */
+.sec.origin{max-width:none;display:flex;flex-direction:column}
+.origin-list{min-width:0}
+.tier-btn{display:inline-flex;align-items:center;gap:10px;padding:6px 0;margin:0;background:none;border:0;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;text-align:left}
+.tier-btn::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--mute);transition:background .2s,border-color .2s}
+.tier-btn:hover::before{border-color:var(--ink)}
+.tier-btn[aria-pressed="true"]{color:var(--ink)}
+.tier-btn[aria-pressed="true"]::before{background:var(--accent);border-color:var(--accent)}
+.tier-btn:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
+.tier-hint{color:var(--accent-text);font-size:11px;letter-spacing:.08em;opacity:0;transition:opacity .2s}
+.tier-btn:hover .tier-hint,.tier-btn:focus-visible .tier-hint,.tier-btn[aria-pressed="true"] .tier-hint{opacity:1}
+.ing.hl{background:rgba(127,127,127,.08)}
+.map-panel{position:relative;margin-top:24px;order:-1}
+.origin-list{order:0}
+.map-seg{display:flex;gap:8px;margin:0 0 12px}
+.map-seg button{padding:8px 12px;border:1px solid var(--rule);border-radius:999px;background:none;color:inherit;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.map-seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.map-stage{position:relative;width:100%;height:0;padding-top:93.75%;overflow:hidden;background:var(--ocean);border:1px solid var(--rule);border-radius:8px}
+.map-svg,.map-links,.map-pins{position:absolute;top:0;left:0;width:100%;height:100%;display:block}
+.map-links{pointer-events:none}
+.map-hint{position:absolute;left:14px;bottom:12px;margin:0;max-width:60%;font:400 11px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);transition:opacity .25s}
+.map-panel.has-pins .map-hint{opacity:0}
+.pin{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;box-sizing:border-box;width:96px;padding:8px 6px 7px;background:var(--bg);border:1px solid var(--rule);border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.14);text-align:center;animation:pinDrop .55s cubic-bezier(.2,.8,.2,1) both;transition:box-shadow .2s,border-color .2s}
+.pin.still{animation:none}
+.pin:hover,.pin.hl{border-color:var(--accent);box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:2}
+.pin-bulb{display:block;width:44px;height:44px;border-radius:50%;overflow:hidden;background:var(--rule);flex:none}
+.pin-bulb img{display:block;width:100%;height:100%;object-fit:cover}
+.pin-name{display:block;font:500 10px/1.25 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.pin-origin{display:block;font-size:10.5px;line-height:1.2;color:var(--mute)}
+.pin.sm{width:84px;padding:6px 5px}
+.pin.sm .pin-bulb{width:36px;height:36px}
+.pin-line{stroke-linecap:round;animation:pinFade .5s ease both}
+.pin-anchor{animation:pinFade .5s ease both}
+@keyframes pinDrop{0%{opacity:0;transform:translateY(-20px) scale(.9)}60%{opacity:1;transform:translateY(3px) scale(1.02)}100%{opacity:1;transform:none}}
+@keyframes pinFade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.pin,.pin-line,.pin-anchor{animation:none !important}}
+
 .others{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
 .others a{display:inline-block;padding:8px 12px;border:1px solid var(--rule);border-radius:999px;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
 .others a[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
@@ -113,6 +152,11 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 .center .notice{margin-top:20px;max-width:56ch}
 .center p{max-width:44ch;color:var(--mute)}
 @media (min-width:720px){
+  .sec.origin{display:grid;grid-template-columns:minmax(0,665px) minmax(0,1fr);grid-template-areas:"head map" "list map";column-gap:clamp(40px,8vw,130px);align-items:start}
+  .sec.origin > h2{grid-area:head}
+  .sec.origin > .origin-list{grid-area:list}
+  .sec.origin > .map-panel{grid-area:map;margin-top:0;order:0}
+  .map-seg{display:none}
   .stage{display:flex;justify-content:center;align-items:center;gap:clamp(40px,6vw,96px);margin-top:40px}
   .stage .hero{margin:0;flex:none}
   .stage .sec{margin-top:0;padding-top:0;border-top:none;flex:0 1 460px}
@@ -141,6 +185,22 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
   var ORDER = ['wander', 'alter', 'emergence', 'beyond'];
   var THEMES = {"wander": {"accent": "#3e7cc2", "dark": false, "text": "#366dab"}, "alter": {"accent": "#3fb27a", "dark": false, "text": "#2b7953"}, "emergence": {"accent": "#e8492b", "dark": false, "text": "#ca3316"}, "beyond": {"accent": "#9d5ce0", "dark": true, "text": "#9d5ce0"}};
   var TIERS = ['top', 'heart', 'base'];
+  var GEO = {
+    'Italy|Calabria': [38.3, 16.2], 'Italy|Tuscany': [43.4, 11.1], 'Italy|Sicily': [37.5, 14.2],
+    'Madagascar': [-19.0, 46.9], 'Madagascar|SAVA': [-14.3, 50.0],
+    'Australia|Western Australia': [-28.0, 121.5],
+    'France': [46.6, 2.3], 'France|Grasse': [43.7, 6.9],
+    'Bulgaria': [42.7, 25.5], 'United States|Florida': [28.0, -81.7],
+    'China': [34.0, 104.0], 'China|Fujian': [26.1, 118.0],
+    'Haiti': [19.0, -72.4], 'Morocco': [32.0, -6.0], 'Morocco|Atlas': [32.0, -5.5],
+    'Tunisia|Nabeul': [36.5, 10.7],
+    'India': [22.5, 79.0], 'India|Kerala': [10.5, 76.3], 'India|Assam': [26.2, 92.9],
+    'Oman|Dhofar': [17.0, 54.1], 'Philippines': [12.9, 122.6], 'Ethiopia': [9.1, 40.5],
+    'Spain|Andalusia': [37.4, -4.7], 'Turkey|Isparta': [37.8, 30.5], 'Laos': [19.9, 102.5]
+  };
+  var ING_ALIAS = { 'cashmere-musk': 'musk', 'clean-amber': 'amber' };
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
   var BOTTLES = {
     wander:    { name: 'Wander',    coll: 'Liminality',        w: 370, h: 421, shown: 337, alt: 'SONDER Wander bottle: a brushed-metal body with a stone cap veined in blue.' },
     alter:     { name: 'Alter',     coll: 'Liminality',        w: 375, h: 412, shown: 330, alt: 'SONDER Alter bottle: a brushed-metal body with a stone cap veined in green.' },
@@ -213,6 +273,191 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     });
   }
 
+  function svgEl(tag, attrs) {
+    var n = document.createElementNS(SVGNS, tag);
+    Object.keys(attrs || {}).forEach(function (k) { n.setAttribute(k, attrs[k]); });
+    return n;
+  }
+  function geoFor(i) { return GEO[i.origin_country + '|' + (i.origin_region || '')] || GEO[i.origin_country] || null; }
+  function ingImg(name) {
+    var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    return 'images/ingredients/' + (ING_ALIAS[slug] || slug) + '.webp';
+  }
+  function originText(i) { return i.origin_country + (i.origin_region ? ' \u00b7 ' + i.origin_region : ''); }
+
+  var worldPromise = null;
+  function loadWorld() {
+    if (!worldPromise) {
+      worldPromise = (typeof fetch === 'function')
+        ? fetch('world.json').then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        : Promise.reject(new Error('fetch unavailable'));
+    }
+    return worldPromise;
+  }
+
+  // the visible slice of the world: every origin of this bottle plus some margin, in the panel's 16:15 shape
+  function computeView(points) {
+    var minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9;
+    points.forEach(function (p) {
+      minx = Math.min(minx, p[1]); maxx = Math.max(maxx, p[1]);
+      miny = Math.min(miny, -p[0]); maxy = Math.max(maxy, -p[0]);
+    });
+    var pad = 20;
+    minx -= pad; maxx += pad; miny -= pad; maxy += pad;
+    var w = maxx - minx, h = maxy - miny, a = 16 / 15;
+    if (w / h < a) { var nw = h * a; minx -= (nw - w) / 2; w = nw; }
+    else { var nh = w / a; miny -= (nh - h) / 2; h = nh; }
+    return [minx, miny, w, h];
+  }
+
+  // keep the photo cards from covering each other: nudge them apart, but stay close to where they started
+  function layoutCards(pts, W, H, BW, BH) {
+    var b = pts.map(function (p) { return { x: p.ax, y: p.ay - BH / 2 - 16, ox: p.ax, oy: p.ay - BH / 2 - 16 }; });
+    for (var it = 0; it < 300; it++) {
+      var moved = false;
+      for (var i = 0; i < b.length; i++) {
+        for (var j = i + 1; j < b.length; j++) {
+          var dx = b[j].x - b[i].x, dy = b[j].y - b[i].y;
+          if (dx === 0 && dy === 0) { dx = (j % 2 ? 1 : -1) * 0.5; dy = 0.5; }
+          var ox = BW + 8 - Math.abs(dx), oy = BH + 8 - Math.abs(dy);
+          if (ox > 0 && oy > 0) {
+            moved = true;
+            if (ox < oy) { var sx = dx >= 0 ? 1 : -1; b[i].x -= sx * ox / 2; b[j].x += sx * ox / 2; }
+            else { var sy = dy >= 0 ? 1 : -1; b[i].y -= sy * oy / 2; b[j].y += sy * oy / 2; }
+          }
+        }
+      }
+      b.forEach(function (c) {
+        c.x += (c.ox - c.x) * 0.015; c.y += (c.oy - c.y) * 0.015;
+        c.x = Math.max(BW / 2 + 8, Math.min(W - BW / 2 - 8, c.x));
+        c.y = Math.max(BH / 2 + 8, Math.min(H - BH / 2 - 8, c.y));
+      });
+      if (!moved) break;
+    }
+    return b;
+  }
+
+  var stopResize = null;
+  function buildMap(rec, id, tiersEl) {
+    if (stopResize) { stopResize(); stopResize = null; }
+    var accent = (THEMES[id] && THEMES[id].accent) || '#e8492b';
+    var located = rec.ingredients.filter(function (i) { return geoFor(i); });
+    var view = computeView(located.map(geoFor));
+    var active = null, started = false, curItems = [];
+
+    var svg = svgEl('svg', { class: 'map-svg', viewBox: view.map(function (n) { return Math.round(n * 100) / 100; }).join(' '), preserveAspectRatio: 'xMidYMid slice', 'aria-hidden': 'true' });
+    var defs = svgEl('defs');
+    var pL = svgEl('pattern', { id: 'sdotsL', width: '2.2', height: '2.2', patternUnits: 'userSpaceOnUse' });
+    pL.appendChild(svgEl('circle', { cx: '1.1', cy: '1.1', r: '0.6', style: 'fill:var(--land)' }));
+    var pA = svgEl('pattern', { id: 'sdotsA', width: '2.2', height: '2.2', patternUnits: 'userSpaceOnUse' });
+    pA.appendChild(svgEl('circle', { cx: '1.1', cy: '1.1', r: '0.85', fill: accent }));
+    defs.appendChild(pL); defs.appendChild(pA);
+    var gLand = svgEl('g');
+    var gDots = svgEl('g');
+    located.forEach(function (i) {
+      var g = geoFor(i);
+      gDots.appendChild(svgEl('circle', { cx: g[1], cy: -g[0], r: '1.05', fill: accent, stroke: 'var(--ocean)', 'stroke-width': '0.35' }));
+    });
+    svg.appendChild(defs); svg.appendChild(gLand); svg.appendChild(gDots);
+
+    var links = svgEl('svg', { class: 'map-links', 'aria-hidden': 'true' });
+    var pins = el('div', { class: 'map-pins' });
+    var hint = el('p', { class: 'map-hint', text: 'Select Top, Heart or Base to place its ingredients on the map.' });
+    var stage = el('div', { class: 'map-stage' }, [svg, links, pins, hint]);
+    var status = el('p', { class: 'sr', 'aria-live': 'polite' });
+
+    var seg = el('div', { class: 'map-seg' });
+    TIERS.forEach(function (t) {
+      if (!rec.ingredients.some(function (i) { return i.note_tier === t; })) return;
+      seg.appendChild(el('button', { type: 'button', 'aria-pressed': 'false', 'data-tier': t, text: cap(t) }));
+    });
+    var panel = el('div', { class: 'map-panel', role: 'group', 'aria-label': 'Where the ingredients come from' }, [seg, stage, status]);
+
+    function drawWorld(world) {
+      gLand.appendChild(svgEl('path', { d: world.land, fill: 'url(#sdotsL)' }));
+      var seen = {};
+      rec.ingredients.forEach(function (i) { seen[i.origin_country] = true; });
+      Object.keys(seen).forEach(function (c) {
+        if (world.countries[c]) gLand.appendChild(svgEl('path', { d: world.countries[c], fill: 'url(#sdotsA)', 'fill-opacity': '0.9' }));
+      });
+    }
+
+    function render(animate) {
+      while (pins.firstChild) pins.removeChild(pins.firstChild);
+      while (links.firstChild) links.removeChild(links.firstChild);
+      if (!curItems.length) return;
+      var W = stage.clientWidth || 780, H = stage.clientHeight || 731;
+      var small = W < 480, BW = small ? 84 : 96, BH = small ? 98 : 108;
+      links.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      var pts = curItems.map(function (i) {
+        var g = geoFor(i);
+        return { i: i, ax: (g[1] - view[0]) / view[2] * W, ay: (-g[0] - view[1]) / view[3] * H };
+      });
+      var pos = layoutCards(pts, W, H, BW, BH);
+      pts.forEach(function (p, k) {
+        var c = pos[k], delay = animate ? (k * 90) + 'ms' : '0ms';
+        links.appendChild(svgEl('line', { x1: p.ax, y1: p.ay, x2: c.x, y2: c.y, stroke: accent, 'stroke-width': '1.5', class: 'pin-line', style: 'animation-delay:' + delay }));
+        links.appendChild(svgEl('circle', { cx: p.ax, cy: p.ay, r: '5', fill: accent, stroke: 'var(--bg)', 'stroke-width': '2', class: 'pin-anchor', style: 'animation-delay:' + delay }));
+      });
+      pts.forEach(function (p, k) {
+        var c = pos[k];
+        var img = el('img', { src: ingImg(p.i.name), alt: '', width: '44', height: '44', decoding: 'async' });
+        img.onerror = function () { img.parentNode.textContent = p.i.name.charAt(0); };
+        pins.appendChild(el('div', {
+          class: 'pin' + (small ? ' sm' : '') + (animate ? '' : ' still'), role: 'img', 'data-ing': p.i.name,
+          'aria-label': p.i.name + ', ' + originText(p.i),
+          style: 'left:' + Math.round(c.x - BW / 2) + 'px;top:' + Math.round(c.y - BH / 2) + 'px;height:' + BH + 'px;animation-delay:' + (k * 90) + 'ms'
+        }, [
+          el('span', { class: 'pin-bulb' }, [img]),
+          el('span', { class: 'pin-name', text: p.i.name }),
+          el('span', { class: 'pin-origin', text: p.i.origin_country })
+        ]));
+      });
+    }
+
+    var buttons = [].slice.call(tiersEl.querySelectorAll('.tier-btn')).concat([].slice.call(seg.querySelectorAll('button')));
+    function setActive(t) {
+      active = (active === t) ? null : t;
+      curItems = active ? rec.ingredients.filter(function (i) { return i.note_tier === active && geoFor(i); }) : [];
+      buttons.forEach(function (b) {
+        var on = b.getAttribute('data-tier') === active;
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        var h = b.querySelector('.tier-hint');
+        if (h) h.textContent = on ? 'Showing \u00b7 click to hide' : 'Show on map';
+      });
+      panel.classList.toggle('has-pins', !!active);
+      status.textContent = active ? 'Showing the ' + active + ' notes on the map: ' + curItems.map(function (i) { return i.name; }).join(', ') + '.' : 'Map cleared.';
+      render(true);
+    }
+    buttons.forEach(function (b) { b.addEventListener('click', function () { setActive(b.getAttribute('data-tier')); }); });
+
+    [].slice.call(tiersEl.querySelectorAll('.ing')).forEach(function (row) {
+      function mark(on) {
+        var name = row.getAttribute('data-ing');
+        [].slice.call(pins.children).forEach(function (pn) { if (pn.getAttribute('data-ing') === name) pn.classList.toggle('hl', on); });
+        row.classList.toggle('hl', on);
+      }
+      row.addEventListener('mouseenter', function () { mark(true); });
+      row.addEventListener('mouseleave', function () { mark(false); });
+    });
+
+    panel.mount = function () {
+      function start() {
+        if (started) return; started = true;
+        loadWorld().then(drawWorld).catch(function () { if (window.console) console.warn('world.json not available; showing pins without the land outline'); });
+      }
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); start(); } }, { rootMargin: '600px' });
+        io.observe(stage);
+      } else { start(); }
+      var t = null;
+      var onResize = function () { clearTimeout(t); t = setTimeout(function () { render(false); }, 120); };
+      window.addEventListener('resize', onResize);
+      stopResize = function () { window.removeEventListener('resize', onResize); clearTimeout(t); };
+    };
+    return panel;
+  }
+
   function renderPassport(rec, id) {
     applyTheme(id);
     setWide(false);
@@ -257,23 +502,31 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     stage.appendChild(section('Journey', ol));
     out.appendChild(stage);
 
-    // Ingredients by note tier
+    // Ingredients by note tier, with an interactive origin map beside them
     var tiers = el('div', { class: 'tiers' });
     TIERS.forEach(function (t) {
       var items = rec.ingredients.filter(function (i) { return i.note_tier === t; });
       if (!items.length) return;
       var ul = el('ul', { class: 'list' });
       items.forEach(function (i) {
-        var origin = i.origin_country + (i.origin_region ? ' \u00b7 ' + i.origin_region : '');
-        ul.appendChild(el('li', { class: 'ing' }, [
+        ul.appendChild(el('li', { class: 'ing', 'data-ing': i.name }, [
           el('span', { class: 'ing-name', text: i.name }),
-          el('span', { class: 'ing-origin', text: origin }),
+          el('span', { class: 'ing-origin', text: originText(i) }),
           i.sourcing_note ? el('span', { class: 'ing-note', text: i.sourcing_note }) : null
         ]));
       });
-      tiers.appendChild(el('div', { class: 'tier' }, [el('h3', { text: cap(t) }), ul]));
+      var btn = el('button', { class: 'tier-btn', type: 'button', 'aria-pressed': 'false', 'data-tier': t }, [
+        el('span', { text: cap(t) }),
+        el('span', { class: 'tier-hint', text: 'Show on map' })
+      ]);
+      tiers.appendChild(el('div', { class: 'tier' }, [el('h3', null, [btn]), ul]));
     });
-    out.appendChild(section('Ingredients and origin', tiers));
+    var mapPanel = buildMap(rec, id, tiers);
+    out.appendChild(el('section', { class: 'sec origin' }, [
+      el('h2', { text: 'Ingredients and origin' }),
+      el('div', { class: 'origin-list' }, [tiers]),
+      mapPanel
+    ]));
 
     // Packaging
     var pk = el('ul', { class: 'list' });
@@ -308,6 +561,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     ]));
 
     app.replaceChildren(out);
+    mapPanel.mount();
   }
 
   function renderChooser() {
