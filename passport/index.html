@@ -5,9 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f1f1ef">
 <title>SONDER passport</title>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search).get('b') || '';
+  var id = (location.hash.slice(1) || q).toLowerCase().replace(/[^a-z0-9-]/g, '');
+  if (id && typeof fetch === 'function') {
+    var p = fetch('passport-' + id + '.json').then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    });
+    p.catch(function () {});
+    window.__early = { id: id, p: p };
+  }
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
 <style>
 :root{
   --bg:#f1f1ef; --ink:#0c0c0d; --mute:#5b5b58; --rule:#cfcfca;
@@ -128,12 +143,14 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 
   function loadRecord(id) {
     var url = 'passport-' + id + '.json';
-    var viaFetch = (typeof fetch === 'function')
-      ? fetch(url, { cache: 'no-cache' }).then(function (r) {
+    var early = (window.__early && window.__early.id === id) ? window.__early.p : null;
+    window.__early = null;
+    var viaFetch = early || ((typeof fetch === 'function')
+      ? fetch(url).then(function (r) {
           if (!r.ok) throw new Error('HTTP ' + r.status);
           return r.json();
         })
-      : Promise.reject(new Error('fetch unavailable'));
+      : Promise.reject(new Error('fetch unavailable')));
     return viaFetch.catch(function (err) {
       var raw = document.getElementById('fallback-data').textContent;
       var copy = raw ? JSON.parse(raw) : {};
@@ -218,7 +235,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     // Other passports
     var nav = el('ul', { class: 'others' });
     ORDER.forEach(function (o) {
-      var a = el('a', { href: '?b=' + o, text: cap(o) });
+      var a = el('a', { href: '#' + o, text: cap(o) });
       if (o === id) a.setAttribute('aria-current', 'page');
       nav.appendChild(el('li', null, [a]));
     });
@@ -235,7 +252,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     applyTheme('');
     document.title = 'SONDER passports';
     var nav = el('ul', { class: 'others' });
-    ORDER.forEach(function (o) { nav.appendChild(el('li', null, [el('a', { href: '?b=' + o, text: cap(o) })])); });
+    ORDER.forEach(function (o) { nav.appendChild(el('li', null, [el('a', { href: '#' + o, text: cap(o) })])); });
     app.replaceChildren(el('div', { class: 'center' }, [
       el('span', { class: 'kicker', text: 'SONDER \u00b7 Passports' }),
       el('h1', { text: 'Choose a bottle' }),
@@ -248,7 +265,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     applyTheme('');
     document.title = 'Passport not found \u00b7 SONDER';
     var nav = el('ul', { class: 'others' });
-    ORDER.forEach(function (o) { nav.appendChild(el('li', null, [el('a', { href: '?b=' + o, text: cap(o) })])); });
+    ORDER.forEach(function (o) { nav.appendChild(el('li', null, [el('a', { href: '#' + o, text: cap(o) })])); });
     app.replaceChildren(el('div', { class: 'center' }, [
       el('span', { class: 'kicker', text: 'Not found' }),
       el('h1', { text: 'No passport here' }),
@@ -257,13 +274,19 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     ]));
   }
 
-  var raw = new URLSearchParams(window.location.search).get('b') || '';
-  var id = raw.toLowerCase().replace(/[^a-z0-9-]/g, '');
-  if (!id) {
-    renderChooser();
-  } else {
-    loadRecord(id).then(function (rec) { renderPassport(rec, id); }).catch(function () { renderError(id); });
+  var token = 0;
+  function route() {
+    var q = new URLSearchParams(window.location.search).get('b') || '';
+    var id = (window.location.hash.slice(1) || q).toLowerCase().replace(/[^a-z0-9-]/g, '');
+    var mine = ++token;
+    window.scrollTo(0, 0);
+    if (!id) { renderChooser(); return; }
+    loadRecord(id)
+      .then(function (rec) { if (mine === token) renderPassport(rec, id); })
+      .catch(function () { if (mine === token) renderError(id); });
   }
+  window.addEventListener('hashchange', route);
+  route();
 })();
 </script>
 </body>
