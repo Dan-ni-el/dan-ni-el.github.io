@@ -9,6 +9,11 @@
 (function () {
   var q = new URLSearchParams(location.search).get('b') || '';
   var id = (location.hash.slice(1) || q).toLowerCase().replace(/[^a-z0-9-]/g, '');
+  if (['wander', 'alter', 'emergence', 'beyond'].indexOf(id) > -1) {
+    var l = document.createElement('link');
+    l.rel = 'preload'; l.as = 'image'; l.href = 'images/' + id + '.webp';
+    document.head.appendChild(l);
+  }
   if (id && typeof fetch === 'function') {
     var p = fetch('passport-' + id + '.json').then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -86,6 +91,18 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 
 .foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font:400 12px/1.7 var(--mono);color:var(--mute)}
 
+.hero{margin:28px 0 0;display:flex;justify-content:center}
+.hero img{display:block;width:auto;height:auto;max-width:100%;max-height:480px}
+.tiles{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media (min-width:640px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{display:block;color:inherit;text-decoration:none}
+.tile-img{display:block;position:relative;width:100%;height:0;padding-top:100%;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--bg)}
+.tile-img img{position:absolute;top:10px;left:10px;width:calc(100% - 20px);height:calc(100% - 20px);object-fit:contain}
+.tile-img.dark{background:#0c0c0d;border-color:#0c0c0d}
+.tile:hover .tile-img,.tile:focus-visible .tile-img{border-color:var(--ink)}
+.tile-kicker{display:block;margin-top:10px;font:400 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.tile-name{display:block;font-weight:700;font-size:20px;line-height:1.2}
+
 .center{padding-top:48px}
 .center p{max-width:44ch;color:var(--mute)}
 </style>
@@ -105,6 +122,12 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
   var ORDER = ['wander', 'alter', 'emergence', 'beyond'];
   var THEMES = {"wander": {"accent": "#3e7cc2", "dark": false, "text": "#366dab"}, "alter": {"accent": "#3fb27a", "dark": false, "text": "#2b7953"}, "emergence": {"accent": "#e8492b", "dark": false, "text": "#ca3316"}, "beyond": {"accent": "#9d5ce0", "dark": true, "text": "#9d5ce0"}};
   var TIERS = ['top', 'heart', 'base'];
+  var BOTTLES = {
+    wander:    { name: 'Wander',    coll: 'Liminality',        dark: false, w: 612, h: 408, alt: 'SONDER Wander in 50 ml and 15 ml bottles: a brushed-metal body with a stone cap veined in blue.' },
+    alter:     { name: 'Alter',     coll: 'Liminality',        dark: false, w: 612, h: 408, alt: 'SONDER Alter in 50 ml and 15 ml bottles: a brushed-metal body with a stone cap veined in green.' },
+    emergence: { name: 'Emergence', coll: 'Liminality',        dark: false, w: 612, h: 408, alt: 'SONDER Emergence in 50 ml and 15 ml bottles: a brushed-metal body with a stone cap veined in red.' },
+    beyond:    { name: 'Beyond',    coll: 'Beyond Liminality', dark: true,  w: 326, h: 766, alt: 'SONDER Beyond in a tall matte black 100 ml bottle with a dark stone cap veined in purple.' }
+  };
   var RECYCLE = { yes: 'Recyclable', partly: 'Partly recyclable', no: 'Not recyclable', unknown: 'Recyclability unknown' };
   var CLAIM_TYPE = { certification: 'Certification', brand_claim: 'Brand claim' };
   var app = document.getElementById('app');
@@ -133,7 +156,14 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
   function applyTheme(id) {
     var t = THEMES[id];
     var html = document.documentElement;
-    if (!t) { html.setAttribute('data-theme', 'light'); return; }
+    if (!t) {
+      html.setAttribute('data-theme', 'light');
+      html.style.removeProperty('--accent');
+      html.style.removeProperty('--accent-text');
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', '#f1f1ef');
+      return;
+    }
     html.setAttribute('data-theme', t.dark ? 'dark' : 'light');
     html.style.setProperty('--accent', t.accent);
     html.style.setProperty('--accent-text', t.text);
@@ -183,6 +213,12 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     out.appendChild(el('h1', { text: rec.product.name }));
     if (rec.product.tagline) out.appendChild(el('p', { class: 'tagline', text: rec.product.tagline }));
     out.appendChild(el('p', { class: 'sizes', text: rec.product.sizes_ml.map(function (s) { return s + ' ml'; }).join(' \u00b7 ') }));
+    var bottle = BOTTLES[rec.id];
+    if (bottle) {
+      out.appendChild(el('div', { class: 'hero' }, [
+        el('img', { src: 'images/' + rec.id + '.webp', alt: bottle.alt, width: String(bottle.w), height: String(bottle.h), decoding: 'async', fetchpriority: 'high' })
+      ]));
+    }
 
     // Journey
     var ol = el('ol', { class: 'journey' });
@@ -251,13 +287,24 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
   function renderChooser() {
     applyTheme('');
     document.title = 'SONDER passports';
-    var nav = el('ul', { class: 'others' });
-    ORDER.forEach(function (o) { nav.appendChild(el('li', null, [el('a', { href: '#' + o, text: cap(o) })])); });
+    var ul = el('ul', { class: 'tiles' });
+    ORDER.forEach(function (o, i) {
+      var b = BOTTLES[o];
+      ul.appendChild(el('li', null, [
+        el('a', { class: 'tile', href: '#' + o }, [
+          el('span', { class: 'tile-img' + (b.dark ? ' dark' : '') }, [
+            el('img', { src: 'images/' + o + '.webp', alt: '', width: String(b.w), height: String(b.h), decoding: 'async' })
+          ]),
+          el('span', { class: 'tile-kicker', text: pad(i + 1) + ' / ' + b.coll }),
+          el('span', { class: 'tile-name', text: b.name })
+        ])
+      ]));
+    });
     app.replaceChildren(el('div', { class: 'center' }, [
       el('span', { class: 'kicker', text: 'SONDER \u00b7 Passports' }),
       el('h1', { text: 'Choose a bottle' }),
       el('p', { text: 'Each bottle has its own passport. Scan its tag, or pick one here.' }),
-      nav
+      ul
     ]));
   }
 
