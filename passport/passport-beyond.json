@@ -1,0 +1,130 @@
+{
+  "schema_version": "0.1",
+  "id": "beyond",
+  "data_status": "illustrative",
+  "product": {
+    "name": "Beyond",
+    "collection": "Beyond Liminality",
+    "arc_stage": "beyond",
+    "tagline": "Past the threshold. The gateway at the end of transition — where movement stops and something permanent begins, and finally comes to rest. Dark, resinous, warm.",
+    "sizes_ml": [
+      100
+    ]
+  },
+  "ingredients": [
+    {
+      "name": "Black Pepper",
+      "note_tier": "top",
+      "origin_country": "India",
+      "origin_region": "Kerala"
+    },
+    {
+      "name": "Frankincense",
+      "note_tier": "top",
+      "origin_country": "Oman",
+      "origin_region": "Dhofar"
+    },
+    {
+      "name": "Elemi",
+      "note_tier": "top",
+      "origin_country": "Philippines"
+    },
+    {
+      "name": "Myrrh",
+      "note_tier": "heart",
+      "origin_country": "Ethiopia"
+    },
+    {
+      "name": "Labdanum",
+      "note_tier": "heart",
+      "origin_country": "Spain",
+      "origin_region": "Andalusia"
+    },
+    {
+      "name": "Dark Rose",
+      "note_tier": "heart",
+      "origin_country": "Turkey",
+      "origin_region": "Isparta"
+    },
+    {
+      "name": "Oud",
+      "note_tier": "base",
+      "origin_country": "India",
+      "origin_region": "Assam"
+    },
+    {
+      "name": "Amber",
+      "note_tier": "base",
+      "origin_country": "France",
+      "sourcing_note": "Composed accord, not a single-origin material."
+    },
+    {
+      "name": "Benzoin",
+      "note_tier": "base",
+      "origin_country": "Laos"
+    },
+    {
+      "name": "Leather",
+      "note_tier": "base",
+      "origin_country": "France",
+      "sourcing_note": "Composed accord, not a single-origin material."
+    }
+  ],
+  "packaging": [
+    {
+      "component": "Bottle body",
+      "material": "Recycled aluminum",
+      "recyclable": "yes"
+    },
+    {
+      "component": "Fragrance vessel (inside the body)",
+      "material": "Glass",
+      "recyclable": "yes"
+    },
+    {
+      "component": "Cap",
+      "material": "Recycled concrete composite",
+      "recyclable": "partly"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "Every ingredient is listed with its country of origin.",
+      "type": "brand_claim"
+    },
+    {
+      "claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.",
+      "type": "brand_claim"
+    }
+  ],
+  "journey": [
+    {
+      "step": 1,
+      "stage": "origin",
+      "location": "India, Oman, Philippines, Ethiopia, Spain, Turkey, Laos",
+      "description": "Natural ingredients are gathered from their traditional growing regions."
+    },
+    {
+      "step": 2,
+      "stage": "processing",
+      "location": "Grasse, France",
+      "description": "Raw materials are extracted and prepared for blending."
+    },
+    {
+      "step": 3,
+      "stage": "blending",
+      "location": "Grasse, France",
+      "description": "The notes are blended into the final composition."
+    },
+    {
+      "step": 4,
+      "stage": "bottling",
+      "location": "Singapore",
+      "description": "The finished fragrance is bottled and packed."
+    }
+  ],
+  "later_phase": {
+    "carbon_footprint_kg_co2e": null,
+    "water_use_litres": null
+  }
+}

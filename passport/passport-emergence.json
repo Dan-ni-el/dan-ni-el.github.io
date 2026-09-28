@@ -1,0 +1,132 @@
+{
+  "schema_version": "0.1",
+  "id": "emergence",
+  "data_status": "illustrative",
+  "product": {
+    "name": "Emergence",
+    "collection": "Liminality",
+    "arc_stage": "new",
+    "tagline": "The new state. Coming into focus — clarity, renewal, becoming someone you weren’t before.",
+    "sizes_ml": [
+      50,
+      15
+    ]
+  },
+  "ingredients": [
+    {
+      "name": "Mandarin",
+      "note_tier": "top",
+      "origin_country": "Italy",
+      "origin_region": "Sicily"
+    },
+    {
+      "name": "Bergamot",
+      "note_tier": "top",
+      "origin_country": "Italy",
+      "origin_region": "Calabria"
+    },
+    {
+      "name": "Neroli",
+      "note_tier": "top",
+      "origin_country": "Tunisia",
+      "origin_region": "Nabeul"
+    },
+    {
+      "name": "Orange Blossom",
+      "note_tier": "heart",
+      "origin_country": "Morocco"
+    },
+    {
+      "name": "White Tea",
+      "note_tier": "heart",
+      "origin_country": "China",
+      "origin_region": "Fujian"
+    },
+    {
+      "name": "Jasmine",
+      "note_tier": "heart",
+      "origin_country": "France",
+      "origin_region": "Grasse"
+    },
+    {
+      "name": "Ambrette",
+      "note_tier": "base",
+      "origin_country": "India"
+    },
+    {
+      "name": "Cedar",
+      "note_tier": "base",
+      "origin_country": "Morocco",
+      "origin_region": "Atlas"
+    },
+    {
+      "name": "Cashmere Musk",
+      "note_tier": "base",
+      "origin_country": "France",
+      "sourcing_note": "Composed accord, not a single-origin material."
+    },
+    {
+      "name": "Clean Amber",
+      "note_tier": "base",
+      "origin_country": "France",
+      "sourcing_note": "Composed accord, not a single-origin material."
+    }
+  ],
+  "packaging": [
+    {
+      "component": "Bottle body",
+      "material": "Recycled aluminum",
+      "recyclable": "yes"
+    },
+    {
+      "component": "Fragrance vessel (inside the body)",
+      "material": "Glass",
+      "recyclable": "yes"
+    },
+    {
+      "component": "Cap",
+      "material": "Recycled concrete composite",
+      "recyclable": "partly"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "Every ingredient is listed with its country of origin.",
+      "type": "brand_claim"
+    },
+    {
+      "claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.",
+      "type": "brand_claim"
+    }
+  ],
+  "journey": [
+    {
+      "step": 1,
+      "stage": "origin",
+      "location": "Italy, Tunisia, Morocco, China, France, India",
+      "description": "Natural ingredients are gathered from their traditional growing regions."
+    },
+    {
+      "step": 2,
+      "stage": "processing",
+      "location": "Grasse, France",
+      "description": "Raw materials are extracted and prepared for blending."
+    },
+    {
+      "step": 3,
+      "stage": "blending",
+      "location": "Grasse, France",
+      "description": "The notes are blended into the final composition."
+    },
+    {
+      "step": 4,
+      "stage": "bottling",
+      "location": "Singapore",
+      "description": "The finished fragrance is bottled and packed."
+    }
+  ],
+  "later_phase": {
+    "carbon_footprint_kg_co2e": null,
+    "water_use_litres": null
+  }
+}

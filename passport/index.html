@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f1f1ef">
+<title>SONDER passport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f1f1ef; --ink:#0c0c0d; --mute:#5b5b58; --rule:#cfcfca;
+  --accent:#e8492b; --accent-text:#b93a20;
+  --sans:'Archivo',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+:root[data-theme="dark"]{ --bg:#0c0c0d; --ink:#ebe8df; --mute:#a5a39c; --rule:#2b2b2d; }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5}
+a{color:inherit;text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
+.wrap{max-width:760px;margin:0 auto;padding:max(20px,env(safe-area-inset-top)) 20px max(56px,env(safe-area-inset-bottom))}
+
+.top{display:flex;justify-content:space-between;gap:16px;align-items:baseline}
+.kicker,.back{font:500 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.kicker{color:var(--accent-text)}
+.back{color:var(--mute);text-decoration:none;white-space:nowrap}
+.back:hover{color:var(--ink)}
+
+.notice{margin:20px 0 0;padding:12px 14px;border:1px solid var(--rule);border-left:3px solid var(--accent);font:400 12px/1.6 var(--mono);color:var(--ink)}
+.notice strong{font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+
+h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,112px);line-height:.95;letter-spacing:-.03em}
+.tagline{margin:20px 0 0;max-width:34ch;font-size:18px;line-height:1.5}
+.sizes{margin:18px 0 0;font:400 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+
+.sec{margin-top:44px;padding-top:20px;border-top:1px solid var(--rule)}
+.sec h2{margin:0 0 20px;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text)}
+
+.journey{list-style:none;margin:0;padding:0}
+.journey li{position:relative;display:flex;flex-direction:column;gap:2px;padding:0 0 28px 28px}
+.journey li:last-child{padding-bottom:0}
+.journey li::before{content:"";position:absolute;left:0;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.journey li::after{content:"";position:absolute;left:4.5px;top:20px;bottom:-6px;width:1px;background:var(--rule)}
+.journey li:last-child::after{display:none}
+.journey .meta{font:400 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.journey .where{font-size:20px;line-height:1.25;font-weight:600}
+.journey .what{font-size:15px;color:var(--mute)}
+
+.tiers{display:grid;gap:28px}
+.tier h3{margin:0 0 4px;font:400 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.list{list-style:none;margin:0;padding:0}
+.ing{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 16px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.ing-name{font-weight:600}
+.ing-origin{font:400 13px/1.5 var(--mono);color:var(--mute);text-align:right}
+.ing-note{flex-basis:100%;font-size:13px;color:var(--mute)}
+
+.pack{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:12px 0;border-bottom:1px solid var(--rule)}
+.pack-name{font-weight:600}
+.pack-mat{display:block;font-size:15px;color:var(--mute)}
+.chip{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--rule);padding:6px 9px;border-radius:999px;white-space:nowrap}
+
+.claim{padding:12px 0;border-bottom:1px solid var(--rule)}
+.claim-tag{display:block;margin-top:4px;font:400 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+
+.others{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.others a{display:inline-block;padding:8px 12px;border:1px solid var(--rule);border-radius:999px;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+.others a[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+
+.foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font:400 12px/1.7 var(--mono);color:var(--mute)}
+
+.center{padding-top:48px}
+.center p{max-width:44ch;color:var(--mute)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <main id="app" aria-live="polite">
+    <noscript>This passport needs JavaScript to load.</noscript>
+  </main>
+</div>
+
+<script id="fallback-data" type="application/json">{"wander": {"schema_version": "0.1", "id": "wander", "data_status": "illustrative", "product": {"name": "Wander", "collection": "Liminality", "arc_stage": "past", "tagline": "The familiar. Memory surfacing — warmth looking back at what was, and who you were then.", "sizes_ml": [50, 15]}, "ingredients": [{"name": "Bergamot", "note_tier": "top", "origin_country": "Italy", "origin_region": "Calabria"}, {"name": "Pear", "note_tier": "top", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Pink Pepper", "note_tier": "top", "origin_country": "Madagascar"}, {"name": "Iris", "note_tier": "heart", "origin_country": "Italy", "origin_region": "Tuscany"}, {"name": "Violet", "note_tier": "heart", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Heliotrope", "note_tier": "heart", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Sandalwood", "note_tier": "base", "origin_country": "Australia", "origin_region": "Western Australia"}, {"name": "Vanilla", "note_tier": "base", "origin_country": "Madagascar", "origin_region": "SAVA"}, {"name": "Musk", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Amber", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}], "packaging": [{"component": "Bottle body", "material": "Recycled aluminum", "recyclable": "yes"}, {"component": "Fragrance vessel (inside the body)", "material": "Glass", "recyclable": "yes"}, {"component": "Cap", "material": "Recycled concrete composite", "recyclable": "partly"}], "claims": [{"claim": "Every ingredient is listed with its country of origin.", "type": "brand_claim"}, {"claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.", "type": "brand_claim"}], "journey": [{"step": 1, "stage": "origin", "location": "Italy, Madagascar, Australia", "description": "Natural ingredients are gathered from their traditional growing regions."}, {"step": 2, "stage": "processing", "location": "Grasse, France", "description": "Raw materials are extracted and prepared for blending."}, {"step": 3, "stage": "blending", "location": "Grasse, France", "description": "The notes are blended into the final composition."}, {"step": 4, "stage": "bottling", "location": "Singapore", "description": "The finished fragrance is bottled and packed."}], "later_phase": {"carbon_footprint_kg_co2e": null, "water_use_litres": null}}, "alter": {"schema_version": "0.1", "id": "alter", "data_status": "illustrative", "product": {"name": "Alter", "collection": "Liminality", "arc_stage": "in-between", "tagline": "The in-between. Somewhere unfamiliar at night — neither here nor there, nor anywhere yet.", "sizes_ml": [50, 15]}, "ingredients": [{"name": "Bergamot", "note_tier": "top", "origin_country": "Italy", "origin_region": "Calabria"}, {"name": "Juniper", "note_tier": "top", "origin_country": "Bulgaria"}, {"name": "Grapefruit", "note_tier": "top", "origin_country": "United States", "origin_region": "Florida"}, {"name": "Green Tea", "note_tier": "heart", "origin_country": "China"}, {"name": "Jasmine", "note_tier": "heart", "origin_country": "France", "origin_region": "Grasse"}, {"name": "Orris", "note_tier": "heart", "origin_country": "Italy", "origin_region": "Tuscany"}, {"name": "Vetiver", "note_tier": "base", "origin_country": "Haiti"}, {"name": "Cedar", "note_tier": "base", "origin_country": "Morocco", "origin_region": "Atlas"}, {"name": "Mineral Amber", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Musk", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}], "packaging": [{"component": "Bottle body", "material": "Recycled aluminum", "recyclable": "yes"}, {"component": "Fragrance vessel (inside the body)", "material": "Glass", "recyclable": "yes"}, {"component": "Cap", "material": "Recycled concrete composite", "recyclable": "partly"}], "claims": [{"claim": "Every ingredient is listed with its country of origin.", "type": "brand_claim"}, {"claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.", "type": "brand_claim"}], "journey": [{"step": 1, "stage": "origin", "location": "Italy, Bulgaria, United States, China, France, Haiti, Morocco", "description": "Natural ingredients are gathered from their traditional growing regions."}, {"step": 2, "stage": "processing", "location": "Grasse, France", "description": "Raw materials are extracted and prepared for blending."}, {"step": 3, "stage": "blending", "location": "Grasse, France", "description": "The notes are blended into the final composition."}, {"step": 4, "stage": "bottling", "location": "Singapore", "description": "The finished fragrance is bottled and packed."}], "later_phase": {"carbon_footprint_kg_co2e": null, "water_use_litres": null}}, "emergence": {"schema_version": "0.1", "id": "emergence", "data_status": "illustrative", "product": {"name": "Emergence", "collection": "Liminality", "arc_stage": "new", "tagline": "The new state. Coming into focus — clarity, renewal, becoming someone you weren’t before.", "sizes_ml": [50, 15]}, "ingredients": [{"name": "Mandarin", "note_tier": "top", "origin_country": "Italy", "origin_region": "Sicily"}, {"name": "Bergamot", "note_tier": "top", "origin_country": "Italy", "origin_region": "Calabria"}, {"name": "Neroli", "note_tier": "top", "origin_country": "Tunisia", "origin_region": "Nabeul"}, {"name": "Orange Blossom", "note_tier": "heart", "origin_country": "Morocco"}, {"name": "White Tea", "note_tier": "heart", "origin_country": "China", "origin_region": "Fujian"}, {"name": "Jasmine", "note_tier": "heart", "origin_country": "France", "origin_region": "Grasse"}, {"name": "Ambrette", "note_tier": "base", "origin_country": "India"}, {"name": "Cedar", "note_tier": "base", "origin_country": "Morocco", "origin_region": "Atlas"}, {"name": "Cashmere Musk", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Clean Amber", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}], "packaging": [{"component": "Bottle body", "material": "Recycled aluminum", "recyclable": "yes"}, {"component": "Fragrance vessel (inside the body)", "material": "Glass", "recyclable": "yes"}, {"component": "Cap", "material": "Recycled concrete composite", "recyclable": "partly"}], "claims": [{"claim": "Every ingredient is listed with its country of origin.", "type": "brand_claim"}, {"claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.", "type": "brand_claim"}], "journey": [{"step": 1, "stage": "origin", "location": "Italy, Tunisia, Morocco, China, France, India", "description": "Natural ingredients are gathered from their traditional growing regions."}, {"step": 2, "stage": "processing", "location": "Grasse, France", "description": "Raw materials are extracted and prepared for blending."}, {"step": 3, "stage": "blending", "location": "Grasse, France", "description": "The notes are blended into the final composition."}, {"step": 4, "stage": "bottling", "location": "Singapore", "description": "The finished fragrance is bottled and packed."}], "later_phase": {"carbon_footprint_kg_co2e": null, "water_use_litres": null}}, "beyond": {"schema_version": "0.1", "id": "beyond", "data_status": "illustrative", "product": {"name": "Beyond", "collection": "Beyond Liminality", "arc_stage": "beyond", "tagline": "Past the threshold. The gateway at the end of transition — where movement stops and something permanent begins, and finally comes to rest. Dark, resinous, warm.", "sizes_ml": [100]}, "ingredients": [{"name": "Black Pepper", "note_tier": "top", "origin_country": "India", "origin_region": "Kerala"}, {"name": "Frankincense", "note_tier": "top", "origin_country": "Oman", "origin_region": "Dhofar"}, {"name": "Elemi", "note_tier": "top", "origin_country": "Philippines"}, {"name": "Myrrh", "note_tier": "heart", "origin_country": "Ethiopia"}, {"name": "Labdanum", "note_tier": "heart", "origin_country": "Spain", "origin_region": "Andalusia"}, {"name": "Dark Rose", "note_tier": "heart", "origin_country": "Turkey", "origin_region": "Isparta"}, {"name": "Oud", "note_tier": "base", "origin_country": "India", "origin_region": "Assam"}, {"name": "Amber", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Benzoin", "note_tier": "base", "origin_country": "Laos"}, {"name": "Leather", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}], "packaging": [{"component": "Bottle body", "material": "Recycled aluminum", "recyclable": "yes"}, {"component": "Fragrance vessel (inside the body)", "material": "Glass", "recyclable": "yes"}, {"component": "Cap", "material": "Recycled concrete composite", "recyclable": "partly"}], "claims": [{"claim": "Every ingredient is listed with its country of origin.", "type": "brand_claim"}, {"claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.", "type": "brand_claim"}], "journey": [{"step": 1, "stage": "origin", "location": "India, Oman, Philippines, Ethiopia, Spain, Turkey, Laos", "description": "Natural ingredients are gathered from their traditional growing regions."}, {"step": 2, "stage": "processing", "location": "Grasse, France", "description": "Raw materials are extracted and prepared for blending."}, {"step": 3, "stage": "blending", "location": "Grasse, France", "description": "The notes are blended into the final composition."}, {"step": 4, "stage": "bottling", "location": "Singapore", "description": "The finished fragrance is bottled and packed."}], "later_phase": {"carbon_footprint_kg_co2e": null, "water_use_litres": null}}}</script>
+<script>
+(function () {
+  'use strict';
+
+  var ORDER = ['wander', 'alter', 'emergence', 'beyond'];
+  var THEMES = {"wander": {"accent": "#3e7cc2", "dark": false, "text": "#366dab"}, "alter": {"accent": "#3fb27a", "dark": false, "text": "#2b7953"}, "emergence": {"accent": "#e8492b", "dark": false, "text": "#ca3316"}, "beyond": {"accent": "#9d5ce0", "dark": true, "text": "#9d5ce0"}};
+  var TIERS = ['top', 'heart', 'base'];
+  var RECYCLE = { yes: 'Recyclable', partly: 'Partly recyclable', no: 'Not recyclable', unknown: 'Recyclability unknown' };
+  var CLAIM_TYPE = { certification: 'Certification', brand_claim: 'Brand claim' };
+  var app = document.getElementById('app');
+
+  function el(tag, props, kids) {
+    var n = document.createElement(tag);
+    if (props) {
+      Object.keys(props).forEach(function (k) {
+        if (k === 'class') n.className = props[k];
+        else if (k === 'text') n.textContent = props[k];
+        else n.setAttribute(k, props[k]);
+      });
+    }
+    (kids || []).forEach(function (c) {
+      if (c === null || c === undefined) return;
+      n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    });
+    return n;
+  }
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function section(title, child) {
+    return el('section', { class: 'sec' }, [el('h2', { text: title }), child]);
+  }
+
+  function applyTheme(id) {
+    var t = THEMES[id];
+    var html = document.documentElement;
+    if (!t) { html.setAttribute('data-theme', 'light'); return; }
+    html.setAttribute('data-theme', t.dark ? 'dark' : 'light');
+    html.style.setProperty('--accent', t.accent);
+    html.style.setProperty('--accent-text', t.text);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', t.dark ? '#0c0c0d' : '#f1f1ef');
+  }
+
+  function loadRecord(id) {
+    var url = 'passport-' + id + '.json';
+    var viaFetch = (typeof fetch === 'function')
+      ? fetch(url, { cache: 'no-cache' }).then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+      : Promise.reject(new Error('fetch unavailable'));
+    return viaFetch.catch(function (err) {
+      var raw = document.getElementById('fallback-data').textContent;
+      var copy = raw ? JSON.parse(raw) : {};
+      if (copy[id]) {
+        if (window.console) console.warn('Using the embedded copy of "' + id + '" (' + err.message + ')');
+        return copy[id];
+      }
+      throw err;
+    });
+  }
+
+  function renderPassport(rec, id) {
+    applyTheme(id);
+    document.title = rec.product.name + ' \u00b7 SONDER passport';
+    var idx = ORDER.indexOf(rec.id);
+    var out = document.createDocumentFragment();
+
+    out.appendChild(el('header', { class: 'top' }, [
+      el('span', { class: 'kicker', text: (idx >= 0 ? pad(idx + 1) + ' / ' : '') + rec.product.collection + ' \u00b7 Passport' }),
+      el('a', { class: 'back', href: '../Sonder.html', text: '\u2190 SONDER' })
+    ]));
+
+    if (rec.data_status === 'illustrative') {
+      out.appendChild(el('p', { class: 'notice', role: 'note' }, [
+        el('strong', { text: 'Illustrative sample data. ' }),
+        'This passport is a prototype. Origins, materials and claims shown are examples, not verified sourcing.'
+      ]));
+    }
+
+    out.appendChild(el('h1', { text: rec.product.name }));
+    if (rec.product.tagline) out.appendChild(el('p', { class: 'tagline', text: rec.product.tagline }));
+    out.appendChild(el('p', { class: 'sizes', text: rec.product.sizes_ml.map(function (s) { return s + ' ml'; }).join(' \u00b7 ') }));
+
+    // Journey
+    var ol = el('ol', { class: 'journey' });
+    rec.journey.slice().sort(function (a, b) { return a.step - b.step; }).forEach(function (s) {
+      ol.appendChild(el('li', null, [
+        el('span', { class: 'meta', text: 'Step ' + pad(s.step) + ' \u2014 ' + cap(s.stage) }),
+        el('strong', { class: 'where', text: s.location }),
+        el('span', { class: 'what', text: s.description })
+      ]));
+    });
+    out.appendChild(section('Journey', ol));
+
+    // Ingredients by note tier
+    var tiers = el('div', { class: 'tiers' });
+    TIERS.forEach(function (t) {
+      var items = rec.ingredients.filter(function (i) { return i.note_tier === t; });
+      if (!items.length) return;
+      var ul = el('ul', { class: 'list' });
+      items.forEach(function (i) {
+        var origin = i.origin_country + (i.origin_region ? ' \u00b7 ' + i.origin_region : '');
+        ul.appendChild(el('li', { class: 'ing' }, [
+          el('span', { class: 'ing-name', text: i.name }),
+          el('span', { class: 'ing-origin', text: origin }),
+          i.sourcing_note ? el('span', { class: 'ing-note', text: i.sourcing_note }) : null
+        ]));
+      });
+      tiers.appendChild(el('div', { class: 'tier' }, [el('h3', { text: cap(t) }), ul]));
+    });
+    out.appendChild(section('Ingredients and origin', tiers));
+
+    // Packaging
+    var pk = el('ul', { class: 'list' });
+    rec.packaging.forEach(function (p) {
+      var mat = p.material + (typeof p.recycled_content_pct === 'number' ? ' \u00b7 ' + p.recycled_content_pct + '% recycled content' : '');
+      pk.appendChild(el('li', { class: 'pack' }, [
+        el('div', null, [el('span', { class: 'pack-name', text: p.component }), el('span', { class: 'pack-mat', text: mat })]),
+        el('span', { class: 'chip', text: RECYCLE[p.recyclable] || RECYCLE.unknown })
+      ]));
+    });
+    out.appendChild(section('Materials and packaging', pk));
+
+    // Claims
+    var cl = el('ul', { class: 'list' });
+    rec.claims.forEach(function (c) {
+      var tag = (CLAIM_TYPE[c.type] || 'Claim') + (c.issuer ? ' \u00b7 ' + c.issuer : '');
+      cl.appendChild(el('li', { class: 'claim' }, [c.claim, el('span', { class: 'claim-tag', text: tag })]));
+    });
+    out.appendChild(section('Sourcing claims', cl));
+
+    // Other passports
+    var nav = el('ul', { class: 'others' });
+    ORDER.forEach(function (o) {
+      var a = el('a', { href: '?b=' + o, text: cap(o) });
+      if (o === id) a.setAttribute('aria-current', 'page');
+      nav.appendChild(el('li', null, [a]));
+    });
+    out.appendChild(section('Other passports', nav));
+
+    out.appendChild(el('footer', { class: 'foot' }, [
+      'Passport: ' + rec.id + ' \u00b7 Schema ' + rec.schema_version + ' \u00b7 Data: ' + rec.data_status
+    ]));
+
+    app.replaceChildren(out);
+  }
+
+  function renderChooser() {
+    applyTheme('');
+    document.title = 'SONDER passports';
+    var nav = el('ul', { class: 'others' });
+    ORDER.forEach(function (o) { nav.appendChild(el('li', null, [el('a', { href: '?b=' + o, text: cap(o) })])); });
+    app.replaceChildren(el('div', { class: 'center' }, [
+      el('span', { class: 'kicker', text: 'SONDER \u00b7 Passports' }),
+      el('h1', { text: 'Choose a bottle' }),
+      el('p', { text: 'Each bottle has its own passport. Scan its tag, or pick one here.' }),
+      nav
+    ]));
+  }
+
+  function renderError(id) {
+    applyTheme('');
+    document.title = 'Passport not found \u00b7 SONDER';
+    var nav = el('ul', { class: 'others' });
+    ORDER.forEach(function (o) { nav.appendChild(el('li', null, [el('a', { href: '?b=' + o, text: cap(o) })])); });
+    app.replaceChildren(el('div', { class: 'center' }, [
+      el('span', { class: 'kicker', text: 'Not found' }),
+      el('h1', { text: 'No passport here' }),
+      el('p', { text: 'There is no passport called \u201c' + id + '\u201d. Try one of these:' }),
+      nav
+    ]));
+  }
+
+  var raw = new URLSearchParams(window.location.search).get('b') || '';
+  var id = raw.toLowerCase().replace(/[^a-z0-9-]/g, '');
+  if (!id) {
+    renderChooser();
+  } else {
+    loadRecord(id).then(function (rec) { renderPassport(rec, id); }).catch(function () { renderError(id); });
+  }
+})();
+</script>
+</body>
+</html>
