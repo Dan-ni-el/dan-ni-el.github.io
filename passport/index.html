@@ -93,6 +93,8 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 
 .hero{margin:28px 0 0;display:flex;justify-content:center}
 .hero img{display:block;width:auto;height:auto;max-width:100%;max-height:480px}
+.box{margin:28px 0 0}
+.box img{display:block;width:100%;max-width:480px;height:auto;border-radius:8px}
 .tiles{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media (min-width:640px){.tiles{grid-template-columns:repeat(4,1fr)}}
 .tile{display:block;color:inherit;text-decoration:none}
@@ -304,6 +306,9 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
       el('span', { class: 'kicker', text: 'SONDER \u00b7 Passports' }),
       el('h1', { text: 'Choose a bottle' }),
       el('p', { text: 'Each bottle has its own passport. Scan its tag, or pick one here.' }),
+      el('div', { class: 'box' }, [
+        el('img', { src: 'images/discovery-box.webp', alt: 'The SONDER box open, with three small bottles (Wander, Alter and Emergence) set in a black tray under a large empty black lid.', width: '1000', height: '1000', decoding: 'async' })
+      ]),
       ul
     ]));
   }
