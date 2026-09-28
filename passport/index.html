@@ -93,10 +93,18 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 
 .hero{margin:28px 0 0;display:flex;justify-content:center}
 .hero img{display:block;width:auto;height:auto;max-width:100%;max-height:480px}
+.wrap.wide{max-width:1080px}
 .box{margin:28px 0 0}
 .box img{display:block;width:100%;max-width:480px;height:auto;border-radius:8px}
 .tiles{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media (min-width:640px){.tiles{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:720px){
+  .intro{display:grid;grid-template-columns:1fr minmax(240px,34%);gap:48px;align-items:center}
+  .intro h1{font-size:clamp(40px,8vw,88px)}
+  .intro .box{margin:0}
+  .intro .box img{max-width:100%}
+  .tiles{margin-top:44px}
+}
 .tile{display:block;color:inherit;text-decoration:none}
 .tile-img{display:block;position:relative;width:100%;height:0;padding-top:100%;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--bg)}
 .tile-img img{position:absolute;top:10px;left:10px;width:calc(100% - 20px);height:calc(100% - 20px);object-fit:contain}
@@ -133,6 +141,8 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
   var RECYCLE = { yes: 'Recyclable', partly: 'Partly recyclable', no: 'Not recyclable', unknown: 'Recyclability unknown' };
   var CLAIM_TYPE = { certification: 'Certification', brand_claim: 'Brand claim' };
   var app = document.getElementById('app');
+  var wrap = document.querySelector('.wrap');
+  function setWide(on) { if (wrap) wrap.classList.toggle('wide', on); }
 
   function el(tag, props, kids) {
     var n = document.createElement(tag);
@@ -196,6 +206,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 
   function renderPassport(rec, id) {
     applyTheme(id);
+    setWide(false);
     document.title = rec.product.name + ' \u00b7 SONDER passport';
     var idx = ORDER.indexOf(rec.id);
     var out = document.createDocumentFragment();
@@ -302,12 +313,17 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
         ])
       ]));
     });
+    setWide(true);
     app.replaceChildren(el('div', { class: 'center' }, [
-      el('span', { class: 'kicker', text: 'SONDER \u00b7 Passports' }),
-      el('h1', { text: 'Choose a bottle' }),
-      el('p', { text: 'Each bottle has its own passport. Scan its tag, or pick one here.' }),
-      el('div', { class: 'box' }, [
-        el('img', { src: 'images/discovery-box.webp', alt: 'The SONDER box open, with three small bottles (Wander, Alter and Emergence) set in a black tray under a large empty black lid.', width: '1000', height: '1000', decoding: 'async' })
+      el('div', { class: 'intro' }, [
+        el('div', { class: 'intro-text' }, [
+          el('span', { class: 'kicker', text: 'SONDER \u00b7 Passports' }),
+          el('h1', { text: 'Choose a bottle' }),
+          el('p', { text: 'Each bottle has its own passport. Scan its tag, or pick one here.' })
+        ]),
+        el('div', { class: 'box' }, [
+          el('img', { src: 'images/discovery-box.webp', alt: 'The SONDER box open, with three small bottles (Wander, Alter and Emergence) set in a black tray under a large empty black lid.', width: '1000', height: '1000', decoding: 'async' })
+        ])
       ]),
       ul
     ]));
@@ -315,6 +331,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 
   function renderError(id) {
     applyTheme('');
+    setWide(false);
     document.title = 'Passport not found \u00b7 SONDER';
     var nav = el('ul', { class: 'others' });
     ORDER.forEach(function (o) { nav.appendChild(el('li', null, [el('a', { href: '#' + o, text: cap(o) })])); });
