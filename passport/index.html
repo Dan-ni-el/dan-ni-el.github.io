@@ -41,9 +41,10 @@ html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5}
 a{color:inherit;text-underline-offset:3px}
 a:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
-.wrap{max-width:760px;margin:0 auto;padding:max(20px,env(safe-area-inset-top)) 20px max(56px,env(safe-area-inset-bottom))}
+.wrap{max-width:none;margin:0;padding:max(20px,env(safe-area-inset-top)) clamp(20px,4vw,56px) max(56px,env(safe-area-inset-bottom))}
 
-.top{display:flex;justify-content:space-between;gap:16px;align-items:baseline}
+.top,.notice,.sec,.foot{max-width:760px}
+.top{display:flex;justify-content:flex-start;flex-wrap:wrap;gap:8px 24px;align-items:baseline}
 .kicker,.back{font:500 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
 .kicker{color:var(--accent-text)}
 .back{color:var(--mute);text-decoration:none;white-space:nowrap}
@@ -53,7 +54,7 @@ a:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
 .notice strong{font-weight:500;letter-spacing:.06em;text-transform:uppercase}
 
 h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,112px);line-height:.95;letter-spacing:-.03em}
-.tagline{margin:20px 0 0;max-width:34ch;font-size:18px;line-height:1.5}
+.tagline{margin:20px 0 0;width:max-content;max-width:100%;font-size:18px;line-height:1.5}
 .sizes{margin:18px 0 0;font:400 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 
 .sec{margin-top:44px;padding-top:20px;border-top:1px solid var(--rule)}
@@ -93,28 +94,36 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 
 .hero{margin:28px 0 0;display:flex;justify-content:center}
 .hero img{display:block;width:auto;height:auto;max-width:100%;max-height:480px}
-.wrap.wide{max-width:1080px}
+.wrap.wide{max-width:none}
 .box{margin:28px 0 0}
 .box img{display:block;width:100%;max-width:480px;height:auto;border-radius:8px}
 .tiles{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media (min-width:640px){.tiles{grid-template-columns:repeat(4,1fr)}}
-@media (min-width:720px){
-  .intro{display:grid;grid-template-columns:1fr minmax(240px,34%);gap:48px;align-items:center}
-  .intro h1{font-size:clamp(40px,8vw,88px)}
-  .intro .box{margin:0}
-  .intro .box img{max-width:100%}
-  .tiles{margin-top:44px}
-}
 .tile{display:block;color:inherit;text-decoration:none}
 .tile-img{display:block;position:relative;width:100%;height:0;padding-top:100%;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--bg)}
 .tile-img img{position:absolute;top:10px;left:10px;width:calc(100% - 20px);height:calc(100% - 20px);object-fit:contain}
-.tile-img.dark{background:#0c0c0d;border-color:#0c0c0d}
 .tile:hover .tile-img,.tile:focus-visible .tile-img{border-color:var(--ink)}
-.tile-kicker{display:block;margin-top:10px;font:400 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
-.tile-name{display:block;font-weight:700;font-size:20px;line-height:1.2}
+.tile-kicker{display:block;margin-top:10px;text-align:center;font:400 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.tile-name{display:block;text-align:center;font-weight:700;font-size:20px;line-height:1.2}
 
 .center{padding-top:48px}
+.center h1{white-space:nowrap;font-size:clamp(28px,9vw,88px)}
+.intro{margin-top:24px}
+.center .lede{margin:0;max-width:56ch;font-size:17px;line-height:1.65;color:var(--ink)}
+.center .notice{margin-top:20px;max-width:56ch}
 .center p{max-width:44ch;color:var(--mute)}
+@media (min-width:720px){
+  .stage{display:flex;justify-content:center;align-items:center;gap:clamp(40px,6vw,96px);margin-top:40px}
+  .stage .hero{margin:0;flex:none}
+  .stage .sec{margin-top:0;padding-top:0;border-top:none;flex:0 1 460px}
+  .intro{display:grid;grid-template-columns:minmax(0,1fr) clamp(300px,27vw,520px);gap:clamp(32px,3.5vw,64px);align-items:stretch}
+  .intro .box{position:relative;margin:0;min-height:260px}
+  .intro .box img{position:absolute;top:0;left:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 62%}
+  .center .lede{max-width:none;font-size:clamp(17px,1.55vw,26px)}
+  .center .notice{max-width:none}
+  .tiles{max-width:1440px;margin:44px auto 0;gap:24px}
+  .tile-img{padding-top:72%}
+}
 </style>
 </head>
 <body>
@@ -133,10 +142,10 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
   var THEMES = {"wander": {"accent": "#3e7cc2", "dark": false, "text": "#366dab"}, "alter": {"accent": "#3fb27a", "dark": false, "text": "#2b7953"}, "emergence": {"accent": "#e8492b", "dark": false, "text": "#ca3316"}, "beyond": {"accent": "#9d5ce0", "dark": true, "text": "#9d5ce0"}};
   var TIERS = ['top', 'heart', 'base'];
   var BOTTLES = {
-    wander:    { name: 'Wander',    coll: 'Liminality',        dark: false, w: 612, h: 408, alt: 'SONDER Wander in 50 ml and 15 ml bottles: a brushed-metal body with a stone cap veined in blue.' },
-    alter:     { name: 'Alter',     coll: 'Liminality',        dark: false, w: 612, h: 408, alt: 'SONDER Alter in 50 ml and 15 ml bottles: a brushed-metal body with a stone cap veined in green.' },
-    emergence: { name: 'Emergence', coll: 'Liminality',        dark: false, w: 612, h: 408, alt: 'SONDER Emergence in 50 ml and 15 ml bottles: a brushed-metal body with a stone cap veined in red.' },
-    beyond:    { name: 'Beyond',    coll: 'Beyond Liminality', dark: true,  w: 326, h: 766, alt: 'SONDER Beyond in a tall matte black 100 ml bottle with a dark stone cap veined in purple.' }
+    wander:    { name: 'Wander',    coll: 'Liminality',        w: 370, h: 421, shown: 337, alt: 'SONDER Wander bottle: a brushed-metal body with a stone cap veined in blue.' },
+    alter:     { name: 'Alter',     coll: 'Liminality',        w: 375, h: 412, shown: 330, alt: 'SONDER Alter bottle: a brushed-metal body with a stone cap veined in green.' },
+    emergence: { name: 'Emergence', coll: 'Liminality',        w: 385, h: 412, shown: 330, alt: 'SONDER Emergence bottle: a brushed-metal body with a stone cap veined in red.' },
+    beyond:    { name: 'Beyond',    coll: 'Beyond Liminality', w: 326, h: 766, shown: 384, alt: 'SONDER Beyond, a tall matte black 100 ml bottle with a dark stone cap veined in purple.' }
   };
   var RECYCLE = { yes: 'Recyclable', partly: 'Partly recyclable', no: 'Not recyclable', unknown: 'Recyclability unknown' };
   var CLAIM_TYPE = { certification: 'Certification', brand_claim: 'Brand claim' };
@@ -226,12 +235,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     out.appendChild(el('h1', { text: rec.product.name }));
     if (rec.product.tagline) out.appendChild(el('p', { class: 'tagline', text: rec.product.tagline }));
     out.appendChild(el('p', { class: 'sizes', text: rec.product.sizes_ml.map(function (s) { return s + ' ml'; }).join(' \u00b7 ') }));
-    var bottle = BOTTLES[rec.id];
-    if (bottle) {
-      out.appendChild(el('div', { class: 'hero' }, [
-        el('img', { src: 'images/' + rec.id + '.webp', alt: bottle.alt, width: String(bottle.w), height: String(bottle.h), decoding: 'async', fetchpriority: 'high' })
-      ]));
-    }
+
 
     // Journey
     var ol = el('ol', { class: 'journey' });
@@ -242,7 +246,16 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
         el('span', { class: 'what', text: s.description })
       ]));
     });
-    out.appendChild(section('Journey', ol));
+    var bottle = BOTTLES[rec.id];
+    var stage = el('div', { class: 'stage' });
+    if (bottle) {
+      var img = el('img', { src: 'images/' + rec.id + '.webp', alt: bottle.alt, width: String(bottle.w), height: String(bottle.h), decoding: 'async', fetchpriority: 'high' });
+      img.style.height = bottle.shown + 'px';   // 20% smaller than the natural / previous size
+      img.style.width = 'auto';
+      stage.appendChild(el('div', { class: 'hero' }, [img]));
+    }
+    stage.appendChild(section('Journey', ol));
+    out.appendChild(stage);
 
     // Ingredients by note tier
     var tiers = el('div', { class: 'tiers' });
@@ -305,8 +318,8 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
       var b = BOTTLES[o];
       ul.appendChild(el('li', null, [
         el('a', { class: 'tile', href: '#' + o }, [
-          el('span', { class: 'tile-img' + (b.dark ? ' dark' : '') }, [
-            el('img', { src: 'images/' + o + '.webp', alt: '', width: String(b.w), height: String(b.h), decoding: 'async' })
+          el('span', { class: 'tile-img' }, [
+            el('img', { src: 'images/' + (b.tile || o) + '.webp', alt: '', width: String(b.w), height: String(b.h), decoding: 'async' })
           ]),
           el('span', { class: 'tile-kicker', text: pad(i + 1) + ' / ' + b.coll }),
           el('span', { class: 'tile-name', text: b.name })
@@ -315,11 +328,15 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     });
     setWide(true);
     app.replaceChildren(el('div', { class: 'center' }, [
+      el('span', { class: 'kicker', text: 'SONDER \u00b7 Passports' }),
+      el('h1', { text: 'Choose a bottle' }),
       el('div', { class: 'intro' }, [
         el('div', { class: 'intro-text' }, [
-          el('span', { class: 'kicker', text: 'SONDER \u00b7 Passports' }),
-          el('h1', { text: 'Choose a bottle' }),
-          el('p', { text: 'Each bottle has its own passport. Scan its tag, or pick one here.' })
+          el('p', { class: 'lede', text: 'We believe a fragrance should be as honest as it is beautiful. Each SONDER bottle has its own passport that shows where its ingredients are grown, what the bottle and cap are made from, and where the fragrance is blended and bottled. Sourcing ethically and sustainably starts with being open about it, so you can see the full story and choose with care. Scan the tag on your bottle, or pick one below to follow its journey.' }),
+          el('p', { class: 'notice', role: 'note' }, [
+            el('strong', { text: 'Illustrative sample data. ' }),
+            'These passports are a prototype. Origins, materials and claims shown are examples, not verified sourcing.'
+          ])
         ]),
         el('div', { class: 'box' }, [
           el('img', { src: 'images/discovery-box.webp', alt: 'The SONDER box open, with three small bottles (Wander, Alter and Emergence) set in a black tray under a large empty black lid.', width: '1000', height: '1000', decoding: 'async' })
