@@ -11,7 +11,7 @@
   var id = (location.hash.slice(1) || q).toLowerCase().replace(/[^a-z0-9-]/g, '');
   if (['wander', 'alter', 'emergence', 'beyond'].indexOf(id) > -1) {
     var l = document.createElement('link');
-    l.rel = 'preload'; l.as = 'image'; l.href = 'images/' + id + '.webp';
+    l.rel = 'preload'; l.as = 'image'; l.href = 'images/' + (id === 'beyond' ? 'beyond-dark' : id) + '.webp';
     document.head.appendChild(l);
   }
   if (id && typeof fetch === 'function') {
@@ -208,7 +208,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     wander:    { name: 'Wander',    coll: 'Liminality',        w: 370, h: 421, shown: 337, alt: 'SONDER Wander bottle: a brushed-metal body with a stone cap veined in blue.' },
     alter:     { name: 'Alter',     coll: 'Liminality',        w: 375, h: 412, shown: 330, alt: 'SONDER Alter bottle: a brushed-metal body with a stone cap veined in green.' },
     emergence: { name: 'Emergence', coll: 'Liminality',        w: 385, h: 412, shown: 330, alt: 'SONDER Emergence bottle: a brushed-metal body with a stone cap veined in red.' },
-    beyond:    { name: 'Beyond',    coll: 'Beyond Liminality', w: 326, h: 766, shown: 384, alt: 'SONDER Beyond, a tall matte black 100 ml bottle with a dark stone cap veined in purple.' }
+    beyond:    { name: 'Beyond',    coll: 'Beyond Liminality', w: 326, h: 766, shown: 384, hero: 'beyond-dark', alt: 'SONDER Beyond, a tall matte black 100 ml bottle with a dark stone cap veined in purple.' }
   };
   var RECYCLE = { yes: 'Recyclable', partly: 'Partly recyclable', no: 'Not recyclable', unknown: 'Recyclability unknown' };
   var CLAIM_TYPE = { certification: 'Certification', brand_claim: 'Brand claim' };
@@ -519,7 +519,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     var bottle = BOTTLES[rec.id];
     var stage = el('div', { class: 'stage' });
     if (bottle) {
-      var img = el('img', { src: 'images/' + rec.id + '.webp', alt: bottle.alt, width: String(bottle.w), height: String(bottle.h), decoding: 'async', fetchpriority: 'high' });
+      var img = el('img', { src: 'images/' + (bottle.hero || rec.id) + '.webp', alt: bottle.alt, width: String(bottle.w), height: String(bottle.h), decoding: 'async', fetchpriority: 'high' });
       img.style.height = bottle.shown + 'px';   // 20% smaller than the natural / previous size
       img.style.width = 'auto';
       stage.appendChild(el('div', { class: 'hero' }, [img]));
