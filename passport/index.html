@@ -295,20 +295,15 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     return worldPromise;
   }
 
-  // the visible slice of the world: every origin of this bottle plus some margin, in the panel's 16:15 shape
-  function computeView(points) {
-    var minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9;
-    points.forEach(function (p) {
-      minx = Math.min(minx, p[1]); maxx = Math.max(maxx, p[1]);
-      miny = Math.min(miny, -p[0]); maxy = Math.max(maxy, -p[0]);
-    });
-    var pad = 20;
+  // the same world view on every bottle's page, so the maps line up and are easy to compare
+  var WORLD_VIEW = (function () {
+    var minx = -170, maxx = 180, miny = -56, maxy = 84, pad = 6;
     minx -= pad; maxx += pad; miny -= pad; maxy += pad;
     var w = maxx - minx, h = maxy - miny, a = 16 / 15;
     if (w / h < a) { var nw = h * a; minx -= (nw - w) / 2; w = nw; }
     else { var nh = w / a; miny -= (nh - h) / 2; h = nh; }
     return [minx, miny, w, h];
-  }
+  })();
 
   // keep the photo cards from covering each other: nudge them apart, but stay close to where they started
   function layoutCards(pts, W, H, BW, BH) {
@@ -342,7 +337,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     if (stopResize) { stopResize(); stopResize = null; }
     var accent = (THEMES[id] && THEMES[id].accent) || '#e8492b';
     var located = rec.ingredients.filter(function (i) { return geoFor(i); });
-    var view = computeView(located.map(geoFor));
+    var view = WORLD_VIEW;
     var active = null, started = false, curItems = [];
 
     var svg = svgEl('svg', { class: 'map-svg', viewBox: view.map(function (n) { return Math.round(n * 100) / 100; }).join(' '), preserveAspectRatio: 'xMidYMid slice', 'aria-hidden': 'true' });
