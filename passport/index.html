@@ -106,6 +106,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 .map-seg button{padding:8px 12px;border:1px solid var(--rule);border-radius:999px;background:none;color:inherit;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 .map-seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 .map-stage{position:relative;width:100%;height:0;padding-top:39.9%;overflow:hidden;background:var(--ocean);border:1px solid var(--rule);border-radius:8px}
+.map-inner{width:100%;height:100%}
 .map-svg,.map-links,.map-pins{position:absolute;top:0;left:0;width:100%;height:100%;display:block}
 .map-links{pointer-events:none}
 .map-hint{position:absolute;left:14px;bottom:12px;margin:0;max-width:60%;font:400 11px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);transition:opacity .25s}
@@ -153,10 +154,12 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 .center .notice{margin-top:20px;max-width:56ch}
 .center p{max-width:44ch;color:var(--mute)}
 @media (min-width:720px){
-  .sec.origin{display:grid;grid-template-columns:minmax(0,665px) minmax(0,1fr);grid-template-areas:"head map" "list map";column-gap:clamp(40px,8vw,130px);align-items:start}
+  .sec.origin{display:grid;grid-template-columns:minmax(0,665px) minmax(0,1fr);grid-template-areas:"head map" "list map";column-gap:clamp(40px,8vw,130px);align-items:stretch}
   .sec.origin > h2{grid-area:head}
   .sec.origin > .origin-list{grid-area:list}
-  .sec.origin > .map-panel{grid-area:map;margin-top:0;order:0}
+  .sec.origin > .map-panel{grid-area:map;margin-top:0;order:0;height:100%;display:flex;flex-direction:column}
+  .sec.origin .map-stage{flex:1 1 auto;min-height:280px;padding-top:0;overflow:visible;background:none;border:0;border-radius:0;display:flex;align-items:center;justify-content:center}
+  .sec.origin .map-inner{position:relative}
   .map-seg{display:none}
   .stage{display:flex;justify-content:center;align-items:center;gap:clamp(40px,6vw,96px);margin-top:40px}
   .stage .hero{margin:0;flex:none}
@@ -342,7 +345,8 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     var links = svgEl('svg', { class: 'map-links', 'aria-hidden': 'true' });
     var pins = el('div', { class: 'map-pins' });
     var hint = el('p', { class: 'map-hint', text: 'Select Top, Heart or Base to place its ingredients on the map.' });
-    var stage = el('div', { class: 'map-stage' }, [svg, links, pins, hint]);
+    var inner = el('div', { class: 'map-inner' }, [svg, links, pins, hint]);
+    var stage = el('div', { class: 'map-stage' }, [inner]);
     var status = el('p', { class: 'sr', 'aria-live': 'polite' });
 
     var seg = el('div', { class: 'map-seg' });
@@ -372,12 +376,20 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
       });
     }
 
+    function fitInner() {
+      var SW = stage.clientWidth || 780, SH = stage.clientHeight || 311;
+      var va = view[2] / view[3];
+      var W = SW, H = SW / va;
+      if (H > SH) { H = SH || (SW / va); W = H * va; }
+      inner.style.width = Math.round(W) + 'px'; inner.style.height = Math.round(H) + 'px';
+      return [W, H];
+    }
     function render(animate) {
       while (pins.firstChild) pins.removeChild(pins.firstChild);
       while (links.firstChild) links.removeChild(links.firstChild);
       paintHighlight();
+      var wh = fitInner(), W = wh[0], H = wh[1];
       if (!curItems.length) return;
-      var W = stage.clientWidth || 780, H = stage.clientHeight || 731;
       var small = W < 480, BW = small ? 54 : 62, BH = small ? 44 : 48;
       links.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
       var pts = curItems.map(function (i) {
@@ -436,6 +448,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
         if (started) return; started = true;
         loadWorld().then(drawWorld).catch(function () { if (window.console) console.warn('world.json not available; showing pins without the land outline'); });
       }
+      fitInner();
       if ('IntersectionObserver' in window) {
         var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); start(); } }, { rootMargin: '600px' });
         io.observe(stage);
