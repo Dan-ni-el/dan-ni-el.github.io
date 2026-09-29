@@ -105,20 +105,22 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 .map-seg{display:flex;gap:8px;margin:0 0 12px}
 .map-seg button{padding:8px 12px;border:1px solid var(--rule);border-radius:999px;background:none;color:inherit;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 .map-seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
-.map-stage{position:relative;width:100%;height:0;padding-top:93.75%;overflow:hidden;background:var(--ocean);border:1px solid var(--rule);border-radius:8px}
+.map-stage{position:relative;width:100%;height:0;padding-top:39.9%;overflow:hidden;background:var(--ocean);border:1px solid var(--rule);border-radius:8px}
 .map-svg,.map-links,.map-pins{position:absolute;top:0;left:0;width:100%;height:100%;display:block}
 .map-links{pointer-events:none}
 .map-hint{position:absolute;left:14px;bottom:12px;margin:0;max-width:60%;font:400 11px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);transition:opacity .25s}
 .map-panel.has-pins .map-hint{opacity:0}
-.pin{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;box-sizing:border-box;width:96px;padding:8px 6px 7px;background:var(--bg);border:1px solid var(--rule);border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.14);text-align:center;animation:pinDrop .55s cubic-bezier(.2,.8,.2,1) both;transition:box-shadow .2s,border-color .2s}
+.pin{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-sizing:border-box;width:78px;padding:6px 4px 5px;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(2px);border:1px solid var(--rule);border-radius:9px;box-shadow:0 6px 16px rgba(0,0,0,.14);text-align:center;animation:pinDrop .55s cubic-bezier(.2,.8,.2,1) both;transition:box-shadow .2s,border-color .2s,opacity .15s}
 .pin.still{animation:none}
 .pin:hover,.pin.hl{border-color:var(--accent);box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:2}
-.pin-bulb{display:block;width:44px;height:44px;border-radius:50%;overflow:hidden;background:var(--rule);flex:none}
+.pin-bulb{display:block;width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--rule);flex:none}
 .pin-bulb img{display:block;width:100%;height:100%;object-fit:cover}
 .pin-name{display:block;font:500 10px/1.25 var(--mono);letter-spacing:.06em;text-transform:uppercase}
 .pin-origin{display:block;font-size:10.5px;line-height:1.2;color:var(--mute)}
-.pin.sm{width:84px;padding:6px 5px}
-.pin.sm .pin-bulb{width:36px;height:36px}
+.pin.sm{width:68px;padding:5px 4px}
+.pin.sm .pin-bulb{width:28px;height:28px}
+.pin:hover{opacity:.35}
+.pin:hover.hl,.map-pins:not(:hover) .pin.hl{opacity:1}
 .pin-line{stroke-linecap:round;animation:pinFade .5s ease both}
 .pin-anchor{animation:pinFade .5s ease both}
 @keyframes pinDrop{0%{opacity:0;transform:translateY(-20px) scale(.9)}60%{opacity:1;transform:translateY(3px) scale(1.02)}100%{opacity:1;transform:none}}
@@ -296,14 +298,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
   }
 
   // the same world view on every bottle's page, so the maps line up and are easy to compare
-  var WORLD_VIEW = (function () {
-    var minx = -170, maxx = 180, miny = -56, maxy = 84, pad = 6;
-    minx -= pad; maxx += pad; miny -= pad; maxy += pad;
-    var w = maxx - minx, h = maxy - miny, a = 16 / 15;
-    if (w / h < a) { var nw = h * a; minx -= (nw - w) / 2; w = nw; }
-    else { var nh = w / a; miny -= (nh - h) / 2; h = nh; }
-    return [minx, miny, w, h];
-  })();
+  var WORLD_VIEW = [-183, -59, 366, 146];   // the whole world, matching the .map-stage shape 1:1 -- no stretching
 
   // keep the photo cards from covering each other: nudge them apart, but stay close to where they started
   function layoutCards(pts, W, H, BW, BH) {
@@ -341,12 +336,8 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     var active = null, started = false, curItems = [];
 
     var svg = svgEl('svg', { class: 'map-svg', viewBox: view.map(function (n) { return Math.round(n * 100) / 100; }).join(' '), preserveAspectRatio: 'xMidYMid slice', 'aria-hidden': 'true' });
-    var defs = svgEl('defs');
-    var pL = svgEl('pattern', { id: 'sdotsL', width: '2.2', height: '2.2', patternUnits: 'userSpaceOnUse' });
-    pL.appendChild(svgEl('circle', { cx: '1.1', cy: '1.1', r: '0.6', style: 'fill:var(--land)' }));
-    defs.appendChild(pL);
     var gLand = svgEl('g');
-    svg.appendChild(defs); svg.appendChild(gLand);
+    svg.appendChild(gLand);
     // nothing else is drawn on the map until a tier is selected
 
     var links = svgEl('svg', { class: 'map-links', 'aria-hidden': 'true' });
@@ -365,7 +356,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     var worldData = null, gHighlight = svgEl('g');
     function drawWorld(world) {
       worldData = world;
-      gLand.appendChild(svgEl('path', { d: world.land, fill: 'url(#sdotsL)' }));
+      gLand.appendChild(svgEl('path', { d: world.land, style: 'fill:var(--land)' }));
       svg.appendChild(gHighlight);
       paintHighlight();
     }
@@ -388,7 +379,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
       paintHighlight();
       if (!curItems.length) return;
       var W = stage.clientWidth || 780, H = stage.clientHeight || 731;
-      var small = W < 480, BW = small ? 84 : 96, BH = small ? 98 : 108;
+      var small = W < 480, BW = small ? 68 : 78, BH = small ? 80 : 88;
       links.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
       var pts = curItems.map(function (i) {
         var g = geoFor(i);
