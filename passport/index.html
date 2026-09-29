@@ -110,15 +110,14 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 .map-links{pointer-events:none}
 .map-hint{position:absolute;left:14px;bottom:12px;margin:0;max-width:60%;font:400 11px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);transition:opacity .25s}
 .map-panel.has-pins .map-hint{opacity:0}
-.pin{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-sizing:border-box;width:78px;padding:6px 4px 5px;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(2px);border:1px solid var(--rule);border-radius:9px;box-shadow:0 6px 16px rgba(0,0,0,.14);text-align:center;animation:pinDrop .55s cubic-bezier(.2,.8,.2,1) both;transition:box-shadow .2s,border-color .2s,opacity .15s}
+.pin{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-sizing:border-box;width:62px;padding:4px 3px;background:color-mix(in srgb, var(--bg) 90%, transparent);backdrop-filter:blur(2px);border:1px solid var(--rule);border-radius:8px;box-shadow:0 5px 14px rgba(0,0,0,.14);text-align:center;animation:pinDrop .55s cubic-bezier(.2,.8,.2,1) both;transition:box-shadow .2s,border-color .2s,opacity .15s}
 .pin.still{animation:none}
 .pin:hover,.pin.hl{border-color:var(--accent);box-shadow:0 8px 22px rgba(0,0,0,.2);z-index:2}
-.pin-bulb{display:block;width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--rule);flex:none}
+.pin-bulb{display:block;width:26px;height:26px;border-radius:50%;overflow:hidden;background:var(--rule);flex:none}
 .pin-bulb img{display:block;width:100%;height:100%;object-fit:cover}
 .pin-name{display:block;font:500 10px/1.25 var(--mono);letter-spacing:.06em;text-transform:uppercase}
-.pin-origin{display:block;font-size:10.5px;line-height:1.2;color:var(--mute)}
-.pin.sm{width:68px;padding:5px 4px}
-.pin.sm .pin-bulb{width:28px;height:28px}
+.pin.sm{width:54px;padding:3px 2px}
+.pin.sm .pin-bulb{width:22px;height:22px}
 .pin:hover{opacity:.35}
 .pin:hover.hl,.map-pins:not(:hover) .pin.hl{opacity:1}
 .pin-line{stroke-linecap:round;animation:pinFade .5s ease both}
@@ -379,7 +378,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
       paintHighlight();
       if (!curItems.length) return;
       var W = stage.clientWidth || 780, H = stage.clientHeight || 731;
-      var small = W < 480, BW = small ? 68 : 78, BH = small ? 80 : 88;
+      var small = W < 480, BW = small ? 54 : 62, BH = small ? 44 : 48;
       links.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
       var pts = curItems.map(function (i) {
         var g = geoFor(i);
@@ -393,7 +392,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
       });
       pts.forEach(function (p, k) {
         var c = pos[k];
-        var img = el('img', { src: ingImg(p.i.name), alt: '', width: '44', height: '44', decoding: 'async' });
+        var img = el('img', { src: ingImg(p.i.name), alt: '', width: '26', height: '26', decoding: 'async' });
         img.onerror = function () { img.parentNode.textContent = p.i.name.charAt(0); };
         pins.appendChild(el('div', {
           class: 'pin' + (small ? ' sm' : '') + (animate ? '' : ' still'), role: 'img', 'data-ing': p.i.name,
@@ -401,8 +400,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
           style: 'left:' + Math.round(c.x - BW / 2) + 'px;top:' + Math.round(c.y - BH / 2) + 'px;height:' + BH + 'px;animation-delay:' + (k * 90) + 'ms'
         }, [
           el('span', { class: 'pin-bulb' }, [img]),
-          el('span', { class: 'pin-name', text: p.i.name }),
-          el('span', { class: 'pin-origin', text: p.i.origin_country })
+          el('span', { class: 'pin-name', text: p.i.name })
         ]));
       });
     }
