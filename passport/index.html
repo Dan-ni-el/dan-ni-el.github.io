@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f1f1ef">
+<title>SONDER passport</title>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search).get('b') || '';
+  var id = (location.hash.slice(1) || q).toLowerCase().replace(/[^a-z0-9-]/g, '');
+  if (['wander', 'alter', 'emergence', 'beyond'].indexOf(id) > -1) {
+    var l = document.createElement('link');
+    l.rel = 'preload'; l.as = 'image'; l.href = 'images/' + id + '.webp';
+    document.head.appendChild(l);
+  }
+  if (id && typeof fetch === 'function') {
+    var p = fetch('passport-' + id + '.json').then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    });
+    p.catch(function () {});
+    window.__early = { id: id, p: p };
+  }
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
+<style>
+:root{
+  --bg:#f1f1ef; --ink:#0c0c0d; --mute:#5b5b58; --rule:#cfcfca;
+  --accent:#e8492b; --accent-text:#b93a20; --ocean:#e7e7e2; --land:#c5c5bf;
+  --sans:'Archivo',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+:root[data-theme="dark"]{ --bg:#0c0c0d; --ink:#ebe8df; --mute:#a5a39c; --rule:#2b2b2d; --ocean:#131315; --land:#3d3d41; }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5}
+a{color:inherit;text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
+.wrap{max-width:none;margin:0;padding:max(20px,env(safe-area-inset-top)) clamp(20px,4vw,56px) max(56px,env(safe-area-inset-bottom))}
+
+.top,.notice,.sec,.foot{max-width:760px}
+.top{display:flex;justify-content:flex-start;flex-wrap:wrap;gap:8px 24px;align-items:baseline}
+.kicker,.back{font:500 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.kicker{color:var(--accent-text)}
+.back{color:var(--mute);text-decoration:none;white-space:nowrap}
+.back:hover{color:var(--ink)}
+
+.notice{margin:20px 0 0;padding:12px 14px;border:1px solid var(--rule);border-left:3px solid var(--accent);font:400 12px/1.6 var(--mono);color:var(--ink)}
+.notice strong{font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+
+h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,112px);line-height:.95;letter-spacing:-.03em}
+.tagline{margin:20px 0 0;width:max-content;max-width:100%;font-size:18px;line-height:1.5}
+.sizes{margin:18px 0 0;font:400 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+
+.sec{margin-top:44px;padding-top:20px;border-top:1px solid var(--rule)}
+.sec h2{margin:0 0 20px;font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text)}
+
+.journey{list-style:none;margin:0;padding:0}
+.journey li{position:relative;display:flex;flex-direction:column;gap:2px;padding:0 0 28px 28px}
+.journey li:last-child{padding-bottom:0}
+.journey li::before{content:"";position:absolute;left:0;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.journey li::after{content:"";position:absolute;left:4.5px;top:20px;bottom:-6px;width:1px;background:var(--rule)}
+.journey li:last-child::after{display:none}
+.journey .meta{font:400 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.journey .where{font-size:20px;line-height:1.25;font-weight:600}
+.journey .what{font-size:15px;color:var(--mute)}
+
+.tiers{display:grid;gap:28px}
+.tier h3{margin:0 0 4px;font:400 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.list{list-style:none;margin:0;padding:0}
+.ing{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 16px;padding:10px 0;border-bottom:1px solid var(--rule)}
+.ing-name{font-weight:600}
+.ing-origin{font:400 13px/1.5 var(--mono);color:var(--mute);text-align:right}
+.ing-note{flex-basis:100%;font-size:13px;color:var(--mute)}
+
+.pack{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:12px 0;border-bottom:1px solid var(--rule)}
+.pack-name{font-weight:600}
+.pack-mat{display:block;font-size:15px;color:var(--mute)}
+.chip{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--rule);padding:6px 9px;border-radius:999px;white-space:nowrap}
+
+.claim{padding:12px 0;border-bottom:1px solid var(--rule)}
+.claim-tag{display:block;margin-top:4px;font:400 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ingredients + origin map */
+.sec.origin{max-width:none;display:flex;flex-direction:column}
+.origin-list{min-width:0}
+.tier-btn{display:inline-flex;align-items:center;gap:10px;padding:6px 0;margin:0;background:none;border:0;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;text-align:left}
+.tier-btn::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--mute);transition:background .2s,border-color .2s}
+.tier-btn:hover::before{border-color:var(--ink)}
+.tier-btn[aria-pressed="true"]{color:var(--ink)}
+.tier-btn[aria-pressed="true"]::before{background:var(--accent);border-color:var(--accent)}
+.tier-btn:focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
+.tier-hint{color:var(--accent-text);font-size:11px;letter-spacing:.08em;opacity:0;transition:opacity .2s}
+.tier-btn:hover .tier-hint,.tier-btn:focus-visible .tier-hint,.tier-btn[aria-pressed="true"] .tier-hint{opacity:1}
+.ing.hl{background:rgba(127,127,127,.08)}
+.map-panel{position:relative;margin-top:24px;order:-1}
+.origin-list{order:0}
+.map-seg{display:flex;gap:8px;margin:0 0 12px}
+.map-seg button{padding:8px 12px;border:1px solid var(--rule);border-radius:999px;background:none;color:inherit;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.map-seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.map-stage{position:relative;width:100%;height:0;padding-top:48.2%;overflow:hidden;background:var(--ocean);border:1px solid var(--rule);border-radius:8px}
+.map-inner{width:100%;height:100%}
+.map-svg,.map-links,.map-pins{position:absolute;top:0;left:0;width:100%;height:100%;display:block}
+.map-links{pointer-events:none}
+.map-hint{position:absolute;left:14px;bottom:12px;margin:0;max-width:60%;font:400 11px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mute);transition:opacity .25s}
+.map-panel.has-pins .map-hint{opacity:0}
+.pin{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;box-sizing:border-box;width:72px;padding:2px 0 0;background:none;border:0;box-shadow:none;text-align:center;animation:pinDrop .55s cubic-bezier(.2,.8,.2,1) both}
+.pin.still{animation:none}
+.pin.hl{z-index:2}
+.pin-bulb{display:block;width:30px;height:30px;border-radius:50%;overflow:hidden;background:#fff;flex:none;box-shadow:0 0 0 2px var(--bg),0 3px 9px rgba(0,0,0,.30);transition:box-shadow .2s}
+.pin.hl .pin-bulb{box-shadow:0 0 0 2px var(--accent),0 3px 9px rgba(0,0,0,.30)}
+.pin-bulb img{display:block;width:100%;height:100%;object-fit:cover}
+.pin-name{display:block;font:500 10px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-shadow:0 0 2px var(--bg),0 0 2px var(--bg),0 0 4px var(--bg),0 0 7px var(--bg)}
+.pin.sm{width:60px}
+.pin.sm .pin-bulb{width:24px;height:24px}
+.pin-line{stroke-linecap:round;animation:pinFade .5s ease both}
+.pin-anchor{animation:pinFade .5s ease both}
+@keyframes pinDrop{0%{opacity:0;transform:translateY(-20px) scale(.9)}60%{opacity:1;transform:translateY(3px) scale(1.02)}100%{opacity:1;transform:none}}
+@keyframes pinFade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.pin,.pin-line,.pin-anchor{animation:none !important}}
+
+.others{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.others a{display:inline-block;padding:8px 12px;border:1px solid var(--rule);border-radius:999px;font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+.others a[aria-current="page"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+
+.foot{margin-top:56px;padding-top:16px;border-top:1px solid var(--rule);font:400 12px/1.7 var(--mono);color:var(--mute)}
+
+.hero{margin:28px 0 0;display:flex;justify-content:center}
+.hero img{display:block;width:auto;height:auto;max-width:100%;max-height:480px}
+.wrap.wide{max-width:none}
+.box{margin:28px 0 0}
+.box img{display:block;width:100%;max-width:480px;height:auto;border-radius:8px}
+.tiles{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media (min-width:640px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{display:block;color:inherit;text-decoration:none}
+.tile-img{display:block;position:relative;width:100%;height:0;padding-top:100%;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--bg)}
+.tile-img img{position:absolute;top:10px;left:10px;width:calc(100% - 20px);height:calc(100% - 20px);object-fit:contain}
+.tile:hover .tile-img,.tile:focus-visible .tile-img{border-color:var(--ink)}
+.tile-kicker{display:block;margin-top:10px;text-align:center;font:400 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.tile-name{display:block;text-align:center;font-weight:700;font-size:20px;line-height:1.2}
+
+.center{padding-top:48px}
+.center h1{white-space:nowrap;font-size:clamp(28px,9vw,88px)}
+.intro{margin-top:24px}
+.center .lede{margin:0;max-width:56ch;font-size:17px;line-height:1.65;color:var(--ink)}
+.center .notice{margin-top:20px;max-width:56ch}
+.center p{max-width:44ch;color:var(--mute)}
+@media (min-width:720px){
+  .sec.origin{display:grid;grid-template-columns:minmax(0,665px) minmax(0,1fr);grid-template-areas:"head map" "list map";column-gap:clamp(40px,8vw,130px);align-items:stretch}
+  .sec.origin > h2{grid-area:head}
+  .sec.origin > .origin-list{grid-area:list}
+  .sec.origin > .map-panel{grid-area:map;margin-top:0;order:0;height:100%;display:flex;flex-direction:column}
+  .sec.origin .map-stage{flex:1 1 auto;min-height:280px;padding-top:0;overflow:visible;background:none;border:0;border-radius:0;display:flex;align-items:center;justify-content:center}
+  .sec.origin .map-inner{position:relative}
+  .map-seg{display:none}
+  .stage{display:flex;justify-content:center;align-items:center;gap:clamp(40px,6vw,96px);margin-top:40px}
+  .stage .hero{margin:0;flex:none}
+  .stage .sec{margin-top:0;padding-top:0;border-top:none;flex:0 1 460px}
+  .intro{display:grid;grid-template-columns:minmax(0,1fr) clamp(300px,27vw,520px);gap:clamp(32px,3.5vw,64px);align-items:stretch}
+  .intro .box{position:relative;margin:0;min-height:260px}
+  .intro .box img{position:absolute;top:0;left:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 62%}
+  .center .lede{max-width:none;font-size:clamp(17px,1.55vw,26px)}
+  .center .notice{max-width:none}
+  .tiles{max-width:1440px;margin:44px auto 0;gap:24px}
+  .tile-img{padding-top:72%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <main id="app" aria-live="polite">
+    <noscript>This passport needs JavaScript to load.</noscript>
+  </main>
+</div>
+
+<script id="fallback-data" type="application/json">{"wander": {"schema_version": "0.1", "id": "wander", "data_status": "illustrative", "product": {"name": "Wander", "collection": "Liminality", "arc_stage": "past", "tagline": "The familiar. Memory surfacing — warmth looking back at what was, and who you were then.", "sizes_ml": [50, 15]}, "ingredients": [{"name": "Bergamot", "note_tier": "top", "origin_country": "Italy", "origin_region": "Calabria"}, {"name": "Pear", "note_tier": "top", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Pink Pepper", "note_tier": "top", "origin_country": "Madagascar"}, {"name": "Iris", "note_tier": "heart", "origin_country": "Italy", "origin_region": "Tuscany"}, {"name": "Violet", "note_tier": "heart", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Heliotrope", "note_tier": "heart", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Sandalwood", "note_tier": "base", "origin_country": "Australia", "origin_region": "Western Australia"}, {"name": "Vanilla", "note_tier": "base", "origin_country": "Madagascar", "origin_region": "SAVA"}, {"name": "Musk", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Amber", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}], "packaging": [{"component": "Bottle body", "material": "Recycled aluminum", "recyclable": "yes"}, {"component": "Fragrance vessel (inside the body)", "material": "Glass", "recyclable": "yes"}, {"component": "Cap", "material": "Recycled concrete composite", "recyclable": "partly"}], "claims": [{"claim": "Every ingredient is listed with its country of origin.", "type": "brand_claim"}, {"claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.", "type": "brand_claim"}], "journey": [{"step": 1, "stage": "origin", "location": "Italy, Madagascar, Australia", "description": "Natural ingredients are gathered from their traditional growing regions."}, {"step": 2, "stage": "processing", "location": "Grasse, France", "description": "Raw materials are extracted and prepared for blending."}, {"step": 3, "stage": "blending", "location": "Grasse, France", "description": "The notes are blended into the final composition."}, {"step": 4, "stage": "bottling", "location": "Singapore", "description": "The finished fragrance is bottled and packed."}], "later_phase": {"carbon_footprint_kg_co2e": null, "water_use_litres": null}}, "alter": {"schema_version": "0.1", "id": "alter", "data_status": "illustrative", "product": {"name": "Alter", "collection": "Liminality", "arc_stage": "in-between", "tagline": "The in-between. Somewhere unfamiliar at night — neither here nor there, nor anywhere yet.", "sizes_ml": [50, 15]}, "ingredients": [{"name": "Bergamot", "note_tier": "top", "origin_country": "Italy", "origin_region": "Calabria"}, {"name": "Juniper", "note_tier": "top", "origin_country": "Bulgaria"}, {"name": "Grapefruit", "note_tier": "top", "origin_country": "United States", "origin_region": "Florida"}, {"name": "Green Tea", "note_tier": "heart", "origin_country": "China"}, {"name": "Jasmine", "note_tier": "heart", "origin_country": "France", "origin_region": "Grasse"}, {"name": "Orris", "note_tier": "heart", "origin_country": "Italy", "origin_region": "Tuscany"}, {"name": "Vetiver", "note_tier": "base", "origin_country": "Haiti"}, {"name": "Cedar", "note_tier": "base", "origin_country": "Morocco", "origin_region": "Atlas"}, {"name": "Mineral Amber", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Musk", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}], "packaging": [{"component": "Bottle body", "material": "Recycled aluminum", "recyclable": "yes"}, {"component": "Fragrance vessel (inside the body)", "material": "Glass", "recyclable": "yes"}, {"component": "Cap", "material": "Recycled concrete composite", "recyclable": "partly"}], "claims": [{"claim": "Every ingredient is listed with its country of origin.", "type": "brand_claim"}, {"claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.", "type": "brand_claim"}], "journey": [{"step": 1, "stage": "origin", "location": "Italy, Bulgaria, United States, China, France, Haiti, Morocco", "description": "Natural ingredients are gathered from their traditional growing regions."}, {"step": 2, "stage": "processing", "location": "Grasse, France", "description": "Raw materials are extracted and prepared for blending."}, {"step": 3, "stage": "blending", "location": "Grasse, France", "description": "The notes are blended into the final composition."}, {"step": 4, "stage": "bottling", "location": "Singapore", "description": "The finished fragrance is bottled and packed."}], "later_phase": {"carbon_footprint_kg_co2e": null, "water_use_litres": null}}, "emergence": {"schema_version": "0.1", "id": "emergence", "data_status": "illustrative", "product": {"name": "Emergence", "collection": "Liminality", "arc_stage": "new", "tagline": "The new state. Coming into focus — clarity, renewal, becoming someone you weren’t before.", "sizes_ml": [50, 15]}, "ingredients": [{"name": "Mandarin", "note_tier": "top", "origin_country": "Italy", "origin_region": "Sicily"}, {"name": "Bergamot", "note_tier": "top", "origin_country": "Italy", "origin_region": "Calabria"}, {"name": "Neroli", "note_tier": "top", "origin_country": "Tunisia", "origin_region": "Nabeul"}, {"name": "Orange Blossom", "note_tier": "heart", "origin_country": "Morocco"}, {"name": "White Tea", "note_tier": "heart", "origin_country": "China", "origin_region": "Fujian"}, {"name": "Jasmine", "note_tier": "heart", "origin_country": "France", "origin_region": "Grasse"}, {"name": "Ambrette", "note_tier": "base", "origin_country": "India"}, {"name": "Cedar", "note_tier": "base", "origin_country": "Morocco", "origin_region": "Atlas"}, {"name": "Cashmere Musk", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Clean Amber", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}], "packaging": [{"component": "Bottle body", "material": "Recycled aluminum", "recyclable": "yes"}, {"component": "Fragrance vessel (inside the body)", "material": "Glass", "recyclable": "yes"}, {"component": "Cap", "material": "Recycled concrete composite", "recyclable": "partly"}], "claims": [{"claim": "Every ingredient is listed with its country of origin.", "type": "brand_claim"}, {"claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.", "type": "brand_claim"}], "journey": [{"step": 1, "stage": "origin", "location": "Italy, Tunisia, Morocco, China, France, India", "description": "Natural ingredients are gathered from their traditional growing regions."}, {"step": 2, "stage": "processing", "location": "Grasse, France", "description": "Raw materials are extracted and prepared for blending."}, {"step": 3, "stage": "blending", "location": "Grasse, France", "description": "The notes are blended into the final composition."}, {"step": 4, "stage": "bottling", "location": "Singapore", "description": "The finished fragrance is bottled and packed."}], "later_phase": {"carbon_footprint_kg_co2e": null, "water_use_litres": null}}, "beyond": {"schema_version": "0.1", "id": "beyond", "data_status": "illustrative", "product": {"name": "Beyond", "collection": "Beyond Liminality", "arc_stage": "beyond", "tagline": "Past the threshold. The gateway at the end of transition — where movement stops and something permanent begins, and finally comes to rest. Dark, resinous, warm.", "sizes_ml": [100]}, "ingredients": [{"name": "Black Pepper", "note_tier": "top", "origin_country": "India", "origin_region": "Kerala"}, {"name": "Frankincense", "note_tier": "top", "origin_country": "Oman", "origin_region": "Dhofar"}, {"name": "Elemi", "note_tier": "top", "origin_country": "Philippines"}, {"name": "Myrrh", "note_tier": "heart", "origin_country": "Ethiopia"}, {"name": "Labdanum", "note_tier": "heart", "origin_country": "Spain", "origin_region": "Andalusia"}, {"name": "Dark Rose", "note_tier": "heart", "origin_country": "Turkey", "origin_region": "Isparta"}, {"name": "Oud", "note_tier": "base", "origin_country": "India", "origin_region": "Assam"}, {"name": "Amber", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}, {"name": "Benzoin", "note_tier": "base", "origin_country": "Laos"}, {"name": "Leather", "note_tier": "base", "origin_country": "France", "sourcing_note": "Composed accord, not a single-origin material."}], "packaging": [{"component": "Bottle body", "material": "Recycled aluminum", "recyclable": "yes"}, {"component": "Fragrance vessel (inside the body)", "material": "Glass", "recyclable": "yes"}, {"component": "Cap", "material": "Recycled concrete composite", "recyclable": "partly"}], "claims": [{"claim": "Every ingredient is listed with its country of origin.", "type": "brand_claim"}, {"claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.", "type": "brand_claim"}], "journey": [{"step": 1, "stage": "origin", "location": "India, Oman, Philippines, Ethiopia, Spain, Turkey, Laos", "description": "Natural ingredients are gathered from their traditional growing regions."}, {"step": 2, "stage": "processing", "location": "Grasse, France", "description": "Raw materials are extracted and prepared for blending."}, {"step": 3, "stage": "blending", "location": "Grasse, France", "description": "The notes are blended into the final composition."}, {"step": 4, "stage": "bottling", "location": "Singapore", "description": "The finished fragrance is bottled and packed."}], "later_phase": {"carbon_footprint_kg_co2e": null, "water_use_litres": null}}}</script>
+<script>
+(function () {
+  'use strict';
+
+  var ORDER = ['wander', 'alter', 'emergence', 'beyond'];
+  var THEMES = {"wander": {"accent": "#3e7cc2", "dark": false, "text": "#366dab"}, "alter": {"accent": "#3fb27a", "dark": false, "text": "#2b7953"}, "emergence": {"accent": "#e8492b", "dark": false, "text": "#ca3316"}, "beyond": {"accent": "#9d5ce0", "dark": true, "text": "#9d5ce0"}};
+  var TIERS = ['top', 'heart', 'base'];
+  var GEO = {
+    'Italy|Calabria': [38.3, 16.2], 'Italy|Tuscany': [43.4, 11.1], 'Italy|Sicily': [37.5, 14.2],
+    'Madagascar': [-19.0, 46.9], 'Madagascar|SAVA': [-14.3, 50.0],
+    'Australia|Western Australia': [-28.0, 121.5],
+    'France': [46.6, 2.3], 'France|Grasse': [43.7, 6.9],
+    'Bulgaria': [42.7, 25.5], 'United States|Florida': [28.0, -81.7],
+    'China': [34.0, 104.0], 'China|Fujian': [26.1, 118.0],
+    'Haiti': [19.0, -72.4], 'Morocco': [32.0, -6.0], 'Morocco|Atlas': [32.0, -5.5],
+    'Tunisia|Nabeul': [36.5, 10.7],
+    'India': [22.5, 79.0], 'India|Kerala': [10.5, 76.3], 'India|Assam': [26.2, 92.9],
+    'Oman|Dhofar': [17.0, 54.1], 'Philippines': [12.9, 122.6], 'Ethiopia': [9.1, 40.5],
+    'Spain|Andalusia': [37.4, -4.7], 'Turkey|Isparta': [37.8, 30.5], 'Laos': [19.9, 102.5]
+  };
+  var ING_ALIAS = { 'cashmere-musk': 'musk', 'clean-amber': 'amber' };
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  var BOTTLES = {
+    wander:    { name: 'Wander',    coll: 'Liminality',        w: 370, h: 421, shown: 337, alt: 'SONDER Wander bottle: a brushed-metal body with a stone cap veined in blue.' },
+    alter:     { name: 'Alter',     coll: 'Liminality',        w: 375, h: 412, shown: 330, alt: 'SONDER Alter bottle: a brushed-metal body with a stone cap veined in green.' },
+    emergence: { name: 'Emergence', coll: 'Liminality',        w: 385, h: 412, shown: 330, alt: 'SONDER Emergence bottle: a brushed-metal body with a stone cap veined in red.' },
+    beyond:    { name: 'Beyond',    coll: 'Beyond Liminality', w: 326, h: 766, shown: 384, alt: 'SONDER Beyond, a tall matte black 100 ml bottle with a dark stone cap veined in purple.' }
+  };
+  var RECYCLE = { yes: 'Recyclable', partly: 'Partly recyclable', no: 'Not recyclable', unknown: 'Recyclability unknown' };
+  var CLAIM_TYPE = { certification: 'Certification', brand_claim: 'Brand claim' };
+  var app = document.getElementById('app');
+  var wrap = document.querySelector('.wrap');
+  function setWide(on) { if (wrap) wrap.classList.toggle('wide', on); }
+
+  function el(tag, props, kids) {
+    var n = document.createElement(tag);
+    if (props) {
+      Object.keys(props).forEach(function (k) {
+        if (k === 'class') n.className = props[k];
+        else if (k === 'text') n.textContent = props[k];
+        else n.setAttribute(k, props[k]);
+      });
+    }
+    (kids || []).forEach(function (c) {
+      if (c === null || c === undefined) return;
+      n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    });
+    return n;
+  }
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function section(title, child) {
+    return el('section', { class: 'sec' }, [el('h2', { text: title }), child]);
+  }
+
+  function applyTheme(id) {
+    var t = THEMES[id];
+    var html = document.documentElement;
+    if (!t) {
+      html.setAttribute('data-theme', 'light');
+      html.style.removeProperty('--accent');
+      html.style.removeProperty('--accent-text');
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', '#f1f1ef');
+      return;
+    }
+    html.setAttribute('data-theme', t.dark ? 'dark' : 'light');
+    html.style.setProperty('--accent', t.accent);
+    html.style.setProperty('--accent-text', t.text);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', t.dark ? '#0c0c0d' : '#f1f1ef');
+  }
+
+  function loadRecord(id) {
+    var url = 'passport-' + id + '.json';
+    var early = (window.__early && window.__early.id === id) ? window.__early.p : null;
+    window.__early = null;
+    var viaFetch = early || ((typeof fetch === 'function')
+      ? fetch(url).then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+      : Promise.reject(new Error('fetch unavailable')));
+    return viaFetch.catch(function (err) {
+      var raw = document.getElementById('fallback-data').textContent;
+      var copy = raw ? JSON.parse(raw) : {};
+      if (copy[id]) {
+        if (window.console) console.warn('Using the embedded copy of "' + id + '" (' + err.message + ')');
+        return copy[id];
+      }
+      throw err;
+    });
+  }
+
+  function svgEl(tag, attrs) {
+    var n = document.createElementNS(SVGNS, tag);
+    Object.keys(attrs || {}).forEach(function (k) { n.setAttribute(k, attrs[k]); });
+    return n;
+  }
+  function geoFor(i) { return GEO[i.origin_country + '|' + (i.origin_region || '')] || GEO[i.origin_country] || null; }
+  function ingImg(name) {
+    var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    return 'images/ingredients/' + (ING_ALIAS[slug] || slug) + '.webp';
+  }
+  function originText(i) { return i.origin_country + (i.origin_region ? ' \u00b7 ' + i.origin_region : ''); }
+
+  var worldPromise = null;
+  function loadWorld() {
+    if (!worldPromise) {
+      worldPromise = (typeof fetch === 'function')
+        ? fetch('world.v2.json').then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        : Promise.reject(new Error('fetch unavailable'));
+    }
+    return worldPromise;
+  }
+
+  // the same world view on every bottle's page, so the maps line up and are easy to compare
+  var WORLD_VIEW = [-186.5, -118, 382, 184];   // [minX, minY, width, height] in the units of world.v2.json (its bbox is [-181.4,-113.8,190.1,62.2]): all land, nothing cropped
+  // Miller cylindrical projection: stretches the far north so Greenland and the Arctic aren't squashed (like the reference map).
+  // Must match how world.v2.json was built: x = longitude, y = -(Miller y), both in degree-like units.
+  function project(lat, lon) {
+    var phi = lat * Math.PI / 180;
+    return [lon, -(1.25 * Math.log(Math.tan(Math.PI / 4 + 0.4 * phi)) * 180 / Math.PI)];
+  }
+
+  var stopResize = null;
+  function buildMap(rec, id, tiersEl) {
+    if (stopResize) { stopResize(); stopResize = null; }
+    var accent = (THEMES[id] && THEMES[id].accent) || '#e8492b';
+    var located = rec.ingredients.filter(function (i) { return geoFor(i); });
+    var view = WORLD_VIEW;
+    var active = null, started = false, curItems = [];
+
+    var svg = svgEl('svg', { class: 'map-svg', viewBox: view.map(function (n) { return Math.round(n * 100) / 100; }).join(' '), preserveAspectRatio: 'xMidYMid slice', 'aria-hidden': 'true' });
+    var gLand = svgEl('g');
+    svg.appendChild(gLand);
+    // nothing else is drawn on the map until a tier is selected
+
+    var links = svgEl('svg', { class: 'map-links', 'aria-hidden': 'true' });
+    var pins = el('div', { class: 'map-pins' });
+    var hint = el('p', { class: 'map-hint', text: 'Select Top, Heart or Base to place its ingredients on the map.' });
+    var inner = el('div', { class: 'map-inner' }, [svg, links, pins, hint]);
+    var stage = el('div', { class: 'map-stage' }, [inner]);
+    var status = el('p', { class: 'sr', 'aria-live': 'polite' });
+
+    var seg = el('div', { class: 'map-seg' });
+    TIERS.forEach(function (t) {
+      if (!rec.ingredients.some(function (i) { return i.note_tier === t; })) return;
+      seg.appendChild(el('button', { type: 'button', 'aria-pressed': 'false', 'data-tier': t, text: cap(t) }));
+    });
+    var panel = el('div', { class: 'map-panel', role: 'group', 'aria-label': 'Where the ingredients come from' }, [seg, stage, status]);
+
+    var worldData = null, gHighlight = svgEl('g'), hlPaths = [];
+    function drawWorld(world) {
+      worldData = world;
+      gLand.appendChild(svgEl('path', { d: world.land, style: 'fill:var(--land)' }));
+      svg.appendChild(gHighlight);
+      paintHighlight();
+    }
+    function paintHighlight() {
+      while (gHighlight.firstChild) gHighlight.removeChild(gHighlight.firstChild);
+      hlPaths = [];
+      if (!worldData) return;
+      var seen = {};
+      curItems.forEach(function (i) { seen[i.origin_country] = true; });   // only the tier on screen, not the whole bottle
+      Object.keys(seen).forEach(function (c) {
+        if (worldData.countries[c]) {
+          var fillPath = svgEl('path', { d: worldData.countries[c], fill: accent, 'fill-opacity': '0.22' });
+          hlPaths.push(fillPath);
+          gHighlight.appendChild(fillPath);
+          gHighlight.appendChild(svgEl('path', { d: worldData.countries[c], fill: 'none', stroke: accent, 'stroke-width': '0.5', 'stroke-opacity': '0.6' }));
+        }
+      });
+    }
+
+    // how many of a rectangle's sample points fall on a highlighted country (0 when the browser can't tell)
+    function landUnder(x0, y0, x1, y1, W, H) {
+      if (!hlPaths.length || typeof hlPaths[0].isPointInFill !== 'function' || typeof DOMPoint !== 'function') return 0;
+      var hits = 0, nx = 6, ny = 5;
+      for (var a = 0; a < nx; a++) for (var b = 0; b < ny; b++) {
+        var px = x0 + (x1 - x0) * (a + 0.5) / nx, py = y0 + (y1 - y0) * (b + 0.5) / ny;
+        var vx = view[0] + px / W * view[2], vy = view[1] + py / H * view[3];
+        for (var k = 0; k < hlPaths.length; k++) {
+          try { if (hlPaths[k].isPointInFill(new DOMPoint(vx, vy))) { hits++; break; } } catch (e) { return 0; }
+        }
+      }
+      return hits;
+    }
+    function placeCards(pts, W, H, BW, BH) {
+      var angles = [-90, -45, -135, 0, 180, 45, 135, 90];      // screen degrees: -90 is straight up
+      var gaps = [12, 34, 60];
+      var placed = [], out = [];
+      pts.forEach(function (p) {
+        var best = null;
+        gaps.forEach(function (gap, gi) {
+          angles.forEach(function (ang, ai) {
+            var rad = ang * Math.PI / 180;
+            var cx = p.ax + Math.cos(rad) * (BW / 2 + gap), cy = p.ay + Math.sin(rad) * (BH / 2 + gap);
+            var x0 = cx - BW / 2, y0 = cy - BH / 2, x1 = cx + BW / 2, y1 = cy + BH / 2;
+            var score = gi * 7 + ai * 2;
+            if (x0 < 2 || y0 < 2 || x1 > W - 2 || y1 > H - 2) score += 500;                                   // off the map
+            if (p.ax > x0 - 5 && p.ax < x1 + 5 && p.ay > y0 - 5 && p.ay < y1 + 5) score += 1000;            // on top of its own pin
+            placed.forEach(function (q) {
+              if (x0 < q.x1 + 6 && x1 > q.x0 - 6 && y0 < q.y1 + 6 && y1 > q.y0 - 6) score += 400;            // on another card
+            });
+            pts.forEach(function (o) {
+              if (o !== p && o.ax > x0 - 3 && o.ax < x1 + 3 && o.ay > y0 - 3 && o.ay < y1 + 3) score += 60; // on another pin
+            });
+            score += landUnder(x0, y0, x1, y1, W, H) * 9;                                                    // hiding the highlighted land
+            if (!best || score < best.score) best = { score: score, x: cx, y: cy, x0: x0, y0: y0, x1: x1, y1: y1 };
+          });
+        });
+        placed.push(best); out.push(best);
+      });
+      return out;
+    }
+    function fitInner() {
+      var SW = stage.clientWidth || 780, SH = stage.clientHeight || 311;
+      var va = view[2] / view[3];
+      var W = SW, H = SW / va;
+      if (H > SH) { H = SH || (SW / va); W = H * va; }
+      inner.style.width = Math.round(W) + 'px'; inner.style.height = Math.round(H) + 'px';
+      return [W, H];
+    }
+    function render(animate) {
+      while (pins.firstChild) pins.removeChild(pins.firstChild);
+      while (links.firstChild) links.removeChild(links.firstChild);
+      paintHighlight();
+      var wh = fitInner(), W = wh[0], H = wh[1];
+      if (!curItems.length) return;
+      var small = W < 480, BW = small ? 60 : 72, BH = small ? 52 : 58, bulb = small ? 24 : 30;
+      links.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      var pts = curItems.map(function (i) {
+        var g = geoFor(i), q = project(g[0], g[1]);
+        return { i: i, ax: (q[0] - view[0]) / view[2] * W, ay: (q[1] - view[1]) / view[3] * H };
+      });
+      var pos = placeCards(pts, W, H, BW, BH);
+      pts.forEach(function (p, k) {
+        var c = pos[k], delay = animate ? (k * 90) + 'ms' : '0ms';
+        links.appendChild(svgEl('line', { x1: p.ax, y1: p.ay, x2: c.x, y2: c.y - BH / 2 + 2 + bulb / 2, stroke: accent, 'stroke-width': '1.5', class: 'pin-line', style: 'animation-delay:' + delay }));
+        links.appendChild(svgEl('circle', { cx: p.ax, cy: p.ay, r: '5', fill: accent, stroke: 'var(--bg)', 'stroke-width': '2', class: 'pin-anchor', style: 'animation-delay:' + delay }));
+      });
+      pts.forEach(function (p, k) {
+        var c = pos[k];
+        var img = el('img', { src: ingImg(p.i.name), alt: '', width: String(bulb), height: String(bulb), decoding: 'async' });
+        img.onerror = function () { img.parentNode.textContent = p.i.name.charAt(0); };
+        pins.appendChild(el('div', {
+          class: 'pin' + (small ? ' sm' : '') + (animate ? '' : ' still'), role: 'img', 'data-ing': p.i.name,
+          'aria-label': p.i.name + ', ' + originText(p.i),
+          style: 'left:' + Math.round(c.x - BW / 2) + 'px;top:' + Math.round(c.y - BH / 2) + 'px;height:' + BH + 'px;animation-delay:' + (k * 90) + 'ms'
+        }, [
+          el('span', { class: 'pin-bulb' }, [img]),
+          el('span', { class: 'pin-name', text: p.i.name })
+        ]));
+      });
+    }
+
+    var buttons = [].slice.call(tiersEl.querySelectorAll('.tier-btn')).concat([].slice.call(seg.querySelectorAll('button')));
+    function setActive(t) {
+      active = (active === t) ? null : t;
+      curItems = active ? rec.ingredients.filter(function (i) { return i.note_tier === active && geoFor(i); }) : [];
+      buttons.forEach(function (b) {
+        var on = b.getAttribute('data-tier') === active;
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        var h = b.querySelector('.tier-hint');
+        if (h) h.textContent = on ? 'Showing \u00b7 click to hide' : 'Show on map';
+      });
+      panel.classList.toggle('has-pins', !!active);
+      status.textContent = active ? 'Showing the ' + active + ' notes on the map: ' + curItems.map(function (i) { return i.name; }).join(', ') + '.' : 'Map cleared.';
+      render(true);
+    }
+    buttons.forEach(function (b) { b.addEventListener('click', function () { setActive(b.getAttribute('data-tier')); }); });
+
+    [].slice.call(tiersEl.querySelectorAll('.ing')).forEach(function (row) {
+      function mark(on) {
+        var name = row.getAttribute('data-ing');
+        [].slice.call(pins.children).forEach(function (pn) { if (pn.getAttribute('data-ing') === name) pn.classList.toggle('hl', on); });
+        row.classList.toggle('hl', on);
+      }
+      row.addEventListener('mouseenter', function () { mark(true); });
+      row.addEventListener('mouseleave', function () { mark(false); });
+    });
+
+    panel.mount = function () {
+      function start() {
+        if (started) return; started = true;
+        loadWorld().then(drawWorld).catch(function () { if (window.console) console.warn('world.v2.json not available; showing pins without the land outline'); });
+      }
+      fitInner();
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); start(); } }, { rootMargin: '600px' });
+        io.observe(stage);
+      } else { start(); }
+      var t = null;
+      var onResize = function () { clearTimeout(t); t = setTimeout(function () { render(false); }, 120); };
+      window.addEventListener('resize', onResize);
+      stopResize = function () { window.removeEventListener('resize', onResize); clearTimeout(t); };
+    };
+    return panel;
+  }
+
+  function renderPassport(rec, id) {
+    applyTheme(id);
+    setWide(false);
+    document.title = rec.product.name + ' \u00b7 SONDER passport';
+    var idx = ORDER.indexOf(rec.id);
+    var out = document.createDocumentFragment();
+
+    out.appendChild(el('header', { class: 'top' }, [
+      el('span', { class: 'kicker', text: (idx >= 0 ? pad(idx + 1) + ' / ' : '') + rec.product.collection + ' \u00b7 Passport' }),
+      el('a', { class: 'back', href: '../Sonder.html', text: '\u2190 SONDER' })
+    ]));
+
+    if (rec.data_status === 'illustrative') {
+      out.appendChild(el('p', { class: 'notice', role: 'note' }, [
+        el('strong', { text: 'Illustrative sample data. ' }),
+        'This passport is a prototype. Origins, materials and claims shown are examples, not verified sourcing.'
+      ]));
+    }
+
+    out.appendChild(el('h1', { text: rec.product.name }));
+    if (rec.product.tagline) out.appendChild(el('p', { class: 'tagline', text: rec.product.tagline }));
+    out.appendChild(el('p', { class: 'sizes', text: rec.product.sizes_ml.map(function (s) { return s + ' ml'; }).join(' \u00b7 ') }));
+
+
+    // Journey
+    var ol = el('ol', { class: 'journey' });
+    rec.journey.slice().sort(function (a, b) { return a.step - b.step; }).forEach(function (s) {
+      ol.appendChild(el('li', null, [
+        el('span', { class: 'meta', text: 'Step ' + pad(s.step) + ' \u2014 ' + cap(s.stage) }),
+        el('strong', { class: 'where', text: s.location }),
+        el('span', { class: 'what', text: s.description })
+      ]));
+    });
+    var bottle = BOTTLES[rec.id];
+    var stage = el('div', { class: 'stage' });
+    if (bottle) {
+      var img = el('img', { src: 'images/' + rec.id + '.webp', alt: bottle.alt, width: String(bottle.w), height: String(bottle.h), decoding: 'async', fetchpriority: 'high' });
+      img.style.height = bottle.shown + 'px';   // 20% smaller than the natural / previous size
+      img.style.width = 'auto';
+      stage.appendChild(el('div', { class: 'hero' }, [img]));
+    }
+    stage.appendChild(section('Journey', ol));
+    out.appendChild(stage);
+
+    // Ingredients by note tier, with an interactive origin map beside them
+    var tiers = el('div', { class: 'tiers' });
+    TIERS.forEach(function (t) {
+      var items = rec.ingredients.filter(function (i) { return i.note_tier === t; });
+      if (!items.length) return;
+      var ul = el('ul', { class: 'list' });
+      items.forEach(function (i) {
+        ul.appendChild(el('li', { class: 'ing', 'data-ing': i.name }, [
+          el('span', { class: 'ing-name', text: i.name }),
+          el('span', { class: 'ing-origin', text: originText(i) }),
+          i.sourcing_note ? el('span', { class: 'ing-note', text: i.sourcing_note }) : null
+        ]));
+      });
+      var btn = el('button', { class: 'tier-btn', type: 'button', 'aria-pressed': 'false', 'data-tier': t }, [
+        el('span', { text: cap(t) }),
+        el('span', { class: 'tier-hint', text: 'Show on map' })
+      ]);
+      tiers.appendChild(el('div', { class: 'tier' }, [el('h3', null, [btn]), ul]));
+    });
+    var mapPanel = buildMap(rec, id, tiers);
+    out.appendChild(el('section', { class: 'sec origin' }, [
+      el('h2', { text: 'Ingredients and origin' }),
+      el('div', { class: 'origin-list' }, [tiers]),
+      mapPanel
+    ]));
+
+    // Packaging
+    var pk = el('ul', { class: 'list' });
+    rec.packaging.forEach(function (p) {
+      var mat = p.material + (typeof p.recycled_content_pct === 'number' ? ' \u00b7 ' + p.recycled_content_pct + '% recycled content' : '');
+      pk.appendChild(el('li', { class: 'pack' }, [
+        el('div', null, [el('span', { class: 'pack-name', text: p.component }), el('span', { class: 'pack-mat', text: mat })]),
+        el('span', { class: 'chip', text: RECYCLE[p.recyclable] || RECYCLE.unknown })
+      ]));
+    });
+    out.appendChild(section('Materials and packaging', pk));
+
+    // Claims
+    var cl = el('ul', { class: 'list' });
+    rec.claims.forEach(function (c) {
+      var tag = (CLAIM_TYPE[c.type] || 'Claim') + (c.issuer ? ' \u00b7 ' + c.issuer : '');
+      cl.appendChild(el('li', { class: 'claim' }, [c.claim, el('span', { class: 'claim-tag', text: tag })]));
+    });
+    out.appendChild(section('Sourcing claims', cl));
+
+    // Other passports
+    var nav = el('ul', { class: 'others' });
+    ORDER.forEach(function (o) {
+      var a = el('a', { href: '#' + o, text: cap(o) });
+      if (o === id) a.setAttribute('aria-current', 'page');
+      nav.appendChild(el('li', null, [a]));
+    });
+    out.appendChild(section('Other passports', nav));
+
+    out.appendChild(el('footer', { class: 'foot' }, [
+      'Passport: ' + rec.id + ' \u00b7 Schema ' + rec.schema_version + ' \u00b7 Data: ' + rec.data_status
+    ]));
+
+    app.replaceChildren(out);
+    mapPanel.mount();
+  }
+
+  function renderChooser() {
+    applyTheme('');
+    document.title = 'SONDER passports';
+    var ul = el('ul', { class: 'tiles' });
+    ORDER.forEach(function (o, i) {
+      var b = BOTTLES[o];
+      ul.appendChild(el('li', null, [
+        el('a', { class: 'tile', href: '#' + o }, [
+          el('span', { class: 'tile-img' }, [
+            el('img', { src: 'images/' + (b.tile || o) + '.webp', alt: '', width: String(b.w), height: String(b.h), decoding: 'async' })
+          ]),
+          el('span', { class: 'tile-kicker', text: pad(i + 1) + ' / ' + b.coll }),
+          el('span', { class: 'tile-name', text: b.name })
+        ])
+      ]));
+    });
+    setWide(true);
+    app.replaceChildren(el('div', { class: 'center' }, [
+      el('span', { class: 'kicker', text: 'SONDER \u00b7 Passports' }),
+      el('h1', { text: 'Choose a bottle' }),
+      el('div', { class: 'intro' }, [
+        el('div', { class: 'intro-text' }, [
+          el('p', { class: 'lede', text: 'We believe a fragrance should be as honest as it is beautiful. Each SONDER bottle has its own passport that shows where its ingredients are grown, what the bottle and cap are made from, and where the fragrance is blended and bottled. Sourcing ethically and sustainably starts with being open about it, so you can see the full story and choose with care. Scan the tag on your bottle, or pick one below to follow its journey.' }),
+          el('p', { class: 'notice', role: 'note' }, [
+            el('strong', { text: 'Illustrative sample data. ' }),
+            'These passports are a prototype. Origins, materials and claims shown are examples, not verified sourcing.'
+          ])
+        ]),
+        el('div', { class: 'box' }, [
+          el('img', { src: 'images/discovery-box.webp', alt: 'The SONDER box open, with three small bottles (Wander, Alter and Emergence) set in a black tray under a large empty black lid.', width: '1000', height: '1000', decoding: 'async' })
+        ])
+      ]),
+      ul
+    ]));
+  }
+
+  function renderError(id) {
+    applyTheme('');
+    setWide(false);
+    document.title = 'Passport not found \u00b7 SONDER';
+    var nav = el('ul', { class: 'others' });
+    ORDER.forEach(function (o) { nav.appendChild(el('li', null, [el('a', { href: '#' + o, text: cap(o) })])); });
+    app.replaceChildren(el('div', { class: 'center' }, [
+      el('span', { class: 'kicker', text: 'Not found' }),
+      el('h1', { text: 'No passport here' }),
+      el('p', { text: 'There is no passport called \u201c' + id + '\u201d. Try one of these:' }),
+      nav
+    ]));
+  }
+
+  var token = 0;
+  function route() {
+    var q = new URLSearchParams(window.location.search).get('b') || '';
+    var id = (window.location.hash.slice(1) || q).toLowerCase().replace(/[^a-z0-9-]/g, '');
+    var mine = ++token;
+    window.scrollTo(0, 0);
+    if (!id) { renderChooser(); return; }
+    loadRecord(id)
+      .then(function (rec) { if (mine === token) renderPassport(rec, id); })
+      .catch(function () { if (mine === token) renderError(id); });
+  }
+  window.addEventListener('hashchange', route);
+  route();
+})();
+</script>
+</body>
+</html>
