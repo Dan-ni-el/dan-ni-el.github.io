@@ -372,15 +372,22 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     });
     var panel = el('div', { class: 'map-panel', role: 'group', 'aria-label': 'Where the ingredients come from' }, [seg, stage, status]);
 
+    var worldData = null, gHighlight = svgEl('g');
     function drawWorld(world) {
+      worldData = world;
       gLand.appendChild(svgEl('path', { d: world.land, fill: 'url(#sdotsL)' }));
-      svg.appendChild(gDots);
+      svg.insertBefore(gHighlight, gDots);
+      paintHighlight();
+    }
+    function paintHighlight() {
+      while (gHighlight.firstChild) gHighlight.removeChild(gHighlight.firstChild);
+      if (!worldData) return;
       var seen = {};
-      rec.ingredients.forEach(function (i) { seen[i.origin_country] = true; });
+      curItems.forEach(function (i) { seen[i.origin_country] = true; });   // only the tier on screen, not the whole bottle
       Object.keys(seen).forEach(function (c) {
-        if (world.countries[c]) {
-          gLand.appendChild(svgEl('path', { d: world.countries[c], fill: accent, 'fill-opacity': '0.22' }));
-          gLand.appendChild(svgEl('path', { d: world.countries[c], fill: 'none', stroke: accent, 'stroke-width': '0.5', 'stroke-opacity': '0.6' }));
+        if (worldData.countries[c]) {
+          gHighlight.appendChild(svgEl('path', { d: worldData.countries[c], fill: accent, 'fill-opacity': '0.22' }));
+          gHighlight.appendChild(svgEl('path', { d: worldData.countries[c], fill: 'none', stroke: accent, 'stroke-width': '0.5', 'stroke-opacity': '0.6' }));
         }
       });
     }
@@ -388,6 +395,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     function render(animate) {
       while (pins.firstChild) pins.removeChild(pins.firstChild);
       while (links.firstChild) links.removeChild(links.firstChild);
+      paintHighlight();
       if (!curItems.length) return;
       var W = stage.clientWidth || 780, H = stage.clientHeight || 731;
       var small = W < 480, BW = small ? 84 : 96, BH = small ? 98 : 108;
