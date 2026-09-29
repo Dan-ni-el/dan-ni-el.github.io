@@ -351,13 +351,8 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     pL.appendChild(svgEl('circle', { cx: '1.1', cy: '1.1', r: '0.6', style: 'fill:var(--land)' }));
     defs.appendChild(pL);
     var gLand = svgEl('g');
-    var gDots = svgEl('g');
-    located.forEach(function (i) {
-      var g = geoFor(i);
-      gDots.appendChild(svgEl('circle', { cx: g[1], cy: -g[0], r: '1.05', fill: accent, stroke: 'var(--ocean)', 'stroke-width': '0.35' }));
-    });
-    svg.appendChild(defs); svg.appendChild(gLand); svg.appendChild(gDots);
-    // the highlighted-country fill is added on top of the base land in drawWorld(); keep the origin dots above both
+    svg.appendChild(defs); svg.appendChild(gLand);
+    // nothing else is drawn on the map until a tier is selected
 
     var links = svgEl('svg', { class: 'map-links', 'aria-hidden': 'true' });
     var pins = el('div', { class: 'map-pins' });
@@ -376,7 +371,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     function drawWorld(world) {
       worldData = world;
       gLand.appendChild(svgEl('path', { d: world.land, fill: 'url(#sdotsL)' }));
-      svg.insertBefore(gHighlight, gDots);
+      svg.appendChild(gHighlight);
       paintHighlight();
     }
     function paintHighlight() {
