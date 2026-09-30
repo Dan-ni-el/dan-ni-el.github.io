@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sonder-passport.schema.json",
+  "title": "SONDER passport record",
+  "description": "One record per bottle. Drives the customer-facing passport page. Sourcing content in the prototype is illustrative sample data, not verified sourcing. The five field groups are loosely modelled on the EU Digital Product Passport structure; this does not claim compliance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "data_status",
+    "product",
+    "ingredients",
+    "packaging",
+    "claims",
+    "journey"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.2",
+      "description": "Version of this schema the record was written against."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "URL slug for this bottle's passport. Fix it before generating QR codes; it must not change afterwards."
+    },
+    "data_status": {
+      "const": "illustrative",
+      "description": "Stays 'illustrative' while the sourcing content is sample data. The page reads this field to show the sample-data notice (PBI-11)."
+    },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Category 1: product identification.",
+      "required": [
+        "name",
+        "collection",
+        "arc_stage",
+        "sizes_ml"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "collection": {
+          "enum": [
+            "Liminality",
+            "Beyond Liminality"
+          ]
+        },
+        "tagline": {
+          "type": "string",
+          "maxLength": 220,
+          "description": "Optional line shown under the name, copied from the SONDER page."
+        },
+        "arc_stage": {
+          "enum": [
+            "past",
+            "in-between",
+            "new",
+            "beyond"
+          ],
+          "description": "Position on the Liminality arc: Wander = past, Alter = in-between, Emergence = new, Beyond = beyond."
+        },
+        "sizes_ml": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              15,
+              50,
+              100
+            ]
+          }
+        }
+      }
+    },
+    "ingredients": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Category 2: ingredient origin.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "note_tier",
+          "origin_country"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "note_tier": {
+            "enum": [
+              "top",
+              "heart",
+              "base"
+            ]
+          },
+          "origin_country": {
+            "type": "string",
+            "minLength": 1
+          },
+          "origin_region": {
+            "type": "string"
+          },
+          "sourcing_note": {
+            "type": "string",
+            "maxLength": 140
+          }
+        }
+      }
+    },
+    "packaging": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Category 3: packaging, one entry per component, with where each component is sourced (illustrative in the prototype).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "component",
+          "material",
+          "recyclable",
+          "origin_country"
+        ],
+        "properties": {
+          "component": {
+            "type": "string",
+            "minLength": 1
+          },
+          "material": {
+            "type": "string",
+            "minLength": 1
+          },
+          "recyclable": {
+            "enum": [
+              "yes",
+              "partly",
+              "no",
+              "unknown"
+            ]
+          },
+          "recycled_content_pct": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "origin_country": {
+            "type": "string",
+            "minLength": 1
+          },
+          "origin_region": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Category 4: certifications or sourcing claims. At least one per bottle. Do not name a real certifier or issuer unless the claim is real.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "claim",
+          "type"
+        ],
+        "properties": {
+          "claim": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140
+          },
+          "type": {
+            "enum": [
+              "certification",
+              "brand_claim"
+            ]
+          },
+          "issuer": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "journey": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 6,
+      "description": "Category 5: production journey, in order. Aim for 4 to 5 steps so it reads on one phone screen.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "step",
+          "stage",
+          "location",
+          "description"
+        ],
+        "properties": {
+          "step": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "stage": {
+            "enum": [
+              "origin",
+              "processing",
+              "blending",
+              "bottling",
+              "dispatch"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 140
+          }
+        }
+      }
+    },
+    "later_phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional placeholders for fields expected in a later phase of the EU rules (PBI-17). Leave null; do not invent numbers.",
+      "properties": {
+        "carbon_footprint_kg_co2e": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "water_use_litres": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}

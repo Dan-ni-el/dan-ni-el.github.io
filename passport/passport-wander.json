@@ -1,5 +1,5 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
   "id": "wander",
   "data_status": "illustrative",
   "product": {
@@ -77,17 +77,20 @@
     {
       "component": "Bottle body",
       "material": "Recycled aluminum",
-      "recyclable": "yes"
+      "recyclable": "yes",
+      "origin_country": "Germany"
     },
     {
       "component": "Fragrance vessel (inside the body)",
       "material": "Glass",
-      "recyclable": "yes"
+      "recyclable": "yes",
+      "origin_country": "France"
     },
     {
       "component": "Cap",
       "material": "Recycled concrete composite",
-      "recyclable": "partly"
+      "recyclable": "partly",
+      "origin_country": "Singapore"
     }
   ],
   "claims": [
