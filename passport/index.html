@@ -15,7 +15,7 @@
     document.head.appendChild(l);
   }
   if (id && typeof fetch === 'function') {
-    var p = fetch('passport-' + id + '.json').then(function (r) {
+    var p = fetch('passport-' + id + '.json', { cache: 'no-cache' }).then(function (r) {
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     });
@@ -270,7 +270,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
     var early = (window.__early && window.__early.id === id) ? window.__early.p : null;
     window.__early = null;
     var viaFetch = early || ((typeof fetch === 'function')
-      ? fetch(url).then(function (r) {
+      ? fetch(url, { cache: 'no-cache' }).then(function (r) {
           if (!r.ok) throw new Error('HTTP ' + r.status);
           return r.json();
         })
