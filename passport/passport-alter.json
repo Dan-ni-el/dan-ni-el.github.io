@@ -1,0 +1,134 @@
+{
+  "schema_version": "0.2",
+  "id": "alter",
+  "data_status": "illustrative",
+  "product": {
+    "name": "Alter",
+    "collection": "Liminality",
+    "arc_stage": "in-between",
+    "tagline": "The in-between. Somewhere unfamiliar at night — neither here nor there, nor anywhere yet.",
+    "sizes_ml": [
+      50,
+      15
+    ]
+  },
+  "ingredients": [
+    {
+      "name": "Bergamot",
+      "note_tier": "top",
+      "origin_country": "Italy",
+      "origin_region": "Calabria"
+    },
+    {
+      "name": "Juniper",
+      "note_tier": "top",
+      "origin_country": "Bulgaria"
+    },
+    {
+      "name": "Grapefruit",
+      "note_tier": "top",
+      "origin_country": "United States",
+      "origin_region": "Florida"
+    },
+    {
+      "name": "Green Tea",
+      "note_tier": "heart",
+      "origin_country": "China"
+    },
+    {
+      "name": "Jasmine",
+      "note_tier": "heart",
+      "origin_country": "France",
+      "origin_region": "Grasse"
+    },
+    {
+      "name": "Orris",
+      "note_tier": "heart",
+      "origin_country": "Italy",
+      "origin_region": "Tuscany"
+    },
+    {
+      "name": "Vetiver",
+      "note_tier": "base",
+      "origin_country": "Haiti"
+    },
+    {
+      "name": "Cedar",
+      "note_tier": "base",
+      "origin_country": "Morocco",
+      "origin_region": "Atlas"
+    },
+    {
+      "name": "Mineral Amber",
+      "note_tier": "base",
+      "origin_country": "France",
+      "sourcing_note": "Composed accord, not a single-origin material."
+    },
+    {
+      "name": "Musk",
+      "note_tier": "base",
+      "origin_country": "France",
+      "sourcing_note": "Composed accord, not a single-origin material."
+    }
+  ],
+  "packaging": [
+    {
+      "component": "Bottle body",
+      "material": "Recycled aluminum",
+      "recyclable": "yes",
+      "origin_country": "Germany"
+    },
+    {
+      "component": "Fragrance vessel (inside the body)",
+      "material": "Glass",
+      "recyclable": "yes",
+      "origin_country": "France"
+    },
+    {
+      "component": "Cap",
+      "material": "Recycled concrete composite",
+      "recyclable": "partly",
+      "origin_country": "Singapore"
+    }
+  ],
+  "claims": [
+    {
+      "claim": "Every ingredient is listed with its country of origin.",
+      "type": "brand_claim"
+    },
+    {
+      "claim": "Bottle body and cap are made from recycled aluminum and recycled concrete.",
+      "type": "brand_claim"
+    }
+  ],
+  "journey": [
+    {
+      "step": 1,
+      "stage": "origin",
+      "location": "Italy, Bulgaria, United States, China, France, Haiti, Morocco",
+      "description": "Natural ingredients are gathered from their traditional growing regions."
+    },
+    {
+      "step": 2,
+      "stage": "processing",
+      "location": "Grasse, France",
+      "description": "Raw materials are extracted and prepared for blending."
+    },
+    {
+      "step": 3,
+      "stage": "blending",
+      "location": "Grasse, France",
+      "description": "The notes are blended into the final composition."
+    },
+    {
+      "step": 4,
+      "stage": "bottling",
+      "location": "Singapore",
+      "description": "The finished fragrance is bottled and packed."
+    }
+  ],
+  "later_phase": {
+    "carbon_footprint_kg_co2e": null,
+    "water_use_litres": null
+  }
+}
