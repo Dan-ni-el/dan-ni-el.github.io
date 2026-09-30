@@ -69,6 +69,14 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 .journey .meta{font:400 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
 .journey .where{font-size:20px;line-height:1.25;font-weight:600}
 .journey .what{font-size:15px;color:var(--mute)}
+/* scroll reveal: each step fades up in turn, its dot pops in, and the line draws down to the next step */
+.journey.anim li{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i,0) * 160ms)}
+.journey.anim li::before{transform:scale(0);transition:transform .45s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i,0) * 160ms + 120ms)}
+.journey.anim li::after{transform:scaleY(0);transform-origin:top;transition:transform .5s ease;transition-delay:calc(var(--i,0) * 160ms + 260ms)}
+.journey.anim.in li{opacity:1;transform:none}
+.journey.anim.in li::before{transform:scale(1)}
+.journey.anim.in li::after{transform:scaleY(1)}
+@media (prefers-reduced-motion:reduce){.journey.anim li,.journey.anim li::before,.journey.anim li::after{opacity:1 !important;transform:none !important;transition:none !important}}
 
 .tiers{display:grid;gap:28px}
 .tier h3{margin:0 0 4px;font:400 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
@@ -308,6 +316,7 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
   }
 
   var stopResize = null;
+  var journeyIO = null;
   function buildMap(rec, id, tiersEl) {
     if (stopResize) { stopResize(); stopResize = null; }
     var accent = (THEMES[id] && THEMES[id].accent) || '#e8492b';
@@ -516,6 +525,14 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
         el('span', { class: 'what', text: s.description })
       ]));
     });
+    // scroll reveal for the journey: only when the browser supports it and the visitor hasn't asked for less motion
+    var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var journeyEl = null;
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      ol.classList.add('anim');
+      [].forEach.call(ol.children, function (li, k) { li.style.setProperty('--i', k); });
+      journeyEl = ol;
+    }
     var bottle = BOTTLES[rec.id];
     var stage = el('div', { class: 'stage' });
     if (bottle) {
@@ -587,6 +604,13 @@ h1{margin:28px 0 0;font-weight:900;font-stretch:112%;font-size:clamp(40px,13vw,1
 
     app.replaceChildren(out);
     mapPanel.mount();
+    if (journeyIO) { journeyIO.disconnect(); journeyIO = null; }
+    if (journeyEl) {
+      journeyIO = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) { journeyEl.classList.add('in'); journeyIO.disconnect(); journeyIO = null; }
+      }, { threshold: 0.15 });
+      journeyIO.observe(journeyEl);
+    }
   }
 
   function renderChooser() {
