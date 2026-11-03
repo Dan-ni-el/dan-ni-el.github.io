@@ -591,6 +591,7 @@ strong{font-weight: 400; color: var(--ink)}
 .modal__body ul{list-style: none; padding: 0; margin: 16px 0}
 .modal__body li{padding-left: 24px; position: relative; margin-bottom: 10px}
 .modal__body li::before{content:''; position: absolute; left: 0; top: 12px; width: 12px; height: 1px; background: var(--accent)}
+.modal__img{display:block;width:100%;height:auto;margin:28px 0;border:1px solid var(--line-strong)}
 .modal__link{
   display: inline-block;
   margin-top: 32px;
@@ -1407,9 +1408,20 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
         </div>
       </article>
 
+      <article class="card rv" data-cursor="hover" data-project="warehouse">
+        <div class="card__thumb" aria-hidden="true" style="background-image: url(./warehouse/overview.jpg);"></div>
+        <div class="card__mark"><span class="num">P.02</span><span>Data &amp; Operations · Power BI</span></div>
+        <h3>Warehouse Operations Dashboard</h3>
+        <div class="card__role">Solo · Self-directed · Synthetic data · 2026</div>
+        <p class="card__short">A Power BI dashboard on order cycle time, inventory accuracy and productivity. Found that Saturday causes 77% of late orders, and sized a fix.</p>
+        <div class="card__chips">
+          <span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">Warehouse ops</span>
+        </div>
+      </article>
+
       <article class="card rv" data-cursor="hover" data-project="ndcs">
         <div class="card__thumb" aria-hidden="true" style="background-image: url(./dissertation.jpeg);"></div>
-        <div class="card__mark"><span class="num">P.02</span><span>Systems Design Project</span></div>
+        <div class="card__mark"><span class="num">P.03</span><span>Systems Design Project</span></div>
         <h3>NDCS Surgery, Discrete-Event Simulation</h3>
         <div class="card__role">Team of 5 · National Dental Centre Singapore · AY 2025/26</div>
         <p class="card__short">Built and validated a FlexSim simulation of the Oral &amp; Maxillofacial Surgery (OMS) patient journey against real NDCS clinic data, then ran a 15-scenario sensitivity analysis.</p>
@@ -1420,7 +1432,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
 
       <article class="card rv" data-cursor="hover" data-project="queenstown">
         <div class="card__thumb" aria-hidden="true" style="background-image: url(./ndcs.jpeg);"></div>
-        <div class="card__mark"><span class="num">P.03</span><span>Urban Design · Team Lead</span></div>
+        <div class="card__mark"><span class="num">P.04</span><span>Urban Design · Team Lead</span></div>
         <h3>Queenstown Liveability Study</h3>
         <div class="card__role">Team of 6, led · AY 2024/25</div>
         <p class="card__short">An open-ended studio brief on one of Singapore's oldest satellite towns. Our team was asked to identify a major issue and propose interventions. I narrowed the scope: elderly accessibility and walkability across institutional and residential nodes.</p>
@@ -1431,7 +1443,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
 
       <article class="card rv" data-cursor="hover" data-project="ssdc">
         <div class="card__thumb" aria-hidden="true" style="background-image: url(./queenstown.jpeg);"></div>
-        <div class="card__mark"><span class="num">P.04</span><span>Facility Layout</span></div>
+        <div class="card__mark"><span class="num">P.05</span><span>Facility Layout</span></div>
         <h3>Safety Driving Centre, Layout Optimisation</h3>
         <div class="card__role">Coursework · 2025</div>
         <p class="card__short">Applied From-To Charts, REL Charts and activity relationship analysis to diagnose service-flow inefficiencies and propose an optimised layout.</p>
@@ -1442,7 +1454,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
 
       <article class="card rv" data-cursor="hover" data-project="on">
         <div class="card__thumb" aria-hidden="true" style="background-image: url(./ssdc.jpeg);"></div>
-        <div class="card__mark"><span class="num">P.05</span><span>Brand &amp; Market Entry</span></div>
+        <div class="card__mark"><span class="num">P.06</span><span>Brand &amp; Market Entry</span></div>
         <h3>On Running, Brand Audit &amp; Market Entry</h3>
         <div class="card__role">Principles of Marketing · AY 2025/26</div>
         <p class="card__short">Identified that On's premium positioning risked being squeezed between Hoka and Adidas. Built a Singapore entry strategy around run-club community activations.</p>
@@ -1453,7 +1465,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
 
       <article class="card rv" data-cursor="hover" data-project="karaoke">
         <div class="card__thumb" aria-hidden="true" style="background-image: url(./on.jpeg);"></div>
-        <div class="card__mark"><span class="num">P.06</span><span>Product &amp; Brand Concept</span></div>
+        <div class="card__mark"><span class="num">P.07</span><span>Product &amp; Brand Concept</span></div>
         <h3>HaveFun Karaoke, Product &amp; Brand</h3>
         <div class="card__role">Marketing Analysis &amp; Business Proposal · AY 2025/26</div>
         <p class="card__short">Led product concept for a mid-market karaoke franchise in Clementi. Defined positioning, service tiers, and the guest-facing tech experience.</p>
@@ -1464,7 +1476,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
 
       <article class="card rv" data-cursor="hover" data-project="gopro">
         <div class="card__thumb" aria-hidden="true" style="background-image: url(./karaoke.jpeg);"></div>
-        <div class="card__mark"><span class="num">P.07</span><span>Technology Strategy · Individual</span></div>
+        <div class="card__mark"><span class="num">P.08</span><span>Technology Strategy · Individual</span></div>
         <h3>GoPro, Technology Strategy &amp; Disruption</h3>
         <div class="card__role">Management of Technology · AY 2024/25</div>
         <p class="card__short">Assessed GoPro's position against DJI, Insta360, and smartphones. Mapped the action-camera S-curve, stress-tested with disruptive-innovation theory, recommended an ecosystem play (UGC identity, services, B2B) to defend the high end.</p>
@@ -1475,7 +1487,7 @@ body:not(.bg-off) #bgToggle::before{content: "●"; color: var(--accent)}
 
       <article class="card rv" data-cursor="hover" data-project="hover">
         <div class="card__thumb" aria-hidden="true" style="background-image: url(./hover.png);"></div>
-        <div class="card__mark"><span class="num">P.08</span><span>Hardware · Team Lead</span></div>
+        <div class="card__mark"><span class="num">P.09</span><span>Hardware · Team Lead</span></div>
         <h3>RC Hovercraft, Horizontal Thrust Lead</h3>
         <div class="card__role">Multi-team engineering build · 2024</div>
         <p class="card__short">Led design, component selection, procurement and testing of the horizontal thrust subsystem, keeping the build within shared budget, weight, and power constraints.</p>
@@ -1690,6 +1702,33 @@ var PROJECTS = {
 <h4>Takeaway</h4>
 <p>The live site is the deliverable. I wanted something I could point at rather than describe, and building it end to end was the most useful way I could find to practise brand thinking, product design, and execution in one place.</p>`,
     link: { href: "./Sonder.html", label: "Open the live product page →" }
+  },
+  warehouse: {
+    title: "Warehouse Operations Dashboard",
+    role: "Solo · Self-directed · Power BI · Synthetic data, Jul-Sep 2026",
+    body: `<p>I wanted to learn Power BI by doing a real warehouse analysis, not a tutorial. I built one dashboard covering three things a distribution centre tracks: <strong>order cycle time, inventory accuracy and productivity</strong>.</p>
+<p>The data is synthetic (about 18,000 orders, plus cycle counts and shift records), generated with Claude's help and labelled as sample data on every page. The cleaning, data model, DAX, analysis and layout are mine.</p>
+<img class="modal__img" src="./warehouse/overview.jpg" alt="Dashboard overview page" loading="lazy">
+<h4>What I found</h4>
+<ul>
+<li><strong>Order cycle time:</strong> only 14% of Saturday orders meet SLA (vs ~98% on weekdays), and Saturday causes 77% of all late orders. Saturday has one dispatch, so orders received after ~10:00 wait until Monday. A ~21:00 Saturday dispatch could recover ~1,670 of ~1,800 late orders.</li>
+<li><strong>Inventory accuracy:</strong> Fragrance is ~87% accurate vs ~96% for other categories, with the largest net shortage (-110 units, about S$15.2K). It fell to 72% in the peak week.</li>
+<li><strong>Productivity:</strong> error rate rose from ~0.7% to ~1.2% in the peak week while output barely moved. Temps made 2-3x the errors of permanent staff, and overtime shifts carried more errors.</li>
+</ul>
+<img class="modal__img" src="./warehouse/cycle-time.jpg" alt="Order cycle time page" loading="lazy">
+<h4>How I built it</h4>
+<ul>
+<li>Cleaned the data in Power Query: data types, duplicates, column profiling</li>
+<li>Built a star schema with a date table, and wrote the measures in DAX (SLA Met %, Inventory Accuracy %, Lines per Hour, Error Rate)</li>
+<li>Checked each number a second way before trusting it</li>
+<li>Explored on hidden pages first, then kept only the visuals that supported a finding</li>
+<li>Laid out each page as problem, evidence, options</li>
+</ul>
+<img class="modal__img" src="./warehouse/inventory.jpg" alt="Inventory accuracy page" loading="lazy">
+<img class="modal__img" src="./warehouse/productivity.jpg" alt="Productivity page" loading="lazy">
+<h4>Takeaway</h4>
+<p>The data shows links, not causes, so every recommendation says to confirm the cause first. Temps only worked in the peak week, so temp and peak-week effects overlap, and I say that on the page. Axes that do not start at zero are labelled, and small samples are flagged.</p>`,
+    link: { href: "./warehouse/Warehouse_Case_Study.pdf", label: "Open the full dashboard (PDF) →" }
   },
   ndcs: {
     title: "NDCS Surgery, Discrete-Event Simulation",
